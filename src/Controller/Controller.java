@@ -23,10 +23,15 @@ import javafx.stage.Stage;
  */
 public class Controller extends Application {
     
-    Board gameBoard;
+    //static GameViewer viewer; // For user interaction
+    public static Board gameBoard;
     Player player1;
-    Player player2;
 
+    Controller()
+    {
+        gameBoard = new Board();
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button();
@@ -53,7 +58,8 @@ public class Controller extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        Controller c = new Controller();
+        
     }
     
 }

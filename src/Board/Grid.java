@@ -6,8 +6,6 @@
 package Board;
 
 import Pieces.Pawn;
-import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  *
@@ -25,33 +23,30 @@ public class Grid {
      */
     public final int columnCount = 8;
 
-    private final ArrayList<ArrayList<Tile>> matrix;
+    private final Tile[][] matrix;
     
     /**
      *
      */
     public Grid() {
-        matrix = new ArrayList<>();
+        matrix = new Tile[rowCount][columnCount];
         
         // Populate matrix with empty Tiles.
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-            matrix.add(new ArrayList<>());
-            
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 Tile tile = new Tile(new Pair(rowIndex, columnIndex));
-                
-                matrix.get(rowIndex).add(tile);
+                matrix[rowIndex][columnIndex] = tile;
             }
         }
         
         // Add enemy Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix.get(1).get(columnIndex).setPiece(createPawn(1, new Pair(0, columnIndex)));
+            matrix[1][columnIndex].setPiece(createPawn(1, new Pair(0, columnIndex)));
         }
         
         // Add home Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix.get(rowCount - 2).get(columnIndex).setPiece(createPawn(0, new Pair(rowCount - 2, columnIndex)));
+            matrix[rowCount - 2][columnIndex].setPiece(createPawn(0, new Pair(rowCount - 2, columnIndex)));
         }
     }
     
@@ -62,7 +57,7 @@ public class Grid {
      */
     public Tile getTile(Pair position) {
         try {
-            return matrix.get(position.getRow()).get(position.getColumn());
+            return matrix[position.getRow()][position.getColumn()];
         } catch (IndexOutOfBoundsException error) {
             System.out.println("Error while accessing Tile.");
             System.out.println(error);
@@ -82,8 +77,9 @@ public class Grid {
      * Temporary method to debug and test the board before the GUI is implemented.
      */
     public void print() {
-        this.matrix.forEach((row) -> {
-            row.forEach((tile) -> {            
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                Tile tile = matrix[rowIndex][columnIndex];
                 if (tile.getHighlighted()) {
                     System.out.print("(X) ");
                 } else if (!tile.getOccupied()) {
@@ -91,10 +87,10 @@ public class Grid {
                 } else {
                     System.out.print("(P) ");
                 }
-            });
-
+            }
+            
             System.out.println();
-        });
+        }
     }
 
 }

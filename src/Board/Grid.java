@@ -5,6 +5,7 @@
  */
 package Board;
 
+import Pieces.Piece;
 import Pieces.Pawn;
 
 /**
@@ -65,8 +66,30 @@ public class Grid {
         }
     }
     
+    /**
+     * Swap the Pieces of two Tiles.
+     * @param position1
+     * @param position2
+     */
+    public void swapPieces(Pair position1, Pair position2) {
+        Piece piece1 = getTile(position1).getPiece();
+        
+        if (piece1 != null) {
+            piece1.setCurrentPosition(position2);
+        }
+        
+        Piece piece2 = getTile(position2).getPiece(); 
+        
+        if (piece2 != null) {
+            piece2.setCurrentPosition(position1);
+        }
+        
+        matrix[position1.getRow()][position1.getColumn()].setPiece(piece2);
+        matrix[position2.getRow()][position2.getColumn()].setPiece(piece1);
+    }
+    
     private Pawn createPawn(int player, Pair position) {
-        Pawn pawn = new Pawn();       
+        Pawn pawn = new Pawn();
         pawn.setPlayer(player);
         pawn.setCurrentPosition(position);
         
@@ -80,12 +103,14 @@ public class Grid {
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 Tile tile = matrix[rowIndex][columnIndex];
-                if (tile.getHighlighted()) {
-                    System.out.print("(X) ");
+                if (tile.getHighlighted() && tile.getOccupied()) {
+                    System.out.print("(T) "); // This Tile has a Piece that can be taken by the currently selected Piece.
+                } else if (tile.getHighlighted()) {
+                    System.out.print("(x) "); // This Tile can be moved to by the currently selected Piece.
                 } else if (!tile.getOccupied()) {
-                    System.out.print("( ) ");
+                    System.out.print("( ) "); // This Tile is empty.
                 } else {
-                    System.out.print("(P) ");
+                    System.out.print("(P) "); // This Tile has a Piece.
                 }
             }
             

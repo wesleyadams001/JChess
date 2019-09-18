@@ -104,14 +104,5 @@ public class Tile {
     public Pair getPosition() {
         return this.position;
     }
-    
-    /**
-     * Swap this Tile's Piece with another.
-     * @param with The Piece with which to replace this Tile's Piece.
-     * @return The Piece which originally resided on this Tile.
-     */
-    public Piece swapPiece(Piece with) {
-        return null;
-    }
 
 }

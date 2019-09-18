@@ -37,14 +37,29 @@ public final class Board {
         // TEMPORARY
         int rowIndex = grid.rowCount - 2; // Row index for Player 1's Pawns.
         int columnIndex = 6; // Random Pawn in the row.
+        Tile player1PawnTile = grid.getTile(new Pair(rowIndex, columnIndex));
         
-        Tile tile = grid.getTile(new Pair(rowIndex, columnIndex));
-        Vector<Pair> moves = tile.getPiece().getPossibleMoves(grid);
+        // Comment this line out to test.
+        player1PawnTile.getPiece().setHasTakenFirstMove(true);
+
+        // Empty space diagonal to Player 1's Pawn.
+        Tile emptySpace = grid.getTile(new Pair(rowIndex - 1, columnIndex - 1)); 
         
+        // Enemy Pawn.
+        Tile player2PawnTile = grid.getTile(new Pair(1, columnIndex - 1));
+
+        // Move the Enemy Pawn into a kill position for Player 1's Pawn.
+        grid.swapPieces(player2PawnTile.getPosition(), emptySpace.getPosition());
+        
+        // Get possible moves for Player 1's Pawn.
+        Vector<Pair> moves = player1PawnTile.getPiece().getPossibleMoves(grid);
+        
+        // Highlight the moves on the Board.
         moves.forEach((position) -> {
             grid.getTile(position).setHighlighted(true);
         });
         
+        // Print the Board state to the console.
         grid.print();
     }
 

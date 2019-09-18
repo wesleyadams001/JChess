@@ -10,22 +10,34 @@ package Board;
  * @author nehalpatel
  */
 public class Pair {
-    private Integer x;
-    private Integer y;
+
+    private final int rowIndex;
+    private final int columnIndex;
     
-    public Pair(Integer x, Integer y)
-    {
-        this.x = x;
-        this.y = y;
+    /**
+     *
+     * @param rowIndex
+     * @param columnIndex
+     */
+    public Pair(int rowIndex, int columnIndex) {
+        this.rowIndex = rowIndex;
+        this.columnIndex = columnIndex;
     }
     
-    public Integer getX()
-    {
-        return this.x;
+    /**
+     * Retrieve the row index. (0 being the top row, 7 being the last row)
+     * @return The Pair's row index.
+     */
+    public int getRow() {
+        return this.rowIndex;
     }
     
-    public Integer getY()
-    {
-        return this.y;
+    /**
+     * Retrieve the column index. (0 being the leftmost Tile, 7 being the rightmost Tile)
+     * @return The Pair's column index.
+     */
+    public int getColumn() {
+        return this.columnIndex;
     }
+
 }

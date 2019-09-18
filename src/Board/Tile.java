@@ -12,58 +12,106 @@ import Pieces.Piece;
  * @author nehalpatel
  */
 public class Tile {
-    
-    private Piece piece;
-    private Boolean occupied;
-    private Boolean highlighted;
-    private Integer color;
-    private Boolean isHomeRow;
 
+    private Piece piece;
+    private boolean highlighted;
+    private int color;
+    private final Pair position;
+    
+    /**
+     *
+     * @param position The Pair representing the Tile's place on the Grid.
+     */
+    public Tile(Pair position) {
+        this.position = position;
+    }
+
+    /**
+     * Retrieve the Piece that is currently on this Tile.
+     * @return The Piece if it exists, null otherwise.
+     */
     public Piece getPiece() {
         return piece;
     }
 
+    /**
+     * Place a Piece on this Tile.
+     * @param piece The Piece to place on this Tile.
+     */
     public void setPiece(Piece piece) {
+        // TODO: handle case where a Piece is already on this Tile.
         this.piece = piece;
     }
 
-    public Boolean getOccupied() {
-        return occupied;
+    /**
+     * Check if the Tile is occupied with a Piece.
+     * @return True if a Piece is on this Tile, false otherwise.
+     */
+    public boolean getOccupied() {
+        return this.piece != null;
     }
 
-    public void setOccupied(Boolean occupied) {
-        this.occupied = occupied;
-    }
-
-    public Boolean getHighlighted() {
+    /**
+     * Check if the Tile is highlighted.
+     * @return True if this Tile should be highlighted on the Board.
+     */
+    public boolean getHighlighted() {
         return highlighted;
     }
 
-    public void setHighlighted(Boolean highlighted) {
+    /**
+     * 
+     * @param highlighted
+     */
+    public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
     }
 
-    public Integer getColor() {
+    /**
+     *
+     * @return
+     */
+    public int getColor() {
         return color;
     }
 
-    public void setColor(Integer color) {
+    /**
+     *
+     * @param color
+     */
+    public void setColor(int color) {
         this.color = color;
     }
 
-    public Boolean getIsHomeRow() {
-        return isHomeRow;
-    }
-
-    public void setIsHomeRow(Boolean isHomeRow) {
-        this.isHomeRow = isHomeRow;
-    }
-    
-    public Boolean click() {
-        return null;
+    /**
+     * Check if the Tile is part of the top or bottom row.
+     * @return True if this Tile is in either the topmost or bottommost rows.
+     */
+    public boolean getIsHomeRow() {        
+        return (this.position.getRow() == 0) || (this.position.getRow() == 7);
     }
     
+    /**
+     *
+     */
+    public void click() {
+    }
+    
+    /**
+     * Retrieve the Tile's position.
+     * @return A Pair representing the Tile's position in the Grid.
+     */
+    public Pair getPosition() {
+        return this.position;
+    }
+    
+    /**
+     * Swap this Tile's Piece with another.
+     * @param with The Piece with which to replace this Tile's Piece.
+     * @return The Piece which originally resided on this Tile.
+     */
     public Piece swapPiece(Piece with) {
         return null;
     }
+
 }

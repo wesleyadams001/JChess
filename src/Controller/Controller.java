@@ -22,13 +22,12 @@ import javafx.stage.Stage;
  * @author Wesley
  */
 public class Controller extends Application {
-    
+
     //static GameViewer viewer; // For user interaction
     public static Board gameBoard;
     Player player1;
 
-    Controller()
-    {
+    Controller() {
         gameBoard = new Board();
     }
     
@@ -61,5 +60,5 @@ public class Controller extends Application {
         Controller c = new Controller();
         
     }
-    
+
 }

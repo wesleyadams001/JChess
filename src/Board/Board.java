@@ -5,20 +5,67 @@
  */
 package Board;
 
+import java.util.Vector;
+
 /**
  *
  * @author nehalpatel
  */
-public class Board {
-    public Tile[][] matrix;
-    
-    public Boolean load(String fileName)
-    {
-        return null;
+public final class Board {
+
+    /**
+     *
+     */
+    public Grid grid;
+
+    /**
+     *
+     */
+    public Pair currentSelection;
+
+    /**
+     *
+     */
+    public int currentPlayer;
+
+    /**
+     *
+     */
+    public Board() {
+        grid = new Grid();
+        
+        // TEMPORARY
+        int rowIndex = grid.rowCount - 2; // Row index for Player 1's Pawns.
+        int columnIndex = 6; // Random Pawn in the row.
+        
+        Tile tile = grid.getTile(new Pair(rowIndex, columnIndex));
+        Vector<Pair> moves = tile.getPiece().getPossibleMoves(grid);
+        
+        moves.forEach((position) -> {
+            grid.getTile(position).setHighlighted(true);
+        });
+        
+        grid.print();
     }
-    
-    public Boolean serialize(String fileName)
-    {
-        return null;
+
+    /**
+     * Destroy the current Grid and create a new, ready-to-play Grid.
+     */
+    public void reset() {
     }
+
+    /**
+     * Load an previously saved session of the game.
+     * @param fileName
+     */
+    public void load(String fileName) {
+    }
+
+    /**
+     * Save this session of the game.
+     * @param fileName
+     */
+    public void serialize(String fileName) {
+    }
+
 }

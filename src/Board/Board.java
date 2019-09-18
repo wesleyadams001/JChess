@@ -34,19 +34,26 @@ public final class Board {
     public Board() {
         grid = new Grid();
         
-        // TEMPORARY
-        int rowIndex = grid.rowCount - 2; // Row index for Player 1's Pawns.
-        int columnIndex = 6; // Random Pawn in the row.
+        // TEMPORARY setup. This will show the potential moves of the rightmost
+        // enemy Pawn. A friendly Pawn has been moved to the enemy Pawn's diagonal
+        // for demonstration. Check the console.
+        // (T) = able to be taken
+        // (x) = able to be moved to
+        // ( ) = blank Tile
+        // (P) = any Piece
+        
+        int rowIndex = 1; // Row index for Player 1's Pawns.
+        int columnIndex = 7; // Random Pawn in the row.
         Tile player1PawnTile = grid.getTile(new Pair(rowIndex, columnIndex));
         
         // Comment this line out to test.
-        player1PawnTile.getPiece().setHasTakenFirstMove(true);
+        //player1PawnTile.getPiece().setHasTakenFirstMove(true);
 
         // Empty space diagonal to Player 1's Pawn.
-        Tile emptySpace = grid.getTile(new Pair(rowIndex - 1, columnIndex - 1)); 
+        Tile emptySpace = grid.getTile(new Pair(rowIndex + 1, columnIndex - 1)); 
         
         // Enemy Pawn.
-        Tile player2PawnTile = grid.getTile(new Pair(1, columnIndex - 1));
+        Tile player2PawnTile = grid.getTile(new Pair(6, columnIndex - 1));
 
         // Move the Enemy Pawn into a kill position for Player 1's Pawn.
         grid.swapPieces(player2PawnTile.getPosition(), emptySpace.getPosition());

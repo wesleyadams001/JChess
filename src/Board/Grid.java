@@ -42,12 +42,12 @@ public class Grid {
         
         // Add enemy Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[1][columnIndex].setPiece(createPawn(1, new Pair(0, columnIndex)));
+            matrix[1][columnIndex].setPiece(createPawn(2, matrix[1][columnIndex].getPosition()));
         }
         
         // Add home Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[rowCount - 2][columnIndex].setPiece(createPawn(0, new Pair(rowCount - 2, columnIndex)));
+            matrix[rowCount - 2][columnIndex].setPiece(createPawn(1, matrix[rowCount - 2][columnIndex].getPosition()));
         }
     }
     
@@ -89,8 +89,7 @@ public class Grid {
     }
     
     private Pawn createPawn(int player, Pair position) {
-        Pawn pawn = new Pawn();
-        pawn.setPlayer(player);
+        Pawn pawn = new Pawn(player);
         pawn.setCurrentPosition(position);
         
         return pawn;

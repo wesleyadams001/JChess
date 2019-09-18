@@ -23,7 +23,7 @@ public abstract class Piece {
     private boolean hasTakenFirstMove;
 
     public enum MoveType {
-        EmptyTileOrEnemyPiece,
+        EmptyTileOnly,
         EnemyPieceOnly
     }
     
@@ -52,7 +52,7 @@ public abstract class Piece {
      *
      * @param player
      */
-    public void setPlayer(int player) {
+    public final void setPlayer(int player) {
         this.player = player;
     }
 
@@ -133,6 +133,10 @@ public abstract class Piece {
         
         if (tile.getOccupied()) {
             if (tile.getPiece().player == this.player) {
+                return false;
+            }
+            
+            if (type == MoveType.EmptyTileOnly) {
                 return false;
             }
         } else {

@@ -37,24 +37,24 @@ public class Pawn extends Piece {
         if (!this.getHasTakenFirstMove()) {
             Tile twoAbove = grid.getTile(new Pair(row - 2, column));
             
-            if (canMoveTo(twoAbove)) {
+            if (canMoveTo(twoAbove, MoveType.EmptyTileOrEnemyPiece)) {
                 moves.add(twoAbove.getPosition());
             }
         }
         
         Tile oneAbove = grid.getTile(new Pair(row - 1, column));
-        if (canMoveTo(oneAbove)) {
+        if (canMoveTo(oneAbove, MoveType.EmptyTileOrEnemyPiece)) {
             moves.add(oneAbove.getPosition());
         }
 
         // check diagonal
         Tile leftDiagonal = grid.getTile(new Pair(row - 1, column - 1));
-        if (canMoveTo(leftDiagonal)) {
+        if (canMoveTo(leftDiagonal, MoveType.EnemyPieceOnly)) {
             moves.add(leftDiagonal.getPosition());
         }
         
         Tile rightDiagonal = grid.getTile(new Pair(row - 1, column + 1));
-        if (canMoveTo(rightDiagonal)) {
+        if (canMoveTo(rightDiagonal, MoveType.EnemyPieceOnly)) {
             moves.add(rightDiagonal.getPosition());
         }
         

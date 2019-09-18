@@ -22,6 +22,11 @@ public abstract class Piece {
     private boolean taken;
     private boolean hasTakenFirstMove;
 
+    public enum MoveType {
+        EmptyTileOrEnemyPiece,
+        EnemyPieceOnly
+    }
+    
     /**
      *
      * @return
@@ -116,16 +121,27 @@ public abstract class Piece {
     }
     
     /**
-     * Check whether a move to a Tile is technically legal. (Only ensures that the Tile is not occupied by a friendly Piece.)
+     * Check whether a move to a Tile is technically legal.(Only ensures that the Tile is not occupied by a friendly Piece.)
      * @param tile The Tile which you'd like to move this Piece to.
+     * @param type
      * @return True if Tile is empty or holds an enemy Piece, false otherwise.
      */
-    public boolean canMoveTo(Tile tile) {
+    public boolean canMoveTo(Tile tile, MoveType type) {
         if (tile == null) {
             return false;
         }
-
-        return !(tile.getOccupied() && tile.getPiece().player == this.player);
+        
+        if (tile.getOccupied()) {
+            if (tile.getPiece().player == this.player) {
+                return false;
+            }
+        } else {
+            if (type == MoveType.EnemyPieceOnly) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
 }

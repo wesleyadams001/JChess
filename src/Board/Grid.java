@@ -106,10 +106,12 @@ public class Grid {
                     System.out.print("(T) "); // This Tile has a Piece that can be taken by the currently selected Piece.
                 } else if (tile.getHighlighted()) {
                     System.out.print("(x) "); // This Tile can be moved to by the currently selected Piece.
+                } else if (tile.getOccupied() && tile.getPiece().isSelected()) {
+                    System.out.print("(S) ");
                 } else if (!tile.getOccupied()) {
                     System.out.print("( ) "); // This Tile is empty.
                 } else {
-                    System.out.print("(P) "); // This Tile has a Piece.
+                    System.out.print("(" + tile.getPiece().getPlayer() + ") "); // This Tile has a Piece.
                 }
             }
             

@@ -116,7 +116,7 @@ public class Grid {
                 } else if (!tile.getOccupied()) {
                     System.out.print("( ) "); // This Tile is empty.
                 } else {
-                    System.out.print("(" + tile.getPiece().getPlayer() + ") "); // This Tile has a Piece.
+                    System.out.print("(" + tile.getPiece().getPlayer().getColor().getAbbr() + ") "); // This Tile has a Piece.
                 }
             }
             

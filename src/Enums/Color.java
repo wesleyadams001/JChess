@@ -10,6 +10,23 @@ package Enums;
  * @author Wesley
  */
 public enum Color {
-    black,
-    white
+    white("w",1),
+    black("b",2);
+    
+    private final int num;
+    private final String abbr;
+    
+    private Color(String abbr, int number) 
+    {
+    this.abbr = abbr;
+    this.num = number;      
+    }
+    
+    public String getAbbr(){
+        return this.abbr;
+    }
+    
+    public int getNum(){
+        return this.num;
+    }
 }

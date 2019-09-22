@@ -8,6 +8,9 @@ package Pieces;
 import Board.Pair;
 import Board.Grid;
 import Board.Tile;
+import Enums.Color;
+import Enums.MoveType;
+import Player.Player;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Vector;
@@ -28,7 +31,7 @@ public class Pawn extends Piece {
     private final Map<Move, Integer> rowOffset;
     private final Map<Move, Integer> columnOffset;
 
-    public Pawn(int player) {
+    public Pawn(Player player) {
         setPlayer(player);
         
         rowOffset = new EnumMap<>(Move.class);
@@ -37,7 +40,7 @@ public class Pawn extends Piece {
         // All moves are negated if the Piece's owner is player 2.
         // This is done to handle player 2's moves,
         // which go towards the bottom of the board.
-        int x = (player == 2) ? -1 : 1;
+        int x = (player.getColor() == Color.white) ? -1 : 1;
 
         // One ahead of this Piece.
         rowOffset.put(Move.Up, x * -1);
@@ -57,7 +60,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Vector<Pair> specialMoves() {
+    public Vector<Pair> specialMoves(Grid grid, Piece p) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -6,6 +6,7 @@
 package Controller;
 
 import Board.Board;
+import Enums.Color;
 import Player.Player;
 
 import javafx.application.Application;
@@ -25,10 +26,13 @@ public class Controller extends Application {
 
     //static GameViewer viewer; // For user interaction
     public static Board gameBoard;
-    Player player1;
-
+    private Player player1;
+    private Player player2;
+    
     Controller() {
-        gameBoard = new Board();
+        this.player1 = new Player("", Color.white);
+        this.player2 = new Player("", Color.black);
+        gameBoard = new Board(this.player1, this.player2);
     }
     
     @Override

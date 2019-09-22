@@ -7,6 +7,7 @@ package Board;
 
 import Pieces.Piece;
 import Pieces.Pawn;
+import Player.Player;
 
 /**
  *
@@ -29,7 +30,7 @@ public class Grid {
     /**
      *
      */
-    public Grid() {
+    public Grid(Player one, Player two) {
         matrix = new Tile[rowCount][columnCount];
         
         // Populate matrix with empty Tiles.
@@ -42,12 +43,12 @@ public class Grid {
         
         // Add enemy Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[1][columnIndex].setPiece(createPawn(2, matrix[1][columnIndex].getPosition()));
+            matrix[1][columnIndex].setPiece(createPawn(one, matrix[1][columnIndex].getPosition()));
         }
         
         // Add home Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[rowCount - 2][columnIndex].setPiece(createPawn(1, matrix[rowCount - 2][columnIndex].getPosition()));
+            matrix[rowCount - 2][columnIndex].setPiece(createPawn(two, matrix[rowCount - 2][columnIndex].getPosition()));
         }
     }
     
@@ -64,6 +65,10 @@ public class Grid {
             System.out.println(error);
             return null;
         }
+    }
+    
+    public Tile[][] getMatrix(){
+        return this.matrix;
     }
     
     /**
@@ -88,7 +93,7 @@ public class Grid {
         matrix[position2.getRow()][position2.getColumn()].setPiece(piece1);
     }
     
-    private Pawn createPawn(int player, Pair position) {
+    private Pawn createPawn(Player player, Pair position) {
         Pawn pawn = new Pawn(player);
         pawn.setCurrentPosition(position);
         

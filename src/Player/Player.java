@@ -5,10 +5,36 @@
  */
 package Player;
 
+
+import Enums.Color;
+
 /**
  *
  * @author nehalpatel
  */
 public class Player {
+    private String name;
+    private boolean isChecked;
+    private Color color;
     
+    public Player(String name, Color color){
+        this.name = name;
+        this.color = color;
+    }
+    
+    public boolean getIsChecked(){
+        return this.isChecked;
+    }
+    
+    public String getName(){
+        return this.name;
+    }
+    
+    public void setName(String n){
+        this.name = n;
+    }
+    
+    public Color getColor(){
+        return this.color;
+    }
 }

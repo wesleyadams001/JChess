@@ -8,6 +8,8 @@ package Pieces;
 import Board.Pair;
 import Board.Grid;
 import Board.Tile;
+import Enums.MoveType;
+import Player.Player;
 import java.util.Vector;
 
 /**
@@ -16,22 +18,19 @@ import java.util.Vector;
  */
 public abstract class Piece {
 
-    private int player;
+    private Player player;
     private Pair position;
     private boolean selected;
     private boolean taken;
     private boolean hasTakenFirstMove;
 
-    public enum MoveType {
-        EmptyTileOnly,
-        EnemyPieceOnly
-    }
+
     
     /**
      *
      * @return
      */
-    public abstract Vector<Pair> specialMoves();
+    public abstract Vector<Pair> specialMoves(Grid grid, Piece p);
 
     /**
      * Get a list of possible moves this Piece can make.
@@ -44,7 +43,7 @@ public abstract class Piece {
      *
      * @return
      */
-    public int getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -52,7 +51,7 @@ public abstract class Piece {
      *
      * @param player
      */
-    public final void setPlayer(int player) {
+    public final void setPlayer(Player player) {
         this.player = player;
     }
 

@@ -5,6 +5,7 @@
  */
 package Board;
 
+import Player.Player;
 import java.util.Vector;
 
 /**
@@ -31,8 +32,8 @@ public final class Board {
     /**
      *
      */
-    public Board() {
-        grid = new Grid();
+    public Board(Player one, Player two) {
+        grid = new Grid(one, two);
         
         // TEMPORARY setup. This will show the potential moves of the rightmost
         // enemy Pawn. A friendly Pawn has been moved to the enemy Pawn's diagonal

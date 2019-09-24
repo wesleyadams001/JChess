@@ -6,7 +6,7 @@
 package Enums;
 
 /**
- *
+ * An enum that indicates an associated move type
  * @author Wesley
  */
 public enum MoveType {

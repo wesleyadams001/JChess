@@ -8,6 +8,7 @@ package Controller;
 import Board.Board;
 import Enums.Color;
 import Player.Player;
+import Player.Viewer;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -33,6 +34,7 @@ public class Controller extends Application {
         this.player1 = new Player("", Color.white);
         this.player2 = new Player("", Color.black);
         gameBoard = new Board(this.player1, this.player2);
+        
     }
     
     @Override
@@ -62,7 +64,7 @@ public class Controller extends Application {
      */
     public static void main(String[] args) {
         Controller c = new Controller();
-        
+        Viewer viewer = new Viewer(c);
     }
 
 }

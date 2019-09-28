@@ -82,6 +82,7 @@ public class King extends Piece{
             throw new UnsupportedOperationException("King has taken first move. can't castle");
         }
         
+        //Tests if LongSide castle is still in castling position, and hasn't taken first move
         if(castlePos1.getPiece() != null){
             if(castlePos1.getPiece().rook){
                 if(castlePos1.getPiece().hasTakenFirstMove == false){
@@ -89,6 +90,8 @@ public class King extends Piece{
                 }
             } 
         }
+        
+       //Tests if shortside castle is still in castling position, and hasn't taken first move
        if(castlePos2.getPiece() != null){
             if(castlePos2.getPiece().rook){
                 if(castlePos2.getPiece().hasTakenFirstMove == false){

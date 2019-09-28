@@ -107,13 +107,13 @@ public class Grid {
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 Tile tile = matrix[rowIndex][columnIndex];
-                if (tile.getHighlighted() && tile.getOccupied()) {
+                if (tile.isHighlighted() && tile.isOccupied()) {
                     System.out.print("(T) "); // This Tile has a Piece that can be taken by the currently selected Piece.
-                } else if (tile.getHighlighted()) {
+                } else if (tile.isHighlighted()) {
                     System.out.print("(x) "); // This Tile can be moved to by the currently selected Piece.
-                } else if (tile.getOccupied() && tile.getPiece().isSelected()) {
+                } else if (tile.isOccupied() && tile.getPiece().isSelected()) {
                     System.out.print("(S) ");
-                } else if (!tile.getOccupied()) {
+                } else if (!tile.isOccupied()) {
                     System.out.print("( ) "); // This Tile is empty.
                 } else {
                     System.out.print("(" + tile.getPiece().getPlayer().getColor().getAbbr() + ") "); // This Tile has a Piece.

@@ -85,7 +85,7 @@ public class Pawn extends Piece {
     public Vector<Pair> getPossibleMoves(Grid grid) {
         Vector<Pair> moves = new Vector<>();
         
-        if (!this.getHasTakenFirstMove()) {
+        if (!this.hasTakenFirstMove()) {
             Tile twoAbove = grid.getTile(evaluatePair(Move.UpTwice));
             if (canMoveTo(twoAbove, MoveType.EmptyTileOnly)) {
                 moves.add(twoAbove.getPosition());

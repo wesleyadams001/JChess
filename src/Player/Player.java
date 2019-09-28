@@ -22,7 +22,7 @@ public class Player {
         this.color = color;
     }
     
-    public boolean getIsChecked(){
+    public boolean isChecked(){
         return this.isChecked;
     }
     

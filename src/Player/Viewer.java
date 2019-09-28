@@ -5,16 +5,15 @@
  */
 package Player;
 
+import Board.Grid;
 import Board.Pair;
-import Controller.Controller;
+import Board.Tile;
 import Images.Images;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import Controller.Controller;
-import Images.Images;
 import java.awt.Container;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 import javax.swing.border.LineBorder;
 
@@ -28,7 +27,7 @@ public class Viewer extends JPanel{
     public boolean pause;//if game is paused
     private Images pieces;//Image class
     private int xDimensions, yDimensions;
-    private Controller controller;
+    private final Controller controller;
     private static JFrame frame; // The frame on which the board is displayed
     private static JFrame info;
     private String p1Name;
@@ -36,20 +35,24 @@ public class Viewer extends JPanel{
     private int p1Score;
     private int p2Score;
     private Vector<Pair>moves;
+    private final JButton[][] buttonMatrix;
+    private final Grid grid;
     
     public Viewer(Controller c)
     {
         //initializeBoard();
         controller = c;
 
+        grid = this.controller.gameBoard.grid;
+        buttonMatrix = new JButton[grid.getMatrix().length][grid.getMatrix().length];
+
         // Display the board to the screen.
         setupFrame();
 
         //get Names from players
-        setupNames();
-        
+        // setupNames();
     }
-    
+
     private void setupNames() {
         info = new JFrame("Enter Names");
         info.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,13 +62,12 @@ public class Viewer extends JPanel{
 
         final JTextField player1 = new JTextField("Name", 10);
         final JTextField player2 = new JTextField("Name", 10);
-        
+
         JButton btn = new JButton();
-        
+
         info.getContentPane().add(p1);
         info.getContentPane().add(p2);
-        
-        
+
         Container content = info.getContentPane();
         SpringLayout layout = new SpringLayout();
         content.setLayout(layout);
@@ -78,7 +80,6 @@ public class Viewer extends JPanel{
         content.add(player1);
         content.add(p2);
         content.add(player2);
-
 
         SpringLayout.Constraints  labelCons =
                 layout.getConstraints(p1);
@@ -106,83 +107,120 @@ public class Viewer extends JPanel{
                 labelCons.getConstraint(SpringLayout.EAST)));
         textFieldCon.setY(Spring.constant(50));
 
-
         JButton submit = new JButton("Start");
         content.add(submit);
 
         SpringLayout.Constraints buttonCon =
                 layout.getConstraints(submit);
-       buttonCon.setX(Spring.sum(Spring.constant(10),
+        buttonCon.setX(Spring.sum(Spring.constant(10),
                 labelCons.getConstraint(SpringLayout.EAST)));
         buttonCon.setY(Spring.constant(90));
-          
+
         info.pack();
-        // info.setVisible(true);
+        info.setVisible(true);
+    }
 
-        JFrame f = new JFrame();
-        JButton button;
+    private void setupFrame() {
+        int tileWidth = 100;
+        int tileHeight = 100;
 
-        JPanel p = new JPanel();
-        p.setLayout(null);
-        
-        Images img = new Images();
-        
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Color col;
-                
-                int add = 0;
-                if (i % 2 == 0) {
-                    add = 1;
-                } else {
-                    add = 0;
-                }
+        JFrame boardFrame = new JFrame("Dokie, Dokie, Chess Club");
+        boardFrame.setLocationRelativeTo(this.info);
 
-                if ((j + i) % 2 == 0) {
-                    col = Color.white;
-                } else {
-                    col = Color.black;
-                }
-                
-                button = new JButton();
-                
-                if (j % 2 == 0) {
-                    button.setBackground(col);
-                } else {
-                    button.setBackground(col);
-                }
+        JPanel boardPanel = new JPanel();
+        boardPanel.setLayout(null);
 
-                button.setBorderPainted(false);
-                button.setBorder(new LineBorder(Color.BLACK));
-                button.setOpaque(true);
-                button.setIcon(img.blackBerolinaImage);
-                
-                int xVal = 40;
-            
-                if (j > 0) {
-                    xVal = xVal + (100 * j);
-                }
+        for (int i = 0; i < buttonMatrix.length; i++) {
+            for (int j = 0; j < buttonMatrix[i].length; j++) {
+                int xVal = 40 + (tileWidth * j);
+                int yVal = (tileHeight * (i + 1));
 
-                int yVal = (100 * (i + 1));
+                JButton tileButton = new JButton();
+                tileButton.setBorderPainted(false);
+                tileButton.setBorder(new LineBorder(Color.BLACK));
+                tileButton.setOpaque(true);
+                tileButton.setBounds(xVal, yVal, tileWidth, tileHeight);
+                tileButton.setName(i + "," + j);
 
-                button.setBounds(xVal, yVal, 100, 100);
+                tileButton.addActionListener((ActionEvent e) -> {
+                    handleClick(e);
+                });
 
-                p.add(button);
+                boardPanel.add(tileButton);
+
+                buttonMatrix[i][j] = tileButton;
             }
         }
-        
 
-        f.add(p);
-        f.setDefaultCloseOperation(3);
-        f.setSize(1000, 1000);
-        f.setVisible(true);
-       
+        updateButtons();
+
+        boardFrame.add(boardPanel);
+        boardFrame.setDefaultCloseOperation(3);
+        boardFrame.setSize(1000, 1000);
+        boardFrame.setVisible(true);
+    }
+
+    private void updateButtons() {
+        for (int i = 0; i < buttonMatrix.length; i++) {
+            for (int j = 0; j < buttonMatrix[i].length; j++) {
+                Tile tile = grid.getTile(new Pair(i, j));
+                JButton tileButton = buttonMatrix[i][j];
+
+                if ((i + j) % 2 == 0) {
+                    tileButton.setBackground(new Color(222, 184, 135));
+                } else {
+                    tileButton.setBackground(new Color(139, 69, 19));
+                }
+
+                if (tile.isOccupied()) {
+                    tileButton.setIcon(tile.getPiece().getImage());
+
+                    if (tile.getPiece().isSelected()) {
+                        tileButton.setBackground(Color.blue);
+                    }
+                }
+
+                if (tile.isHighlighted()) {
+                    tileButton.setBackground(Color.red);
+                }
+            }
+        }
     }
     
-    private void setupFrame(){
-        frame = new JFrame("Dokie, Dokie, Chess Club");
-        frame.setLocationRelativeTo(this.info);
-        
-        
+    private void resetForRender() {
+        for (Tile[] row : grid.getMatrix()) {
+            for (Tile tile : row) {
+                tile.setHighlighted(false);
+
+                if (tile.isOccupied()) {
+                    tile.getPiece().setSelected(false);
+                }
+            }
+        }
+    }
+
+    private void handleClick(ActionEvent e) {
+        resetForRender();
+
+        JButton target = (JButton) e.getSource();
+
+        String tileName = target.getName();
+
+        int x = Character.getNumericValue(tileName.charAt(0));
+        int y = Character.getNumericValue(tileName.charAt(2));
+
+        Tile tile = grid.getTile(new Pair(x, y));
+
+        if (tile.isOccupied()) {
+            tile.getPiece().setSelected(true);
+
+            Vector<Pair> possibleMoves = tile.getPiece().getPossibleMoves(grid);
+
+            possibleMoves.forEach((pair) -> {
+                grid.getTile(pair).setHighlighted(true);
+            });
+        }
+
+        updateButtons();
     }
 }

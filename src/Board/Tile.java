@@ -47,7 +47,7 @@ public class Tile {
      * Check if the Tile is occupied with a Piece.
      * @return True if a Piece is on this Tile, false otherwise.
      */
-    public boolean getOccupied() {
+    public boolean isOccupied() {
         return this.piece != null;
     }
 
@@ -55,7 +55,7 @@ public class Tile {
      * Check if the Tile is highlighted.
      * @return True if this Tile should be highlighted on the Board.
      */
-    public boolean getHighlighted() {
+    public boolean isHighlighted() {
         return highlighted;
     }
 
@@ -87,7 +87,7 @@ public class Tile {
      * Check if the Tile is part of the top or bottom row.
      * @return True if this Tile is in either the topmost or bottommost rows.
      */
-    public boolean getIsHomeRow() {        
+    public boolean isHomeRow() {        
         return (this.position.getRow() == 0) || (this.position.getRow() == 7);
     }
     

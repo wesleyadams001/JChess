@@ -117,7 +117,7 @@ public abstract class Piece {
      *
      * @return
      */
-    public boolean getHasTakenFirstMove() {
+    public boolean hasTakenFirstMove() {
         return hasTakenFirstMove;
     }
 
@@ -140,7 +140,7 @@ public abstract class Piece {
             return false;
         }
         
-        if (tile.getOccupied()) {
+        if (tile.isOccupied()) {
             if (tile.getPiece().player == this.player) {
                 return false;
             }

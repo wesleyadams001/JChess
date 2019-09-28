@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -24,10 +24,13 @@ public abstract class Piece {
     protected ImageIcon image;
     private boolean selected;
     private boolean taken;
-    protected boolean hasTakenFirstMove;
+    private boolean hasTakenFirstMove;
     protected boolean rook;
 
-    
+    public Piece(Player owner) {
+        player = owner;
+    }
+
     /**
      *
      * @param board
@@ -141,21 +144,27 @@ public abstract class Piece {
         if (tile == null) {
             return false;
         }
+
+        if (MoveType.EmptyTileOnly == type) {
+            return !tile.isOccupied();
+        }
         
-        if (tile.isOccupied()) {
-            if (tile.getPiece().player == this.player) {
-                return false;
-            }
-            
-            if (type == MoveType.EmptyTileOnly) {
-                return false;
-            }
-        } else {
-            if (type == MoveType.EnemyPieceOnly) {
+        if (MoveType.EnemyPieceOnly == type) {
+            if (tile.isOccupied()) {
+                return tile.getPiece().player != this.player;
+            } else {
                 return false;
             }
         }
         
+        if (MoveType.EmptyOrEnemyPiece == type) {
+            if (tile.isOccupied()) {
+                return tile.getPiece().player != this.player;
+            } else {
+                return true;
+            }
+        }
+
         return true;
     }
 

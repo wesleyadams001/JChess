@@ -15,6 +15,8 @@ import javax.swing.*;
 import Controller.Controller;
 import java.awt.Container;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.LineBorder;
 
 /**
@@ -178,6 +180,8 @@ public class Viewer extends JPanel{
                     if (tile.getPiece().isSelected()) {
                         tileButton.setBackground(Color.blue);
                     }
+                } else {
+                    tileButton.setIcon(null);
                 }
 
                 if (tile.isHighlighted()) {
@@ -200,25 +204,45 @@ public class Viewer extends JPanel{
     }
 
     private void handleClick(ActionEvent e) {
-        resetForRender();
-
         JButton target = (JButton) e.getSource();
 
         String tileName = target.getName();
-
         int x = Character.getNumericValue(tileName.charAt(0));
         int y = Character.getNumericValue(tileName.charAt(2));
+        Tile targetTile = board.getTile(new Pair(x, y));
 
-        Tile tile = board.getTile(new Pair(x, y));
+        if (targetTile.isHighlighted()) {
+            Tile departingTile = board.getDepartingTile();
 
-        if (tile.isOccupied()) {
-            tile.getPiece().setSelected(true);
+            if (departingTile != null) {
+                if (departingTile.isOccupied()) {
+                    departingTile.getPiece().setHasTakenFirstMove(true);
+                }
 
-            Vector<Pair> possibleMoves = tile.getPiece().getPossibleMoves(board);
+                if (targetTile.isOccupied()) {
+                    targetTile.removePiece();
+                }
 
-            possibleMoves.forEach((pair) -> {
-                board.getTile(pair).setHighlighted(true);
-            });
+                try {
+                    board.movePiece(departingTile.getPosition(), targetTile.getPosition());
+                } catch (Exception ex) {
+                    Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            resetForRender();
+        } else {
+            resetForRender();
+
+            if (targetTile.isOccupied()) {
+                targetTile.getPiece().setSelected(true);
+
+                Vector<Pair> possibleMoves = targetTile.getPiece().getPossibleMoves(board);
+
+                possibleMoves.forEach((pair) -> {
+                    board.getTile(pair).setHighlighted(true);
+                });
+            }
         }
 
         updateButtons();

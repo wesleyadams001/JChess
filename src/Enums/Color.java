@@ -18,7 +18,6 @@ public enum Color {
     private final int num;
     private final String abbr;
     
-    
     private Color(String abbr, int number) 
     {
     this.abbr = abbr;

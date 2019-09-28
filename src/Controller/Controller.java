@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  */
 public class Controller extends Application {
 
-    //static GameViewer viewer; // For user interaction
+    //GameViewer viewer; // For user interaction
     public Board gameBoard;
     private Player player1;
     private Player player2;

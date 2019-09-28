@@ -65,19 +65,34 @@ public class King extends Piece{
         //(though the rook is permitted to be under attack and to pass over an attacked square);
         //The king and the rook must be on the same rank
         
-        //The king special castling moves
-        Vector<Pair> specialMoves = new Vector<>();
+        Vector<Pair> laneLeft = new Vector<>();     //Tiles to the left of the king
+        Vector<Pair> laneRight = new Vector<>();    //Tiles to the right of the king
+        Vector<Pair> specialMoves = new Vector<>(); //The king special castling moves
         
         Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
         final int row = position.getRow();          //Initialize variable to hold row position
         final int column = position.getColumn();    //Initialize variable to hold column position
-        boolean pos1 = false;
-        boolean pos2 = false;
+        boolean pos1 = false;                       //Boolean for testing castlePos1
+        boolean pos2 = false;                       //Boolean for testing castlePos2
         
         
+        //Tiles for castle positions to the left and right of initial King square
         Tile castlePos1 = board.getTile(new Pair(row, column - 4));
         Tile castlePos2 = board.getTile(new Pair(row, column + 3));
         
+        //Get tiles to the left of the king
+        for(int i = 0; i < 4; i++){
+            Tile temp = board.getTile(new Pair(row, column - (i+1)));
+            laneLeft.add(temp.getPosition());
+        }
+        
+        //Get tiles to the right of the king
+        for(int i = 0; i < 3; i++){
+            Tile temp = board.getTile(new Pair(row, column + (i+1)));
+            laneLeft.add(temp.getPosition());
+        }
+        
+        //Tests if king has taken first move
         if(this.hasTakenFirstMove){
             throw new UnsupportedOperationException("King has taken first move. can't castle");
         }
@@ -100,6 +115,13 @@ public class King extends Piece{
             } 
         }
        
+       if (pos1){
+           //while(canMoveTo(laneLeft))
+           {
+               
+           }
+       }
+    
        
         
         

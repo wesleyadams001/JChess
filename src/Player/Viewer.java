@@ -16,6 +16,7 @@ import Images.Images;
 import java.awt.Container;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import javax.swing.border.LineBorder;
 
 /**
  * Provides the viewing capabilities for the application
@@ -114,13 +115,67 @@ public class Viewer extends JPanel{
        buttonCon.setX(Spring.sum(Spring.constant(10),
                 labelCons.getConstraint(SpringLayout.EAST)));
         buttonCon.setY(Spring.constant(90));
-        
+          
         info.pack();
-        info.setVisible(true);
+        // info.setVisible(true);
+
+        JFrame f = new JFrame();
+        JButton button;
+
+        JPanel p = new JPanel();
+        p.setLayout(null);
         
+        Images img = new Images();
         
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Color col;
+                
+                int add = 0;
+                if (i % 2 == 0) {
+                    add = 1;
+                } else {
+                    add = 0;
+                }
+
+                if ((j + i) % 2 == 0) {
+                    col = Color.white;
+                } else {
+                    col = Color.black;
+                }
+                
+                button = new JButton();
+                
+                if (j % 2 == 0) {
+                    button.setBackground(col);
+                } else {
+                    button.setBackground(col);
+                }
+
+                button.setBorderPainted(false);
+                button.setBorder(new LineBorder(Color.BLACK));
+                button.setOpaque(true);
+                button.setIcon(img.blackBerolinaImage);
+                
+                int xVal = 40;
+            
+                if (j > 0) {
+                    xVal = xVal + (100 * j);
+                }
+
+                int yVal = (100 * (i + 1));
+
+                button.setBounds(xVal, yVal, 100, 100);
+
+                p.add(button);
+            }
+        }
         
 
+        f.add(p);
+        f.setDefaultCloseOperation(3);
+        f.setSize(1000, 1000);
+        f.setVisible(true);
        
     }
     

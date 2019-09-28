@@ -10,6 +10,8 @@ import Board.Pair;
 import Board.Tile;
 import Enums.Color;
 import Enums.MoveType;
+import Images.Images;
+import Player.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -34,8 +36,16 @@ public class King extends Piece{
         
     };
     
-    public King(){
+    public King(Player player){
+        setPlayer(player);
         
+        Images imageSet = new Images();
+        
+        if (player.getColor() == Color.black) {
+            image = imageSet.blackKingImage;
+        } else {
+            image = imageSet.whiteKingImage;
+        }
     }
     
     @Override

@@ -11,6 +11,7 @@ import Board.Tile;
 import Enums.MoveType;
 import Player.Player;
 import java.util.Vector;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -20,6 +21,7 @@ public abstract class Piece {
 
     private Player player;
     private Pair position;
+    protected ImageIcon image;
     private boolean selected;
     private boolean taken;
     private boolean hasTakenFirstMove;
@@ -69,6 +71,14 @@ public abstract class Piece {
      */
     public void setCurrentPosition(Pair position) {
         this.position = position;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public ImageIcon getImage() {
+        return image;
     }
 
     /**

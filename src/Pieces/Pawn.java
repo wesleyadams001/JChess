@@ -10,6 +10,7 @@ import Board.Grid;
 import Board.Tile;
 import Enums.Color;
 import Enums.MoveType;
+import Images.Images;
 import Player.Player;
 import java.util.EnumMap;
 import java.util.Map;
@@ -57,6 +58,14 @@ public class Pawn extends Piece {
         // One ahead and to the right of this Piece.
         rowOffset.put(Move.RightDiagonal, x * -1);
         columnOffset.put(Move.RightDiagonal, x * 1);
+        
+        Images imageSet = new Images();
+        
+        if (player.getColor() == Color.black) {
+            image = imageSet.blackPawnImage;
+        } else {
+            image = imageSet.whitePawnImage;
+        }
     }
 
     @Override

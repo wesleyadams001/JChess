@@ -5,10 +5,10 @@
  */
 package Images;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -17,22 +17,22 @@ import javax.imageio.ImageIO;
  */
 public class Images {
 
-	public BufferedImage whitePawnImage;
-	public BufferedImage whiteCastleImage;
-	public BufferedImage whiteHorseImage;
-	public BufferedImage whiteBishopImage;
-	public BufferedImage whiteQueenImage;
-	public BufferedImage whiteKingImage;
-	public BufferedImage whiteWazirImage;
-	public BufferedImage whiteBerolinaImage;
-	public BufferedImage blackPawnImage;
-	public BufferedImage blackCastleImage;
-	public BufferedImage blackHorseImage;
-	public BufferedImage blackBishopImage;
-	public BufferedImage blackQueenImage;
-	public BufferedImage blackKingImage;
-	public BufferedImage blackWazirImage;
-	public BufferedImage blackBerolinaImage;
+	public ImageIcon whitePawnImage;
+	public ImageIcon whiteCastleImage;
+	public ImageIcon whiteHorseImage;
+	public ImageIcon whiteBishopImage;
+	public ImageIcon whiteQueenImage;
+	public ImageIcon whiteKingImage;
+	public ImageIcon whiteWazirImage;
+	public ImageIcon whiteBerolinaImage;
+	public ImageIcon blackPawnImage;
+	public ImageIcon blackCastleImage;
+	public ImageIcon blackHorseImage;
+	public ImageIcon blackBishopImage;
+	public ImageIcon blackQueenImage;
+	public ImageIcon blackKingImage;
+	public ImageIcon blackWazirImage;
+	public ImageIcon blackBerolinaImage;
 	
 	/**
 	 * Initialize all the images image mappings for the
@@ -42,110 +42,110 @@ public class Images {
 		
 		//white pawn
 		try {
-			whitePawnImage = ImageIO.read(new File("White_pawn.png"));
+			whitePawnImage = new ImageIcon(ImageIO.read(new File("src/Images/White_pawn.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//white castle
 		try {
-			whiteCastleImage = ImageIO.read(new File("White_castle.png"));
+			whiteCastleImage = new ImageIcon(ImageIO.read(new File("src/Images/White_castle.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//white horse
 		try {
-			whiteHorseImage = ImageIO.read(new File("White_horse.png"));
+			whiteHorseImage = new ImageIcon(ImageIO.read(new File("src/Images/White_horse.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//white bishop
 		try {
-			whiteBishopImage = ImageIO.read(new File("White_bishop.png"));
+			whiteBishopImage = new ImageIcon(ImageIO.read(new File("src/Images/White_bishop.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//white queen
 		try {
-			whiteQueenImage = ImageIO.read(new File("White_queen.png"));
+			whiteQueenImage = new ImageIcon(ImageIO.read(new File("src/Images/White_queen.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//white king
 		try {
-			whiteKingImage = ImageIO.read(new File("White_king.png"));
+			whiteKingImage = new ImageIcon(ImageIO.read(new File("src/Images/White_king.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//white wazir
 		try {
-			whiteWazirImage = ImageIO.read(new File("White_wazir.png"));
+			whiteWazirImage = new ImageIcon(ImageIO.read(new File("src/Images/White_wazir.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		//white berolina
 		try {
-			whiteBerolinaImage = ImageIO.read(new File("White_berolina.png"));
+			whiteBerolinaImage = new ImageIcon(ImageIO.read(new File("src/Images/White_berolina.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black pawn
 		try {
-			blackPawnImage = ImageIO.read(new File("Black_pawn.png"));
+			blackPawnImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_pawn.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black castle
 		try {
-			blackCastleImage = ImageIO.read(new File("Black_castle.png"));
+			blackCastleImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_castle.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black horse
 		try {
-			blackHorseImage = ImageIO.read(new File("Black_horse.png"));
+			blackHorseImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_horse.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black bishop
 		try {
-			blackBishopImage = ImageIO.read(new File("Black_bishop.png"));
+			blackBishopImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_bishop.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black queen
 		try {
-			blackQueenImage = ImageIO.read(new File("Black_queen.png"));
+			blackQueenImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_queen.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black king
 		try {
-			blackKingImage = ImageIO.read(new File("Black_king.png"));
+			blackKingImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_king.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		//black wazir
 		try {
-			blackWazirImage = ImageIO.read(new File("Black_wazir.png"));
+			blackWazirImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_wazir.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		//black berolina
 		try {
-			blackBerolinaImage = ImageIO.read(new File("Black_berolina.png"));
+			blackBerolinaImage = new ImageIcon(ImageIO.read(new File("src/Images/Black_berolina.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

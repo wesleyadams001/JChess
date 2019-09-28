@@ -84,7 +84,7 @@ public class Viewer extends JPanel{
         labelCons.setX(Spring.constant(5));
         labelCons.setY(Spring.constant(10));
 
-        //Adjust constraints for the text field so it's at
+        //Adjust text field so that it is at
         //Right edge
         SpringLayout.Constraints textFieldCons =
                 layout.getConstraints(player1);
@@ -97,7 +97,7 @@ public class Viewer extends JPanel{
         labelCon.setX(Spring.constant(5));
         labelCon.setY(Spring.constant(50));
 
-        //Adjust constraints for the text field so it's at
+        //Adjust the text field so that it is at
         //Right edge
         SpringLayout.Constraints textFieldCon =
                 layout.getConstraints(player2);

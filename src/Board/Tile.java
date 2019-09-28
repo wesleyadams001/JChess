@@ -20,7 +20,7 @@ public class Tile {
     
     /**
      *
-     * @param position The Pair representing the Tile's place on the Grid.
+     * @param position The Pair representing the Tile's place on the Board.
      */
     public Tile(Pair position) {
         this.position = position;
@@ -99,7 +99,7 @@ public class Tile {
     
     /**
      * Retrieve the Tile's position.
-     * @return A Pair representing the Tile's position in the Grid.
+     * @return A Pair representing the Tile's position in the Board.
      */
     public Pair getPosition() {
         return this.position;

@@ -5,8 +5,8 @@
  */
 package Pieces;
 
+import Board.Board;
 import Board.Pair;
-import Board.Grid;
 import Board.Tile;
 import Enums.MoveType;
 import Player.Player;
@@ -30,16 +30,18 @@ public abstract class Piece {
     
     /**
      *
+     * @param board
+     * @param p
      * @return
      */
-    public abstract Vector<Pair> specialMoves(Grid grid, Piece p);
+    public abstract Vector<Pair> specialMoves(Board board, Piece p);
 
     /**
      * Get a list of possible moves this Piece can make.
-     * @param grid
+     * @param board
      * @return A collection of Pairs representing the possible moves for this Piece.
      */
-    public abstract Vector<Pair> getPossibleMoves(Grid grid);
+    public abstract Vector<Pair> getPossibleMoves(Board board);
 
     /**
      *

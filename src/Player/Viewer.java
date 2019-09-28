@@ -5,7 +5,7 @@
  */
 package Player;
 
-import Board.Grid;
+import Board.Board;
 import Board.Pair;
 import Board.Tile;
 import Images.Images;
@@ -28,7 +28,7 @@ public class Viewer extends JPanel{
     private Images pieces;//Image class
     private int xDimensions, yDimensions;
     private final Controller controller;
-    private static JFrame frame; // The frame on which the board is displayed
+    private static JFrame frame; // The frame on which the Board is displayed
     private static JFrame info;
     private String p1Name;
     private String p2Name;
@@ -36,15 +36,15 @@ public class Viewer extends JPanel{
     private int p2Score;
     private Vector<Pair>moves;
     private final JButton[][] buttonMatrix;
-    private final Grid grid;
+    private final Board board;
     
     public Viewer(Controller c)
     {
         //initializeBoard();
         controller = c;
 
-        grid = this.controller.gameBoard.grid;
-        buttonMatrix = new JButton[grid.getMatrix().length][grid.getMatrix().length];
+        board = this.controller.gameBoard;
+        buttonMatrix = new JButton[board.rowCount][board.columnCount];
 
         // Display the board to the screen.
         setupFrame();
@@ -163,7 +163,7 @@ public class Viewer extends JPanel{
     private void updateButtons() {
         for (int i = 0; i < buttonMatrix.length; i++) {
             for (int j = 0; j < buttonMatrix[i].length; j++) {
-                Tile tile = grid.getTile(new Pair(i, j));
+                Tile tile = board.getTile(new Pair(i, j));
                 JButton tileButton = buttonMatrix[i][j];
 
                 if ((i + j) % 2 == 0) {
@@ -186,9 +186,9 @@ public class Viewer extends JPanel{
             }
         }
     }
-    
+
     private void resetForRender() {
-        for (Tile[] row : grid.getMatrix()) {
+        for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 tile.setHighlighted(false);
 
@@ -209,15 +209,15 @@ public class Viewer extends JPanel{
         int x = Character.getNumericValue(tileName.charAt(0));
         int y = Character.getNumericValue(tileName.charAt(2));
 
-        Tile tile = grid.getTile(new Pair(x, y));
+        Tile tile = board.getTile(new Pair(x, y));
 
         if (tile.isOccupied()) {
             tile.getPiece().setSelected(true);
 
-            Vector<Pair> possibleMoves = tile.getPiece().getPossibleMoves(grid);
+            Vector<Pair> possibleMoves = tile.getPiece().getPossibleMoves(board);
 
             possibleMoves.forEach((pair) -> {
-                grid.getTile(pair).setHighlighted(true);
+                board.getTile(pair).setHighlighted(true);
             });
         }
 

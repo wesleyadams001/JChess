@@ -5,9 +5,9 @@
  */
 package Pieces;
 
-import Board.Pair;
-import Board.Grid;
+import Board.Board;
 import Board.Tile;
+import Board.Pair;
 import Enums.Color;
 import Enums.MoveType;
 import Images.Images;
@@ -69,7 +69,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Vector<Pair> specialMoves(Grid grid, Piece p) {
+    public Vector<Pair> specialMoves(Board board, Piece p) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -82,27 +82,27 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Vector<Pair> getPossibleMoves(Grid grid) {
+    public Vector<Pair> getPossibleMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
         
         if (!this.hasTakenFirstMove()) {
-            Tile twoAbove = grid.getTile(evaluatePair(Move.UpTwice));
+            Tile twoAbove = board.getTile(evaluatePair(Move.UpTwice));
             if (canMoveTo(twoAbove, MoveType.EmptyTileOnly)) {
                 moves.add(twoAbove.getPosition());
             }
         }
         
-        Tile oneAbove = grid.getTile(evaluatePair(Move.Up));
+        Tile oneAbove = board.getTile(evaluatePair(Move.Up));
         if (canMoveTo(oneAbove, MoveType.EmptyTileOnly)) {
             moves.add(oneAbove.getPosition());
         }
 
-        Tile leftDiagonal = grid.getTile(evaluatePair(Move.LeftDiagonal));
+        Tile leftDiagonal = board.getTile(evaluatePair(Move.LeftDiagonal));
         if (canMoveTo(leftDiagonal, MoveType.EnemyPieceOnly)) {
             moves.add(leftDiagonal.getPosition());
         }
         
-        Tile rightDiagonal = grid.getTile(evaluatePair(Move.RightDiagonal));
+        Tile rightDiagonal = board.getTile(evaluatePair(Move.RightDiagonal));
         if (canMoveTo(rightDiagonal, MoveType.EnemyPieceOnly)) {
             moves.add(rightDiagonal.getPosition());
         }

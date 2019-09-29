@@ -23,20 +23,69 @@ public class Rook extends Piece {
 
     public Rook(Player owner) {
         super(owner);
-        image = castleIcons.get(owner.getColor());
+        image = castleIcons.get(owner.getColor()); 
     }
 
     @Override
     public Vector<Pair> specialMoves(Board board, Piece p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Castling handled in King class"); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
-        Vector<Pair> moves = new Vector<>();
+        Vector<Pair> moves = new Vector<>();        //Store all possible moves to return
+        Vector<Tile> laneUpward = new Vector<>();   //Store all tiles above the castle in the same column
+        Vector<Tile> laneDownward = new Vector<>(); //Store all tiles below the castle in the same column
+        Vector<Tile> laneLeft = new Vector<>();     //Store all tiles to the left of the castle in the same row
+        Vector<Tile> laneRight = new Vector<>();    //Store all tiles to the right of the castle in the same row
+        
+        Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
+        final int row = position.getRow();          //Initialize variable to hold row position
+        final int column = position.getColumn();    //Initialize variable to hold column position
+        
+        //Fill laneUpward until outside matrix bounds
+        for(int i = 1; (board.getTile(new Pair(row - i, column)) != null); i++){
+            laneUpward.add(board.getTile(new Pair(row - i, column)));
+        }
+        
+        //Fill laneDownward until outside matrix bounds
+        for(int i = 1; (board.getTile(new Pair(row + i, column)) != null); i++){
+            laneDownward.add(board.getTile(new Pair(row + i, column)));
+        }
+        
+        //Fill laneLeft until outside matrix bounds
+        for(int i = 1; (board.getTile(new Pair(row, column - i)) != null); i++){
+            laneLeft.add(board.getTile(new Pair(row, column - i)));
+        }
+        
+        //Fill laneRight until outside matrix bounds
+        for(int i = 1; (board.getTile(new Pair(row, column + i)) != null); i++){
+            laneRight.add(board.getTile(new Pair(row, column + i)));
+        }
+        
+        
+        
+        //Add possible moves above the rook in the same column
+        for(int i = 0; canMoveTo(laneUpward.get(i), MoveType.EmptyOrEnemyPiece) && i < laneUpward.size(); i++){
+            moves.add(laneUpward.get(i).getPosition());
+        }
+        
+        //Add possible moves below the rook in the same column
+        for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece) && i < laneDownward.size(); i++){
+            moves.add(laneDownward.get(i).getPosition());
+        }
+        
+        //Add possible moves to the left of the rook in the same row
+        for(int i = 0; canMoveTo(laneLeft.get(i), MoveType.EmptyOrEnemyPiece) && i < laneLeft.size(); i++){
+            moves.add(laneLeft.get(i).getPosition());
+        }
+        
+        //Add possible moves to the right of the rook in the same row
+        for(int i = 0; canMoveTo(laneRight.get(i), MoveType.EmptyOrEnemyPiece) && i < laneRight.size(); i++){
+            moves.add(laneRight.get(i).getPosition());
+        }
 
-        // throw new UnsupportedOperationException("Has taken first move. can't castle");
-
+        //Return moves
         return moves;
     }
 

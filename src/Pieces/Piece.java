@@ -25,7 +25,6 @@ public abstract class Piece {
     private boolean selected;
     private boolean taken;
     private boolean hasTakenFirstMove;
-    protected boolean rook;
 
     public Piece(Player owner) {
         player = owner;
@@ -133,6 +132,7 @@ public abstract class Piece {
     public void setHasTakenFirstMove(boolean hasTakenFirstMove) {
         this.hasTakenFirstMove = hasTakenFirstMove;
     }
+    
     
     /**
      * Check whether a move to a Tile is technically legal.(Only ensures that the Tile is not occupied by a friendly Piece.)

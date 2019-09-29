@@ -34,7 +34,7 @@ public class King extends Piece{
         LeftDownDiagonal,
         Left,
         TwoRight,
-        TwoLeft
+        ThreeLeft
         
     };
     
@@ -56,10 +56,7 @@ public class King extends Piece{
         //The king may not currently be in check, nor may the king pass through or end up in a square that is under attack by an enemy piece 
         //(though the rook is permitted to be under attack and to pass over an attacked square);
         //The king and the rook must be on the same rank
-<<<<<<< HEAD
         
-        Vector<Pair> laneLeft = new Vector<>();     //Tiles to the left of the king
-        Vector<Pair> laneRight = new Vector<>();    //Tiles to the right of the king
         Vector<Pair> specialMoves = new Vector<>(); //The king special castling moves
         
         Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
@@ -73,36 +70,8 @@ public class King extends Piece{
         Tile castlePos1 = board.getTile(new Pair(row, column - 4));
         Tile castlePos2 = board.getTile(new Pair(row, column + 3));
         
-        //Get tiles to the left of the king
-        for(int i = 0; i < 4; i++){
-            Tile temp = board.getTile(new Pair(row, column - (i+1)));
-            laneLeft.add(temp.getPosition());
-        }
-        
-        //Get tiles to the right of the king
-        for(int i = 0; i < 3; i++){
-            Tile temp = board.getTile(new Pair(row, column + (i+1)));
-            laneLeft.add(temp.getPosition());
-        }
-        
-        //Tests if king has taken first move
-        if(this.hasTakenFirstMove){
-=======
-
         //The king special castling moves
-        Vector<Pair> specialMoves = new Vector<>();
-
-        Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
-        final int row = position.getRow();          //Initialize variable to hold row position
-        final int column = position.getColumn();    //Initialize variable to hold column position
-        boolean pos1 = false;
-        boolean pos2 = false;
-
-        Tile castlePos1 = board.getTile(new Pair(row, column - 4));
-        Tile castlePos2 = board.getTile(new Pair(row, column + 3));
-
         if(this.hasTakenFirstMove()){
->>>>>>> a9e743c72b2457d66b96f0ccf1d5c1c7b95f0541
             throw new UnsupportedOperationException("King has taken first move. can't castle");
         }
 
@@ -123,24 +92,33 @@ public class King extends Piece{
                 }
             } 
         }
-<<<<<<< HEAD
        
+       //if Rook's available to castle longside, test if spaces are empty between rook and king
+       //Note: ***This is where if king would pass through check needs to be checked for***
        if (pos1){
-           //while(canMoveTo(laneLeft))
-           {
-               
+           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column - i)), MoveType.EmptyTileOnly)) && (i < 3); i++){
+               //If both squares are empty add last square to possible move set
+               if (i == 2){
+                   specialMoves.add(board.getTile(new Pair(row, column - i)).getPosition());
+               }
+           }
+       }
+       
+       //if Rook's available to castle shortside, test if spaces are empty between rook and king
+       //Note: ***This is where if king would pass through check needs to be checked for***
+       if (pos1){
+           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column + i)), MoveType.EmptyTileOnly)) && (i < 4); i++){
+               //If all 3 squares are empty add last square to possible move set
+               if (i == 3){
+                   specialMoves.add(board.getTile(new Pair(row, column + i)).getPosition());
+               }
            }
        }
     
        
         
-        
-       throw new UnsupportedOperationException("Not supported yet.");
-        
-=======
-
-        throw new UnsupportedOperationException("Not supported yet.");
->>>>>>> a9e743c72b2457d66b96f0ccf1d5c1c7b95f0541
+       //return special moves vector
+       return specialMoves;
     }
 
     @Override

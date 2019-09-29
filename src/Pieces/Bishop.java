@@ -41,47 +41,117 @@ public class Bishop extends Piece{
         final int row = position.getRow();          //Initialize variable to hold row position
         final int column = position.getColumn();    //Initialize variable to hold column position
         
+        boolean canMove = true;
+        
         //Fill upLeftDiagonal until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row - i, column - i)) != null); i++){
+        for(int i = 1; (row - i) >= -1 && (column - i) >= -1; i++){
             upLeftDiagonal.add(board.getTile(new Pair(row - i, column - i)));
         }
         
         //Fill upRightDiagonal until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row - i, column + i)) != null); i++){
+        for(int i = 1; (row - i) >= -1 && (column + i) <= 8; i++){
             upRightDiagonal.add(board.getTile(new Pair(row - i, column + i)));
         }
         
         //Fill downLeftDiagonal until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row + i, column - i)) != null); i++){
+        for(int i = 1; (row + i) <= 8 && (column - i) >= -1; i++){
             downLeftDiagonal.add(board.getTile(new Pair(row + i, column - i)));
         }
         
         //Fill downRightDiagonal until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row + i, column + i)) != null); i++){
+        for(int i = 1; (row + i) <= 8 && (column + i) <= 8; i++){
             downRightDiagonal.add(board.getTile(new Pair(row + i, column + i)));
         }
         
         
         
         //Add possible in upLeftDiagonal
-        for(int i = 0; canMoveTo(upLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && i < upLeftDiagonal.size(); i++){
-            moves.add(upLeftDiagonal.get(i).getPosition());
+        for(int i = 0; canMoveTo(upLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+            //test if tile is occupied
+            if(upLeftDiagonal.get(i).isOccupied()){
+                Player temp1 = upLeftDiagonal.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(upLeftDiagonal.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
+                moves.add(upLeftDiagonal.get(i).getPosition());
+            } 
         }
+        canMove = true;
         
         //Add possible moves in upRightDiagonal
-        for(int i = 0; canMoveTo(upRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && i < upRightDiagonal.size(); i++){
-            moves.add(upRightDiagonal.get(i).getPosition());
+        for(int i = 0; canMoveTo(upRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+            //test if tile is occupied
+            if(upRightDiagonal.get(i).isOccupied()){
+                Player temp1 = upRightDiagonal.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(upRightDiagonal.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
+                moves.add(upRightDiagonal.get(i).getPosition());
+            } 
         }
+        canMove = true;
         
         //Add possible moves in downLeftDiagonal
-        for(int i = 0; canMoveTo(downLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && i < downLeftDiagonal.size(); i++){
-            moves.add(downLeftDiagonal.get(i).getPosition());
+        for(int i = 0; canMoveTo(downLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+            //test if tile is occupied
+            if(downLeftDiagonal.get(i).isOccupied()){
+                Player temp1 = downLeftDiagonal.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(downLeftDiagonal.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
+                moves.add(downLeftDiagonal.get(i).getPosition());
+            } 
         }
+        canMove = true;
         
         //Add possible moves in downRightDiagonal
-        for(int i = 0; canMoveTo(downRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && i < downRightDiagonal.size(); i++){
-            moves.add(downRightDiagonal.get(i).getPosition());
+        for(int i = 0; canMoveTo(downRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+            //test if tile is occupied
+            if(downRightDiagonal.get(i).isOccupied()){
+                Player temp1 = downRightDiagonal.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(downRightDiagonal.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
+                moves.add(downRightDiagonal.get(i).getPosition());
+            } 
         }
+        canMove = true;
 
         //Return moves
         return moves;

@@ -5,11 +5,13 @@
  */
 package Board;
 
+import Pieces.Bishop;
 import Pieces.Piece;
 import Pieces.King;
 import Pieces.Knight;
 import Pieces.Rook;
 import Pieces.Pawn;
+import Pieces.Queen;
 import Player.Player;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -80,6 +82,16 @@ public final class Board {
         matrix[0][6].setPiece(new Knight(two));
         matrix[rowCount - 1][1].setPiece(new Knight(one));
         matrix[rowCount - 1][6].setPiece(new Knight(one));
+        
+        //Add Bishops
+        matrix[0][2].setPiece(new Bishop(two));
+        matrix[0][5].setPiece(new Bishop(two));
+        matrix[rowCount - 1][2].setPiece(new Bishop(one));
+        matrix[rowCount - 1][5].setPiece(new Bishop(one));
+        
+        //Add Queens
+        matrix[0][3].setPiece(new Queen(two));
+        matrix[rowCount - 1][3].setPiece(new Queen(one));
     }
 
     /**

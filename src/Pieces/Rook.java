@@ -42,10 +42,11 @@ public class Rook extends Piece {
         Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
         final int row = position.getRow();          //Initialize variable to hold row position
         final int column = position.getColumn();    //Initialize variable to hold column position
+        boolean canMove = true;                     //Boolean to test if an enemy piece is in a path
         
         //Fill laneUpward until outside matrix bounds
-        for(int i = 1; (row - i) >= -1; i++){
-            laneUpward.add(board.getTile(new Pair(row - i, column)));
+        for(int i = 1; (row - i) >= -1 && canMove; i++){
+            laneUpward.add(board.getTile(new Pair(row-i, column)));
         }
         
         //Fill laneDownward until outside matrix bounds
@@ -66,31 +67,92 @@ public class Rook extends Piece {
         
         
         //Add possible moves above the rook in the same column
-        for(int i = 0; canMoveTo(laneUpward.get(i), MoveType.EmptyOrEnemyPiece); i++){
-            moves.add(laneUpward.get(i).getPosition());
+        for(int i = 0; canMoveTo(laneUpward.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+            //test if tile is occupied
+            if(laneUpward.get(i).isOccupied()){
+                Player temp1 = laneUpward.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(laneUpward.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
+                moves.add(laneUpward.get(i).getPosition());
+            } 
         }
+        canMove = true;
         
         //Add possible moves below the rook in the same column
         for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece); i++){
-           
+            //test if tile is occupied
+            if(laneDownward.get(i).isOccupied()){
+                Player temp1 = laneDownward.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(laneDownward.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
                 moves.add(laneDownward.get(i).getPosition());
-            
+            }
         }
+        canMove = true;
         
         //Add possible moves to the left of the rook in the same row
-        for(int i = 0; canMoveTo(laneLeft.get(i), MoveType.EnemyPieceOnly); i++){
-            
-                moves.add(laneRight.get(i).getPosition());
-            
-               
+        for(int i = 0; canMoveTo(laneLeft.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+               //test if tile is occupied
+            if(laneLeft.get(i).isOccupied()){
+                Player temp1 = laneLeft.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(laneLeft.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
+                moves.add(laneLeft.get(i).getPosition());
+            }
         }
+        canMove = true;
         
         //Add possible moves to the right of the rook in the same row
-        for(int i = 0; canMoveTo(laneRight.get(i), MoveType.EmptyOrEnemyPiece); i++){
-            
+        for(int i = 0; canMoveTo(laneRight.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+            //test if tile is occupied
+            if(laneRight.get(i).isOccupied()){
+                Player temp1 = laneRight.get(i).getPiece().getPlayer();
+                Player temp2 = this.getPlayer();
+                
+                //Test if pieces color is the enemy color
+                if(!(temp1.getColor() == temp2.getColor())){
+                    //Add
+                    moves.add(laneRight.get(i).getPosition());
+                    canMove = false; //update boolean so they can't move past it
+                }
+                
+            }
+            //Otherwise, add empty tiles to moves
+            else{
                 moves.add(laneRight.get(i).getPosition());
-            
+            }
         }
+        canMove = true;
 
         //Return moves
         return moves;

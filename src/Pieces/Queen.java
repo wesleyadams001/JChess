@@ -24,7 +24,7 @@ public class Queen  extends Piece{
         image = queenIcons.get(owner.getColor()); 
     }
     private Vector<Pair> getLanes(Board board){
-                Vector<Pair> moves = new Vector<>();        //Store all possible moves to return
+        Vector<Pair> moves = new Vector<>();        //Store all possible moves to return
         Vector<Tile> laneUpward = new Vector<>();   //Store all tiles above the castle in the same column
         Vector<Tile> laneDownward = new Vector<>(); //Store all tiles below the castle in the same column
         Vector<Tile> laneLeft = new Vector<>();     //Store all tiles to the left of the castle in the same row
@@ -36,7 +36,7 @@ public class Queen  extends Piece{
         boolean canMove = true;                     //Boolean to test if an enemy piece is in a path
         
         //Fill laneUpward until outside matrix bounds
-        for(int i = 1; (row - i) >= -1 && canMove; i++){
+        for(int i = 1; (row - i) >= -1; i++){
             laneUpward.add(board.getTile(new Pair(row-i, column)));
         }
         
@@ -150,7 +150,7 @@ public class Queen  extends Piece{
     }
     
     private Vector<Pair> getDiagonals(Board board){
-         Vector<Pair> moves = new Vector<>();                //Store all possible moves to return
+        Vector<Pair> moves = new Vector<>();                //Store all possible moves to return
         Vector<Tile> upLeftDiagonal = new Vector<>();       //Store all tiles up and to the left in a diagonal line
         Vector<Tile> upRightDiagonal = new Vector<>();      //Store all tiles up and to the right in a diagonal line
         Vector<Tile> downLeftDiagonal = new Vector<>();     //Store all tiles down and to the left in a diagonal line

@@ -80,7 +80,7 @@ public class Queen  extends Piece{
         canMove = true;
         
         //Add possible moves below the rook in the same column
-        for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece); i++){
+        for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(laneDownward.get(i).isOccupied()){
                 Player temp1 = laneDownward.get(i).getPiece().getPlayer();

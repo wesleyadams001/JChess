@@ -123,8 +123,8 @@ public class Viewer extends JPanel{
     }
 
     private void setupFrame() {
-        int tileWidth = 100;
-        int tileHeight = 100;
+        int tileWidth = 90;
+        int tileHeight = 90;
 
         JFrame boardFrame = new JFrame("Dokie, Dokie, Chess Club");
         boardFrame.setLocationRelativeTo(this.info);
@@ -238,7 +238,6 @@ public class Viewer extends JPanel{
                 targetTile.getPiece().setSelected(true);
 
                 Vector<Pair> possibleMoves = targetTile.getPiece().getPossibleMoves(board);
-
                 possibleMoves.forEach((pair) -> {
                     board.getTile(pair).setHighlighted(true);
                 });

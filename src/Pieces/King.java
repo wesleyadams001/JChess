@@ -96,9 +96,9 @@ public class King extends Piece{
        //if Rook's available to castle longside, test if spaces are empty between rook and king
        //Note: ***This is where if king would pass through check needs to be checked for***
        if (pos1){
-           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column - i)), MoveType.EmptyTileOnly)) && (i < 3); i++){
-               //If both squares are empty add last square to possible move set
-               if (i == 2){
+           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column - i)), MoveType.EmptyTileOnly)) && (i < 4); i++){
+               //If all squares are empty add last square to possible move set
+               if (i == 3){
                    specialMoves.add(board.getTile(new Pair(row, column - i)).getPosition());
                }
            }
@@ -107,9 +107,9 @@ public class King extends Piece{
        //if Rook's available to castle shortside, test if spaces are empty between rook and king
        //Note: ***This is where if king would pass through check needs to be checked for***
        if (pos1){
-           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column + i)), MoveType.EmptyTileOnly)) && (i < 4); i++){
-               //If all 3 squares are empty add last square to possible move set
-               if (i == 3){
+           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column + i)), MoveType.EmptyTileOnly)) && (i < 3); i++){
+               //If all squares are empty add last square to possible move set
+               if (i == 2){
                    specialMoves.add(board.getTile(new Pair(row, column + i)).getPosition());
                }
            }

@@ -38,9 +38,20 @@ public class Tile {
      * Place a Piece on this Tile.
      * @param piece The Piece to place on this Tile.
      */
-    public void setPiece(Piece piece) {
+    public void setPiece(Piece newPiece) {
         // TODO: handle case where a Piece is already on this Tile.
-        this.piece = piece;
+
+        if (newPiece != null) {
+            newPiece.setCurrentPosition(position);
+        }
+
+        this.piece = newPiece;
+    }
+
+    public Piece removePiece() {
+        Piece removedPiece = this.piece;
+        setPiece(null);
+        return removedPiece;
     }
 
     /**

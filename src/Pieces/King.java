@@ -12,6 +12,7 @@ import Enums.Color;
 import Enums.MoveType;
 import Images.Images;
 import Player.Player;
+import static Images.Images.kingIcons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -37,19 +38,10 @@ public class King extends Piece{
         
     };
     
-    public King(Player player){
+    public King(Player owner) {
         //Call function to initialize player object
-        setPlayer(player);
-        
-        //Create imageset object
-        Images imageSet = new Images();
-        
-        //Test if King is black
-        if (player.getColor() == Color.black) {
-            image = imageSet.blackKingImage;    //Set to black
-        } else {
-            image = imageSet.whiteKingImage;    //Set to white
-        }
+        super(owner);
+        image = kingIcons.get(owner.getColor());
     }
     
     /**
@@ -64,6 +56,7 @@ public class King extends Piece{
         //The king may not currently be in check, nor may the king pass through or end up in a square that is under attack by an enemy piece 
         //(though the rook is permitted to be under attack and to pass over an attacked square);
         //The king and the rook must be on the same rank
+<<<<<<< HEAD
         
         Vector<Pair> laneLeft = new Vector<>();     //Tiles to the left of the king
         Vector<Pair> laneRight = new Vector<>();    //Tiles to the right of the king
@@ -94,26 +87,43 @@ public class King extends Piece{
         
         //Tests if king has taken first move
         if(this.hasTakenFirstMove){
+=======
+
+        //The king special castling moves
+        Vector<Pair> specialMoves = new Vector<>();
+
+        Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
+        final int row = position.getRow();          //Initialize variable to hold row position
+        final int column = position.getColumn();    //Initialize variable to hold column position
+        boolean pos1 = false;
+        boolean pos2 = false;
+
+        Tile castlePos1 = board.getTile(new Pair(row, column - 4));
+        Tile castlePos2 = board.getTile(new Pair(row, column + 3));
+
+        if(this.hasTakenFirstMove()){
+>>>>>>> a9e743c72b2457d66b96f0ccf1d5c1c7b95f0541
             throw new UnsupportedOperationException("King has taken first move. can't castle");
         }
-        
+
         //Tests if LongSide castle is still in castling position, and hasn't taken first move
         if(castlePos1.getPiece() != null){
-            if(castlePos1.getPiece().rook){
-                if(castlePos1.getPiece().hasTakenFirstMove == false){
+            if(castlePos1.getPiece().getClass() == Rook.class){
+                if(castlePos1.getPiece().hasTakenFirstMove() == false){
                     pos1 = true;
                 }
             } 
         }
-        
-       //Tests if shortside castle is still in castling position, and hasn't taken first move
-       if(castlePos2.getPiece() != null){
-            if(castlePos2.getPiece().rook){
-                if(castlePos2.getPiece().hasTakenFirstMove == false){
+
+        //Tests if shortside castle is still in castling position, and hasn't taken first move
+        if(castlePos2.getPiece() != null){
+            if(castlePos2.getPiece().getClass() == Rook.class){
+                if(castlePos2.getPiece().hasTakenFirstMove() == false){
                     pos2 = true;
                 }
             } 
         }
+<<<<<<< HEAD
        
        if (pos1){
            //while(canMoveTo(laneLeft))
@@ -127,6 +137,10 @@ public class King extends Piece{
         
        throw new UnsupportedOperationException("Not supported yet.");
         
+=======
+
+        throw new UnsupportedOperationException("Not supported yet.");
+>>>>>>> a9e743c72b2457d66b96f0ccf1d5c1c7b95f0541
     }
 
     @Override
@@ -149,28 +163,28 @@ public class King extends Piece{
         Tile downLeft = board.getTile(new Pair(row - 1, column - 1));
         
         //Test which squares the king can move to
-        if(canMoveTo(oneAbove, MoveType.EnemyPieceOnly)) { 
+        if(canMoveTo(oneAbove, MoveType.EmptyOrEnemyPiece)) { 
             moves.add(oneAbove.getPosition());      //Add oneAbove to possible move set
         }
-        if(canMoveTo(oneRight, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(oneRight, MoveType.EmptyOrEnemyPiece)){
             moves.add(oneRight.getPosition());      //Add oneRight to possible move set
         }
-        if(canMoveTo(oneLeft, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(oneLeft, MoveType.EmptyOrEnemyPiece)){
             moves.add(oneLeft.getPosition());       //Add oneLeft to possible move set
         }
-        if(canMoveTo(oneDown, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(oneDown, MoveType.EmptyOrEnemyPiece)){
             moves.add(oneDown.getPosition());       //Add oneDown to possible move set
         }
-        if(canMoveTo(aboveRight, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(aboveRight, MoveType.EmptyOrEnemyPiece)){
             moves.add(aboveRight.getPosition());    //Add aboveRight to possible move set
         }
-        if(canMoveTo(aboveLeft, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(aboveLeft, MoveType.EmptyOrEnemyPiece)){
             moves.add(aboveLeft.getPosition());     //Add aboveLeft to possible move set
         }
-        if(canMoveTo(downRight, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(downRight, MoveType.EmptyOrEnemyPiece)){
             moves.add(downRight.getPosition());     //Add downRight to possible move set
         }
-        if(canMoveTo(downLeft, MoveType.EnemyPieceOnly)){
+        if(canMoveTo(downLeft, MoveType.EmptyOrEnemyPiece)){
             moves.add(downLeft.getPosition());      //Add downLeft to possible move set
         }
         

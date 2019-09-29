@@ -6,9 +6,13 @@
 package Board;
 
 import Pieces.Piece;
+import Pieces.King;
+import Pieces.Rook;
 import Pieces.Pawn;
 import Player.Player;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,10 +44,12 @@ public final class Board {
 
     /**
      *
+     * @param one
+     * @param two
      */
     public Board(Player one, Player two) {
         matrix = new Tile[rowCount][columnCount];
-        
+
         // Populate matrix with empty Tiles.
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
@@ -51,18 +57,22 @@ public final class Board {
                 matrix[rowIndex][columnIndex] = tile;
             }
         }
-        
-        // Add enemy Pawns.
+
+        // Add Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[1][columnIndex].setPiece(createPawn(one, matrix[1][columnIndex].getPosition()));
-        }
-        
-        // Add home Pawns.
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[rowCount - 2][columnIndex].setPiece(createPawn(two, matrix[rowCount - 2][columnIndex].getPosition()));
+            matrix[1][columnIndex].setPiece(new Pawn(two));
+            matrix[rowCount - 2][columnIndex].setPiece(new Pawn(one));
         }
 
-        tempTest();
+        // Add Kings.
+        matrix[0][4].setPiece(new King(two));
+        matrix[rowCount - 1][4].setPiece(new King(one));
+
+        // Add Rooks.
+        matrix[0][0].setPiece(new Rook(two));
+        matrix[0][7].setPiece(new Rook(two));
+        matrix[rowCount - 1][0].setPiece(new Rook(one));
+        matrix[rowCount - 1][7].setPiece(new Rook(one));
     }
 
     /**
@@ -85,54 +95,76 @@ public final class Board {
     public void serialize(String fileName) {
     }
 
+    public boolean isValidPair(Pair pair) {
+        int rowIndex = pair.getRow();
+        int columnIndex = pair.getColumn();
+
+        if ((rowIndex < 0) || (columnIndex < 0)) {
+            return false;
+        }
+
+        if ((rowIndex > rowCount - 1) || (columnIndex > columnCount - 1)) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Search for and retrieve a Tile.
      * @param position A pair of coordinates with which to search for a Tile.
      * @return The desired Tile if found, else null.
      */
     public Tile getTile(Pair position) {
-        try {
+        if (isValidPair(position)) {
             return matrix[position.getRow()][position.getColumn()];
-        } catch (IndexOutOfBoundsException error) {
-            System.out.println("Error while accessing Tile.");
-            System.out.println(error);
-            return null;
         }
+
+        return null;
     }
-    
+
+    /**
+     * Get the Player's selected Piece.
+     * @return The first Piece found with isSelected() being true, null otherwise.
+     */
+    public Tile getDepartingTile() {
+        for (Tile[] row : matrix) {
+            for (Tile tile : row) {
+                if (tile.isOccupied() && tile.getPiece().isSelected()) {
+                    return tile;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public Tile[][] getMatrix(){
         return this.matrix;
     }
-    
+
     /**
-     * Swap the Pieces of two Tiles.
-     * @param position1
-     * @param position2
+     * Move a Piece to another Tile.
+     * 
+     * @param from
+     * @param to
+     * @throws Exception
      */
-    public void swapPieces(Pair position1, Pair position2) {
-        Piece piece1 = getTile(position1).getPiece();
-        
-        if (piece1 != null) {
-            piece1.setCurrentPosition(position2);
+    public void movePiece(Pair from, Pair to) throws Exception {
+        Tile toTile = getTile(to);
+        if (toTile.isOccupied()) {
+            throw new Exception("The arrival Tile isn't empty.");
         }
-        
-        Piece piece2 = getTile(position2).getPiece(); 
-        
-        if (piece2 != null) {
-            piece2.setCurrentPosition(position1);
+
+        Tile fromTile = getTile(from);
+        if (!fromTile.isOccupied()) {
+            throw new Exception("The departing Piece doesn't exist.");
         }
-        
-        matrix[position1.getRow()][position1.getColumn()].setPiece(piece2);
-        matrix[position2.getRow()][position2.getColumn()].setPiece(piece1);
+
+        Piece fromPiece = fromTile.removePiece();
+        toTile.setPiece(fromPiece);
     }
-    
-    private Pawn createPawn(Player player, Pair position) {
-        Pawn pawn = new Pawn(player);
-        pawn.setCurrentPosition(position);
-        
-        return pawn;
-    }
-    
+
     public void tempTest() {
         // TEMPORARY setup. This will show the potential moves of the rightmost
         // enemy Pawn. A friendly Pawn has been moved to the enemy Pawn's diagonal
@@ -158,8 +190,12 @@ public final class Board {
         print();
         System.out.println();
 
-        // Move the Enemy Pawn into a kill position for Player 1's Pawn.
-        swapPieces(player2PawnTile.getPosition(), emptySpace.getPosition());
+        try {
+            // Move the Enemy Pawn into a kill position for Player 1's Pawn.
+            movePiece(player2PawnTile.getPosition(), emptySpace.getPosition());
+        } catch (Exception ex) {
+            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         // Get possible moves for Player 1's Pawn.
         Vector<Pair> moves = player1PawnTile.getPiece().getPossibleMoves(this);

@@ -7,6 +7,7 @@ package Controller;
 
 import Board.Board;
 import Enums.Color;
+import Images.Images;
 import Player.Player;
 import Player.Viewer;
 
@@ -63,6 +64,9 @@ public class Controller extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Images img = new Images();
+        img.loadImages();
+
         Controller c = new Controller();
         Viewer viewer = new Viewer(c);
     }

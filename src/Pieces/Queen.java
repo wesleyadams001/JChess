@@ -37,7 +37,7 @@ public class Queen  extends Piece{
         
         //Fill laneUpward until outside matrix bounds
         for(int i = 1; (row - i) >= -1; i++){
-            laneUpward.add(board.getTile(new Pair(row-i, column)));
+            laneUpward.add(board.getTile(new Pair(row - i, column)));
         }
         
         //Fill laneDownward until outside matrix bounds
@@ -54,10 +54,8 @@ public class Queen  extends Piece{
         for(int i = 1; (column + i) <= 8; i++){
             laneRight.add(board.getTile(new Pair(row, column + i)));
         }
-        
-        
-        
-        //Add possible moves above the rook in the same column
+                
+        //Add possible moves above the Queen in the same column
         for(int i = 0; canMoveTo(laneUpward.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(laneUpward.get(i).isOccupied()){
@@ -79,7 +77,7 @@ public class Queen  extends Piece{
         }
         canMove = true;
         
-        //Add possible moves below the rook in the same column
+        //Add possible moves below the Queen in the same column
         for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(laneDownward.get(i).isOccupied()){
@@ -101,7 +99,7 @@ public class Queen  extends Piece{
         }
         canMove = true;
         
-        //Add possible moves to the left of the rook in the same row
+        //Add possible moves to the left of the Queen in the same row
         for(int i = 0; canMoveTo(laneLeft.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
                //test if tile is occupied
             if(laneLeft.get(i).isOccupied()){
@@ -123,7 +121,7 @@ public class Queen  extends Piece{
         }
         canMove = true;
         
-        //Add possible moves to the right of the rook in the same row
+        //Add possible moves to the right of the Queen in the same row
         for(int i = 0; canMoveTo(laneRight.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(laneRight.get(i).isOccupied()){
@@ -162,27 +160,21 @@ public class Queen  extends Piece{
         
         boolean canMove = true;
         
-        //Fill upLeftDiagonal until outside matrix bounds
-        for(int i = 1; (row - i) >= -1 && (column - i) >= -1; i++){
-            upLeftDiagonal.add(board.getTile(new Pair(row - i, column - i)));
+        //Fill all vector diagonals around quenn until outside matrix bounds
+        for(int i = 1; i < 8; i++){
+            if((row - i) >= -1 && (column - i) >= -1){
+                upLeftDiagonal.add(board.getTile(new Pair(row - i, column - i)));
+            }
+            if((row - i) >= -1 && (column + i) <=8){
+                upRightDiagonal.add(board.getTile(new Pair(row - i, column + i)));
+            }
+            if((row + i) <= 8 && (column - i) >= -1){
+                downLeftDiagonal.add(board.getTile(new Pair(row + i, column - i)));
+            }
+            if((row + i) <= 8 && (column + i) <= 8){
+                downRightDiagonal.add(board.getTile(new Pair(row + i, column + i)));
+            }
         }
-        
-        //Fill upRightDiagonal until outside matrix bounds
-        for(int i = 1; (row - i) >= -1 && (column + i) <= 8; i++){
-            upRightDiagonal.add(board.getTile(new Pair(row - i, column + i)));
-        }
-        
-        //Fill downLeftDiagonal until outside matrix bounds
-        for(int i = 1; (row + i) <= 8 && (column - i) >= -1; i++){
-            downLeftDiagonal.add(board.getTile(new Pair(row + i, column - i)));
-        }
-        
-        //Fill downRightDiagonal until outside matrix bounds
-        for(int i = 1; (row + i) <= 8 && (column + i) <= 8; i++){
-            downRightDiagonal.add(board.getTile(new Pair(row + i, column + i)));
-        }
-        
-        
         
         //Add possible in upLeftDiagonal
         for(int i = 0; canMoveTo(upLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
@@ -277,7 +269,9 @@ public class Queen  extends Piece{
     }
     @Override
     public Vector<Pair> specialMoves(Board board, Piece p) {
-        throw new UnsupportedOperationException("Castling handled in King class"); //To change body of generated methods, choose Tools | Templates.
+        Vector<Pair> moves = new Vector<>();
+        
+        return moves;
     }
 
     @Override

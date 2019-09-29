@@ -61,7 +61,9 @@ public class Pawn extends Piece {
 
     @Override
     public Vector<Pair> specialMoves(Board board, Piece p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Vector<Pair> moves = new Vector<>();
+        
+        return moves;
     }
     
     private Pair evaluatePair(Move move) {

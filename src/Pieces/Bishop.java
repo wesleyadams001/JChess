@@ -26,7 +26,9 @@ public class Bishop extends Piece{
     
     @Override
     public Vector<Pair> specialMoves(Board board, Piece p) {
-        throw new UnsupportedOperationException("Castling handled in King class"); //To change body of generated methods, choose Tools | Templates.
+        Vector<Pair> moves = new Vector<>();
+        
+        return moves;
     }
 
     @Override
@@ -43,24 +45,20 @@ public class Bishop extends Piece{
         
         boolean canMove = true;
         
-        //Fill upLeftDiagonal until outside matrix bounds
-        for(int i = 1; (row - i) >= -1 && (column - i) >= -1; i++){
-            upLeftDiagonal.add(board.getTile(new Pair(row - i, column - i)));
-        }
-        
-        //Fill upRightDiagonal until outside matrix bounds
-        for(int i = 1; (row - i) >= -1 && (column + i) <= 8; i++){
-            upRightDiagonal.add(board.getTile(new Pair(row - i, column + i)));
-        }
-        
-        //Fill downLeftDiagonal until outside matrix bounds
-        for(int i = 1; (row + i) <= 8 && (column - i) >= -1; i++){
-            downLeftDiagonal.add(board.getTile(new Pair(row + i, column - i)));
-        }
-        
-        //Fill downRightDiagonal until outside matrix bounds
-        for(int i = 1; (row + i) <= 8 && (column + i) <= 8; i++){
-            downRightDiagonal.add(board.getTile(new Pair(row + i, column + i)));
+      //Fill all vector diagonals around quenn until outside matrix bounds
+        for(int i = 1; i < 8; i++){
+            if((row - i) >= -1 && (column - i) >= -1){
+                upLeftDiagonal.add(board.getTile(new Pair(row - i, column - i)));
+            }
+            if((row - i) >= -1 && (column + i) <=8){
+                upRightDiagonal.add(board.getTile(new Pair(row - i, column + i)));
+            }
+            if((row + i) <= 8 && (column - i) >= -1){
+                downLeftDiagonal.add(board.getTile(new Pair(row + i, column - i)));
+            }
+            if((row + i) <= 8 && (column + i) <= 8){
+                downRightDiagonal.add(board.getTile(new Pair(row + i, column + i)));
+            }
         }
         
         

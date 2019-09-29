@@ -137,8 +137,8 @@ public class King extends Piece{
         Tile oneDown = board.getTile(new Pair(row + 1, column));
         Tile aboveRight = board.getTile(new Pair(row - 1, column + 1));
         Tile aboveLeft = board.getTile(new Pair(row - 1, column - 1));
-        Tile downRight = board.getTile(new Pair(row - 1, column + 1));
-        Tile downLeft = board.getTile(new Pair(row - 1, column - 1));
+        Tile downRight = board.getTile(new Pair(row + 1, column + 1));
+        Tile downLeft = board.getTile(new Pair(row + 1, column - 1));
         
         //Test which squares the king can move to
         if(canMoveTo(oneAbove, MoveType.EmptyOrEnemyPiece)) { 

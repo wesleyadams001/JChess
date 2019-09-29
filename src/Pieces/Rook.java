@@ -28,7 +28,9 @@ public class Rook extends Piece {
 
     @Override
     public Vector<Pair> specialMoves(Board board, Piece p) {
-        throw new UnsupportedOperationException("Castling handled in King class"); //To change body of generated methods, choose Tools | Templates.
+        Vector<Pair> moves = new Vector<>();
+        
+        return moves;
     }
 
     @Override
@@ -45,8 +47,8 @@ public class Rook extends Piece {
         boolean canMove = true;                     //Boolean to test if an enemy piece is in a path
         
         //Fill laneUpward until outside matrix bounds
-        for(int i = 1; (row - i) >= -1 && canMove; i++){
-            laneUpward.add(board.getTile(new Pair(row-i, column)));
+        for(int i = 1; (row - i) >= -1; i++){
+            laneUpward.add(board.getTile(new Pair(row - i, column)));
         }
         
         //Fill laneDownward until outside matrix bounds

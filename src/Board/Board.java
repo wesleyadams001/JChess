@@ -7,6 +7,7 @@ package Board;
 
 import Pieces.Piece;
 import Pieces.King;
+import Pieces.Knight;
 import Pieces.Rook;
 import Pieces.Pawn;
 import Player.Player;
@@ -73,6 +74,12 @@ public final class Board {
         matrix[0][7].setPiece(new Rook(two));
         matrix[rowCount - 1][0].setPiece(new Rook(one));
         matrix[rowCount - 1][7].setPiece(new Rook(one));
+        
+        //Add Knights 
+        matrix[0][1].setPiece(new Knight(two));
+        matrix[0][6].setPiece(new Knight(two));
+        matrix[rowCount - 1][1].setPiece(new Knight(one));
+        matrix[rowCount - 1][6].setPiece(new Knight(one));
     }
 
     /**

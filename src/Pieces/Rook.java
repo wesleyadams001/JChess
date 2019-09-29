@@ -44,45 +44,52 @@ public class Rook extends Piece {
         final int column = position.getColumn();    //Initialize variable to hold column position
         
         //Fill laneUpward until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row - i, column)) != null); i++){
+        for(int i = 1; (row - i) >= -1; i++){
             laneUpward.add(board.getTile(new Pair(row - i, column)));
         }
         
         //Fill laneDownward until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row + i, column)) != null); i++){
+        for(int i = 1; (row + i) <=8 ; i++){
             laneDownward.add(board.getTile(new Pair(row + i, column)));
         }
         
         //Fill laneLeft until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row, column - i)) != null); i++){
+        for(int i = 1; (column - i) >= -1; i++){
             laneLeft.add(board.getTile(new Pair(row, column - i)));
         }
         
         //Fill laneRight until outside matrix bounds
-        for(int i = 1; (board.getTile(new Pair(row, column + i)) != null); i++){
+        for(int i = 1; (column + i) <= 8; i++){
             laneRight.add(board.getTile(new Pair(row, column + i)));
         }
         
         
         
         //Add possible moves above the rook in the same column
-        for(int i = 0; canMoveTo(laneUpward.get(i), MoveType.EmptyOrEnemyPiece) && i < laneUpward.size(); i++){
+        for(int i = 0; canMoveTo(laneUpward.get(i), MoveType.EmptyOrEnemyPiece); i++){
             moves.add(laneUpward.get(i).getPosition());
         }
         
         //Add possible moves below the rook in the same column
-        for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece) && i < laneDownward.size(); i++){
-            moves.add(laneDownward.get(i).getPosition());
+        for(int i = 0; canMoveTo(laneDownward.get(i), MoveType.EmptyOrEnemyPiece); i++){
+           
+                moves.add(laneDownward.get(i).getPosition());
+            
         }
         
         //Add possible moves to the left of the rook in the same row
-        for(int i = 0; canMoveTo(laneLeft.get(i), MoveType.EmptyOrEnemyPiece) && i < laneLeft.size(); i++){
-            moves.add(laneLeft.get(i).getPosition());
+        for(int i = 0; canMoveTo(laneLeft.get(i), MoveType.EnemyPieceOnly); i++){
+            
+                moves.add(laneRight.get(i).getPosition());
+            
+               
         }
         
         //Add possible moves to the right of the rook in the same row
-        for(int i = 0; canMoveTo(laneRight.get(i), MoveType.EmptyOrEnemyPiece) && i < laneRight.size(); i++){
-            moves.add(laneRight.get(i).getPosition());
+        for(int i = 0; canMoveTo(laneRight.get(i), MoveType.EmptyOrEnemyPiece); i++){
+            
+                moves.add(laneRight.get(i).getPosition());
+            
         }
 
         //Return moves

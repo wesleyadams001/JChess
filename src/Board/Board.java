@@ -26,12 +26,17 @@ public final class Board {
     /**
      *
      */
-    public Pair currentSelection;
+    private Player currentPlayer;
 
     /**
      *
      */
-    public int currentPlayer;
+    private Player playerOne;
+
+    /**
+     *
+     */
+    private Player playerTwo;
 
     /**
      * The number of rows for this Board.
@@ -51,6 +56,10 @@ public final class Board {
      * @param two
      */
     public Board(Player one, Player two) {
+        this.currentPlayer = one;
+        this.playerOne = one;
+        this.playerTwo = two;
+
         matrix = new Tile[rowCount][columnCount];
 
         // Populate matrix with empty Tiles.
@@ -113,6 +122,34 @@ public final class Board {
      */
     public void serialize(String fileName) {
     }
+    
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public Player getPlayerOne() {
+        return playerOne;
+    }
+
+    public void setPlayerOne(Player playerOne) {
+        this.playerOne = playerOne;
+    }
+
+    public Player getPlayerTwo() {
+        return playerTwo;
+    }
+
+    public void setPlayerTwo(Player playerTwo) {
+        this.playerTwo = playerTwo;
+    }
+
+    public void toggleCurrentPlayer() {
+        setCurrentPlayer(getCurrentPlayer() == getPlayerOne() ? getPlayerTwo() : getPlayerOne());
+    }
 
     public boolean isValidPair(Pair pair) {
         int rowIndex = pair.getRow();
@@ -146,7 +183,7 @@ public final class Board {
      * Get the Player's selected Piece.
      * @return The first Piece found with isSelected() being true, null otherwise.
      */
-    public Tile getDepartingTile() {
+    public Tile getCurrentSelection() {
         for (Tile[] row : matrix) {
             for (Tile tile : row) {
                 if (tile.isOccupied() && tile.getPiece().isSelected()) {

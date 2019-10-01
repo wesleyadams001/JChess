@@ -32,8 +32,8 @@ public class Controller extends Application {
     private Player player2;
     
     Controller() {
-        this.player1 = new Player("", ThemeColor.LightPiece);
-        this.player2 = new Player("", ThemeColor.DarkPiece);
+        this.player1 = new Player("One", ThemeColor.LightPiece);
+        this.player2 = new Player("Two", ThemeColor.DarkPiece);
         gameBoard = new Board(this.player1, this.player2);
         
     }

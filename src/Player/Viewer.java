@@ -165,26 +165,44 @@ public class Viewer extends JPanel{
     }
 
     private void updateButtons() {
-        for (int i = 0; i < buttonMatrix.length; i++) {
-            for (int j = 0; j < buttonMatrix[i].length; j++) {
-                Tile tile = board.getTile(new Pair(i, j));
-
-                JButton tileButton = buttonMatrix[i][j];
-                tileButton.setBackground(tile.getColor());
-                tileButton.setIcon(tile.isOccupied() ? tile.getPiece().getImage() : null);
-
-                if (tile.isOccupied() && tile.getPiece().isSelected()) {
-                    // Highlight currently selected Tile.
-                    tileButton.setBorderPainted(true);
-                    tileButton.setBorder(new LineBorder(tile.getColor(), 5));
-                    tileButton.setBackground(ThemeColor.Friendly.getColor());
-                } else if (tile.isHighlighted()) {
-                    // Highlight possible moves.
-                    tileButton.setBorderPainted(true);
-                    tileButton.setBorder(new LineBorder(tile.getColor(), 5));
-                    tileButton.setBackground(tile.isOccupied() ? ThemeColor.Enemy.getColor() : ThemeColor.Friendly.getColor());
-                }
+        for (Tile[] row : board.getMatrix()) {
+            for (Tile tile : row) {
+                Pair tilePosition = tile.getPosition();
+                JButton tileButton = buttonMatrix[tilePosition.getRow()][tilePosition.getColumn()];
+                paintTileButton(tile, tileButton);
+                updateTileButtonEnabled(tile, tileButton);
             }
+        }
+    }
+
+    private void paintTileButton(Tile tile, JButton tileButton) {
+        tileButton.setBackground(tile.getColor());
+        tileButton.setIcon(tile.isOccupied() ? tile.getPiece().getImage() : null);
+        tileButton.setDisabledIcon(tile.isOccupied() ? tile.getPiece().getImage() : null);
+
+        if (tile.isOccupied() && tile.getPiece().isSelected()) {
+            // Highlight currently selected Tile.
+            tileButton.setBorderPainted(true);
+            tileButton.setBorder(new LineBorder(tile.getColor(), 5));
+            tileButton.setBackground(ThemeColor.Friendly.getColor());
+        } else if (tile.isHighlighted()) {
+            // Highlight possible moves.
+            tileButton.setBorderPainted(true);
+            tileButton.setBorder(new LineBorder(tile.getColor(), 5));
+            tileButton.setBackground(tile.isOccupied() ? ThemeColor.Enemy.getColor() : ThemeColor.Friendly.getColor());
+        }
+    }
+
+    private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
+        if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
+            // This Tile is in the current player's possession. 
+            tileButton.setEnabled(true);
+        } else if (tile.isHighlighted()) {
+            // This Tile is a possible move.
+            tileButton.setEnabled(true);
+        } else {
+            // This could is (1) empty or (2) holds the other player's Piece.
+            tileButton.setEnabled(false);
         }
     }
 
@@ -214,11 +232,11 @@ public class Viewer extends JPanel{
         Tile targetTile = board.getTile(new Pair(x, y));
 
         if (targetTile.isHighlighted()) {
-            Tile departingTile = board.getDepartingTile();
+            Tile currentSelection = board.getCurrentSelection();
 
-            if (departingTile != null) {
-                if (departingTile.isOccupied()) {
-                    departingTile.getPiece().setHasTakenFirstMove(true);
+            if (currentSelection != null) {
+                if (currentSelection.isOccupied()) {
+                    currentSelection.getPiece().setHasTakenFirstMove(true);
                 }
 
                 if (targetTile.isOccupied()) {
@@ -226,10 +244,12 @@ public class Viewer extends JPanel{
                 }
 
                 try {
-                    board.movePiece(departingTile.getPosition(), targetTile.getPosition());
+                    board.movePiece(currentSelection.getPosition(), targetTile.getPosition());
                 } catch (Exception ex) {
                     Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                board.toggleCurrentPlayer();
             }
 
             resetForRender();

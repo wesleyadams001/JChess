@@ -6,7 +6,7 @@
 package Controller;
 
 import Board.Board;
-import Enums.Color;
+import Enums.ThemeColor;
 import Images.Images;
 import Player.Player;
 import Player.Viewer;
@@ -32,8 +32,8 @@ public class Controller extends Application {
     private Player player2;
     
     Controller() {
-        this.player1 = new Player("", Color.white);
-        this.player2 = new Player("", Color.black);
+        this.player1 = new Player("", ThemeColor.LightPiece);
+        this.player2 = new Player("", ThemeColor.DarkPiece);
         gameBoard = new Board(this.player1, this.player2);
         
     }

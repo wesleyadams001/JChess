@@ -8,13 +8,9 @@ package Pieces;
 import Board.Board;
 import Board.Tile;
 import Board.Pair;
-import Enums.Color;
 import Enums.MoveType;
-import Images.Images;
 import Player.Player;
 import static Images.Images.kingIcons;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -22,22 +18,7 @@ import java.util.Vector;
  * @author Wesley
  */
 public class King extends Piece{
-     
-    //Enumerated type to store all possible moves for King piece
-    private enum Move {
-        UpLeftDiagonal,
-        Up,
-        UpRightDiagonal,
-        Right,
-        RightDownDiagonal,
-        down,
-        LeftDownDiagonal,
-        Left,
-        TwoRight,
-        ThreeLeft
-        
-    };
-    
+
     public King(Player owner) {
         //Call function to initialize player object
         super(owner);
@@ -76,7 +57,7 @@ public class King extends Piece{
         }
 
         //Tests if LongSide castle is still in castling position, and hasn't taken first move
-        if(castlePos1.getPiece() != null){
+        if(castlePos1.isOccupied()){
             if(castlePos1.getPiece().getClass() == Rook.class){
                 if(castlePos1.getPiece().hasTakenFirstMove() == false){
                     pos1 = true;
@@ -85,7 +66,7 @@ public class King extends Piece{
         }
 
         //Tests if shortside castle is still in castling position, and hasn't taken first move
-        if(castlePos2.getPiece() != null){
+        if(castlePos2.isOccupied()){
             if(castlePos2.getPiece().getClass() == Rook.class){
                 if(castlePos2.getPiece().hasTakenFirstMove() == false){
                     pos2 = true;

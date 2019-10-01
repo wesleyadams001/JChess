@@ -8,6 +8,7 @@ package Player;
 import Board.Board;
 import Board.Pair;
 import Board.Tile;
+import Enums.ThemeColor;
 import Images.Images;
 import java.awt.*;
 import java.awt.event.*;
@@ -37,6 +38,7 @@ public class Viewer extends JPanel{
     private int p1Score;
     private int p2Score;
     private Vector<Pair>moves;
+    private JFrame boardFrame;
     private final JButton[][] buttonMatrix;
     private final Board board;
     
@@ -126,7 +128,7 @@ public class Viewer extends JPanel{
         int tileWidth = 90;
         int tileHeight = 90;
 
-        JFrame boardFrame = new JFrame("Dokie, Dokie, Chess Club");
+        boardFrame = new JFrame("Dokie, Dokie, Chess Club");
         boardFrame.setLocationRelativeTo(this.info);
 
         JPanel boardPanel = new JPanel();
@@ -166,26 +168,21 @@ public class Viewer extends JPanel{
         for (int i = 0; i < buttonMatrix.length; i++) {
             for (int j = 0; j < buttonMatrix[i].length; j++) {
                 Tile tile = board.getTile(new Pair(i, j));
+
                 JButton tileButton = buttonMatrix[i][j];
+                tileButton.setBackground(tile.getColor());
+                tileButton.setIcon(tile.isOccupied() ? tile.getPiece().getImage() : null);
 
-                if ((i + j) % 2 == 0) {
-                    tileButton.setBackground(new Color(222, 184, 135));
-                } else {
-                    tileButton.setBackground(new Color(139, 69, 19));
-                }
-
-                if (tile.isOccupied()) {
-                    tileButton.setIcon(tile.getPiece().getImage());
-
-                    if (tile.getPiece().isSelected()) {
-                        tileButton.setBackground(Color.blue);
-                    }
-                } else {
-                    tileButton.setIcon(null);
-                }
-
-                if (tile.isHighlighted()) {
-                    tileButton.setBackground(Color.red);
+                if (tile.isOccupied() && tile.getPiece().isSelected()) {
+                    // Highlight currently selected Tile.
+                    tileButton.setBorderPainted(true);
+                    tileButton.setBorder(new LineBorder(tile.getColor(), 5));
+                    tileButton.setBackground(ThemeColor.Friendly.getColor());
+                } else if (tile.isHighlighted()) {
+                    // Highlight possible moves.
+                    tileButton.setBorderPainted(true);
+                    tileButton.setBorder(new LineBorder(tile.getColor(), 5));
+                    tileButton.setBackground(tile.isOccupied() ? ThemeColor.Enemy.getColor() : ThemeColor.Friendly.getColor());
                 }
             }
         }
@@ -194,8 +191,13 @@ public class Viewer extends JPanel{
     private void resetForRender() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
-                tile.setHighlighted(false);
+                // Reset Tile presentation.
+                JButton tileButton = buttonMatrix[tile.getPosition().getRow()][tile.getPosition().getColumn()];
+                tileButton.setBorderPainted(false);
+                tileButton.setBackground(tile.getColor());
 
+                // Reset Tile state.
+                tile.setHighlighted(false);
                 if (tile.isOccupied()) {
                     tile.getPiece().setSelected(false);
                 }
@@ -245,5 +247,7 @@ public class Viewer extends JPanel{
         }
 
         updateButtons();
+        boardFrame.repaint();
+        boardFrame.revalidate();
     }
 }

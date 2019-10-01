@@ -5,7 +5,9 @@
  */
 package Board;
 
+import Enums.ThemeColor;
 import Pieces.Piece;
+import java.awt.Color;
 
 /**
  *
@@ -15,7 +17,7 @@ public class Tile {
 
     private Piece piece;
     private boolean highlighted;
-    private int color;
+    private Color color;
     private final Pair position;
     
     /**
@@ -24,6 +26,7 @@ public class Tile {
      */
     public Tile(Pair position) {
         this.position = position;
+        this.color = ((position.getRow() + position.getColumn()) % 2 == 0) ? ThemeColor.LightTile.getColor() : ThemeColor.DarkTile.getColor();
     }
 
     /**
@@ -82,7 +85,7 @@ public class Tile {
      *
      * @return
      */
-    public int getColor() {
+    public Color getColor() {
         return color;
     }
 
@@ -90,8 +93,8 @@ public class Tile {
      *
      * @param color
      */
-    public void setColor(int color) {
-        this.color = color;
+    public void setColor(ThemeColor themeColor) {
+        this.color = themeColor.getColor();
     }
 
     /**

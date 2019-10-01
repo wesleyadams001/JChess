@@ -8,7 +8,7 @@ package Pieces;
 import Board.Board;
 import Board.Tile;
 import Board.Pair;
-import Enums.Color;
+import Enums.ThemeColor;
 import Enums.MoveType;
 import Player.Player;
 import static Images.Images.pawnIcons;
@@ -38,7 +38,7 @@ public class Pawn extends Piece {
         // All moves are negated if the Piece's owner is player 2.
         // This is done to handle player 2's moves,
         // which go towards the bottom of the board.
-        int x = (owner.getColor() == Color.white) ? 1 : -1;
+        int x = (owner.getColor() == ThemeColor.LightPiece) ? 1 : -1;
 
         // One ahead of this Piece.
         rowOffset.put(Move.Up, x * -1);

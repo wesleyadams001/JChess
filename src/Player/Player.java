@@ -6,7 +6,7 @@
 package Player;
 
 
-import Enums.Color;
+import Enums.ThemeColor;
 
 /**
  *
@@ -15,26 +15,26 @@ import Enums.Color;
 public class Player {
     private String name;
     private boolean isChecked;
-    private Color color;
+    private ThemeColor color;
     
-    public Player(String name, Color color){
+    public Player(String name, ThemeColor color) {
         this.name = name;
         this.color = color;
     }
     
-    public boolean isChecked(){
+    public boolean isChecked() {
         return this.isChecked;
     }
     
-    public String getName(){
+    public String getName() {
         return this.name;
     }
     
-    public void setName(String n){
+    public void setName(String n) {
         this.name = n;
     }
     
-    public Color getColor(){
+    public ThemeColor getColor() {
         return this.color;
     }
 }

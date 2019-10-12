@@ -21,11 +21,17 @@ public class Player {
         this.name = name;
         this.color = color;
     }
-    
+    public void setIsChecked(boolean check){
+        this.isChecked = check;
+    }
     public boolean isChecked() {
         return this.isChecked;
     }
-    
+    public boolean checkVerify() {
+        
+        //has to have a return value
+        return false;
+    }
     public String getName() {
         return this.name;
     }

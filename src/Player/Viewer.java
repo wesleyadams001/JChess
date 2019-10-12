@@ -6,6 +6,7 @@
 package Player;
 
 import Board.Board;
+import Board.Check;
 import Board.Pair;
 import Board.Tile;
 import Enums.ThemeColor;
@@ -263,6 +264,19 @@ public class Viewer extends JPanel{
                 possibleMoves.forEach((pair) -> {
                     board.getTile(pair).setHighlighted(true);
                 });
+                
+                Player enemyPlayer;
+                
+                if (board.getCurrentPlayer() == board.getPlayerOne()) {
+                    enemyPlayer = board.getPlayerTwo();
+                } else {
+                    enemyPlayer = board.getPlayerOne();
+                }
+                
+                Check check = new Check();
+                if(check.pairUnderAttack(new Pair(x,y), board, enemyPlayer)){
+                    System.out.print("The pair ("+x+" , "+y+") is under attack!!\n");
+                }
             }
         }
 

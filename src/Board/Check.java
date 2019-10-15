@@ -10,6 +10,9 @@ import java.util.*;
 import Player.Player;
 import Pieces.Piece;
 import Pieces.King;
+import Player.Viewer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -76,7 +79,6 @@ public class Check {
     }
     
     public boolean kingCanBeSaved(Pair locKing, Board board, Player enemy){
-        Board temp = board;
         Tile[][] matrix = board.getMatrix();
         for ( int i = 0; i < 8 ; i ++ ){
             for ( int j = 0; j < 8 ; j ++ ){
@@ -88,22 +90,21 @@ public class Check {
                         pass king location to pairUnderAttack(), see if it returns false
                         if false, king can be saved, else if true, keep going until false
                         */
+                        Board temp = new Board(board);
                         try {
-                            temp.movePiece(matrix[i][j].getPosition(), allyMoves.get(k));
-                        } catch (Exception e){
-                        
+                            temp.movePiece(matrix[i][j].getPosition(),allyMoves.get(k));
+                        } catch (Exception ex) {
+                            Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
                         }
+                        //check to see after piece has been moved if king is still under attack
                         if(!pairUnderAttack(locKing, temp, enemy)){
                             return true;
                         }
-                        temp = board;
-                        
-                        
+                        //if we get here that means king is not saved for that possible move and we need to reset the temp board back             
                     }    
                 }
             }
         }
         return false;
     }
-    
 }

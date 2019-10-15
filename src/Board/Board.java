@@ -102,10 +102,21 @@ public final class Board {
         matrix[0][3].setPiece(new Queen(two));
         matrix[rowCount - 1][3].setPiece(new Queen(one));
     }
-
+    /**
+     * constructor that duplicates the board passed to the constructor
+     * @param orig the board that will be copied
+     */
+    public Board(Board orig){
+        this.currentPlayer = orig.currentPlayer;
+        this.playerOne = orig.playerOne;
+        this.playerTwo = orig.playerTwo;
+        this.matrix = orig.matrix;
+    }
+    
     /**
      * Destroy the current Board and create a new, ready-to-play Board.
      */
+    
     public void reset() {
     }
 

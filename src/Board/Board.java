@@ -110,7 +110,23 @@ public final class Board {
         this.currentPlayer = orig.currentPlayer;
         this.playerOne = orig.playerOne;
         this.playerTwo = orig.playerTwo;
-        this.matrix = orig.matrix;
+        //duplicating the matrix
+        this.matrix = new Tile[orig.rowCount][orig.columnCount];
+        // Populate matrix with empty Tiles.
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                Tile tile = new Tile(new Pair(rowIndex, columnIndex));
+                matrix[rowIndex][columnIndex] = tile;
+            }
+        }
+        //copy the state of the board over
+        for(int i=0;i<rowCount;i++){
+            for(int j=0;j<columnCount;j++){
+                if(orig.matrix[i][j].isOccupied()){
+                    this.matrix[i][j].setPiece(orig.matrix[i][j].getPiece());
+                }
+            }
+        }
     }
     
     /**

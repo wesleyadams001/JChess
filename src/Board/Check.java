@@ -49,7 +49,7 @@ public class Check {
                 }
             }
         }
-        //fix this later
+        //else, pair not in possible moves, not under attack
         return false;
     }
     

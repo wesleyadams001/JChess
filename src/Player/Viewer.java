@@ -7,6 +7,7 @@ package Player;
 
 import Board.Board;
 import Board.Check;
+import Pieces.King;
 import Board.Pair;
 import Board.Tile;
 import Enums.ThemeColor;
@@ -26,6 +27,8 @@ import javax.swing.border.LineBorder;
  * @author Wesley
  */
 public class Viewer extends JPanel{
+    
+    private static Check check;
     
     public int mouseX, mouseY;//Mouse position
     public boolean pause;//if game is paused
@@ -53,7 +56,7 @@ public class Viewer extends JPanel{
 
         // Display the board to the screen.
         setupFrame();
-
+        
         //get Names from players
         // setupNames();
     }
@@ -195,11 +198,30 @@ public class Viewer extends JPanel{
     }
 
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
+        /**
+         * at this point in the code, the buttons are updated and reset and only the current player can select his or her buttons
+         * here is where the start of turn game state checking will occur, running functions from check.java to make sure current player
+         * is or is not in check 
+         */
+        
+        Pair kingPair = board.getCurrentPlayer().getLocationOfKing();
+        
+        if(check.pairUnderAttack(kingPair, board, board.getEnemyPlayer())){
+            if(!check.kingCanMove(kingPair, board, board.getCurrentPlayer())){
+                if(!check.kingCanBeSaved(kingPair, board, board.getEnemyPlayer())){
+                    // if we get here then its check mate
+                    System.out.print("\n\nCHECK MATE!!!!!");
+                }
+            }
+        }
+        
         if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
             // This Tile is in the current player's possession. 
             tileButton.setEnabled(true);
         } else if (tile.isHighlighted()) {
             // This Tile is a possible move.
+            tileButton.setEnabled(true);
+        } else if (!tile.isOccupied()){
             tileButton.setEnabled(true);
         } else {
             // This could is (1) empty or (2) holds the other player's Piece.
@@ -232,7 +254,8 @@ public class Viewer extends JPanel{
         int y = Character.getNumericValue(tileName.charAt(2));
         Tile targetTile = board.getTile(new Pair(x, y));
 
-        if (targetTile.isHighlighted()) {
+        if (targetTile.isHighlighted()) {  
+            // if the tile is highligheted, ie, if the player has selected a piece to move
             Tile currentSelection = board.getCurrentSelection();
 
             if (currentSelection != null) {
@@ -246,6 +269,9 @@ public class Viewer extends JPanel{
 
                 try {
                     board.movePiece(currentSelection.getPosition(), targetTile.getPosition());
+                    if(currentSelection.getPiece().equals(King.class)){
+                        board.getCurrentPlayer().setLocationOfKing(targetTile.getPosition());
+                    }
                 } catch (Exception ex) {
                     Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -255,6 +281,7 @@ public class Viewer extends JPanel{
 
             resetForRender();
         } else {
+            // else ally piece has been selected 
             resetForRender();
 
             if (targetTile.isOccupied()) {
@@ -264,22 +291,16 @@ public class Viewer extends JPanel{
                 possibleMoves.forEach((pair) -> {
                     board.getTile(pair).setHighlighted(true);
                 });
+                /**
+                 * Bellow code is testing the pairUnderAttack()
+                 */
                 
-                Player enemyPlayer;
-                
-                if (board.getCurrentPlayer() == board.getPlayerOne()) {
-                    enemyPlayer = board.getPlayerTwo();
-                } else {
-                    enemyPlayer = board.getPlayerOne();
-                }
-                
-                Check check = new Check();
-                if(check.pairUnderAttack(new Pair(x,y), board, enemyPlayer)){
+                if(check.pairUnderAttack(new Pair(x,y), board, board.getEnemyPlayer())){
                     System.out.print("The pair ("+x+" , "+y+") is under attack!!\n");
                 }
             }
         }
-
+        
         updateButtons();
         boardFrame.repaint();
         boardFrame.revalidate();

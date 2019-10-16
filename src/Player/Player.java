@@ -7,6 +7,7 @@ package Player;
 
 
 import Enums.ThemeColor;
+import Board.Pair;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Player {
     private String name;
     private boolean isChecked;
     private ThemeColor color;
+    private Pair kingPair;
     
     public Player(String name, ThemeColor color) {
         this.name = name;
@@ -27,11 +29,6 @@ public class Player {
     public boolean isChecked() {
         return this.isChecked;
     }
-    public boolean checkVerify() {
-        
-        //has to have a return value
-        return false;
-    }
     public String getName() {
         return this.name;
     }
@@ -42,5 +39,12 @@ public class Player {
     
     public ThemeColor getColor() {
         return this.color;
+    }
+    
+    public Pair getLocationOfKing(){
+        return this.kingPair;
+    }
+    public void setLocationOfKing(Pair king){
+        this.kingPair = king;
     }
 }

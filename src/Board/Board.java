@@ -27,6 +27,8 @@ public final class Board {
      *
      */
     private Player currentPlayer;
+    
+    private Player enemyPlayer;
 
     /**
      *
@@ -76,10 +78,12 @@ public final class Board {
             matrix[rowCount - 2][columnIndex].setPiece(new Pawn(one));
         }
 
-        // Add Kings.
+        // Add Kings. and set location of pair for each player
         matrix[0][4].setPiece(new King(two));
         matrix[rowCount - 1][4].setPiece(new King(one));
-
+        two.setLocationOfKing(matrix[0][4].getPosition());
+        one.setLocationOfKing(matrix[rowCount - 1][4].getPosition());
+        
         // Add Rooks.
         matrix[0][0].setPiece(new Rook(two));
         matrix[0][7].setPiece(new Rook(two));
@@ -153,9 +157,16 @@ public final class Board {
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
+    
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+    public Player getEnemyPlayer() {
+        return this.enemyPlayer;
+    }
+    
+    public void setEnemyPlayer(Player enemy) {
+        this.enemyPlayer = enemy;
     }
 
     public Player getPlayerOne() {
@@ -176,6 +187,7 @@ public final class Board {
 
     public void toggleCurrentPlayer() {
         setCurrentPlayer(getCurrentPlayer() == getPlayerOne() ? getPlayerTwo() : getPlayerOne());
+        setEnemyPlayer(getEnemyPlayer() == getPlayerOne() ? getPlayerTwo() : getPlayerOne());
     }
 
     public boolean isValidPair(Pair pair) {

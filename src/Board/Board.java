@@ -59,6 +59,7 @@ public final class Board {
      */
     public Board(Player one, Player two) {
         this.currentPlayer = one;
+        this.enemyPlayer = two;
         this.playerOne = one;
         this.playerTwo = two;
 

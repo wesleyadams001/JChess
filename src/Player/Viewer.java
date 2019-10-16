@@ -28,7 +28,7 @@ import javax.swing.border.LineBorder;
  */
 public class Viewer extends JPanel{
     
-    private static Check check;
+    private final Check check;
     
     public int mouseX, mouseY;//Mouse position
     public boolean pause;//if game is paused
@@ -50,6 +50,7 @@ public class Viewer extends JPanel{
     {
         //initializeBoard();
         controller = c;
+        check = new Check();
 
         board = this.controller.gameBoard;
         buttonMatrix = new JButton[board.rowCount][board.columnCount];

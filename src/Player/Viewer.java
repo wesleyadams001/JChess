@@ -199,22 +199,7 @@ public class Viewer extends JPanel{
     }
 
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
-        /**
-         * at this point in the code, the buttons are updated and reset and only the current player can select his or her buttons
-         * here is where the start of turn game state checking will occur, running functions from check.java to make sure current player
-         * is or is not in check 
-         */
         
-        Pair kingPair = board.getCurrentPlayer().getLocationOfKing();
-        
-        if(check.pairUnderAttack(kingPair, board, board.getEnemyPlayer())){
-            if(!check.kingCanMove(kingPair, board, board.getCurrentPlayer())){
-                if(!check.kingCanBeSaved(kingPair, board, board.getEnemyPlayer())){
-                    // if we get here then its check mate
-                    System.out.print("\n\nCHECK MATE!!!!!");
-                }
-            }
-        }
         
         if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
             // This Tile is in the current player's possession. 
@@ -276,8 +261,9 @@ public class Viewer extends JPanel{
                 } catch (Exception ex) {
                     Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
+                System.out.println("Switching player)");
                 board.toggleCurrentPlayer();
+                
             }
 
             resetForRender();
@@ -297,7 +283,7 @@ public class Viewer extends JPanel{
                  */
                 
                 if(check.pairUnderAttack(new Pair(x,y), board, board.getEnemyPlayer())){
-                    System.out.print("The pair ("+x+" , "+y+") is under attack!!\n");
+                    System.out.print("\nThe pair ("+x+" , "+y+") is under attack!!\n");
                 }
             }
         }

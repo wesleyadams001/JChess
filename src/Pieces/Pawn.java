@@ -10,6 +10,7 @@ import Board.Tile;
 import Board.Pair;
 import Enums.ThemeColor;
 import Enums.MoveType;
+import Enums.PieceType;
 import Player.Player;
 import static Images.Images.pawnIcons;
 import java.util.EnumMap;
@@ -31,7 +32,7 @@ public class Pawn extends Piece {
 
     public Pawn(Player owner) {
         super(owner);
-
+        this.shortHand = PieceType.pawn;
         rowOffset = new EnumMap<>(Move.class);
         columnOffset = new EnumMap<>(Move.class);
 

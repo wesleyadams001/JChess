@@ -9,6 +9,7 @@ import Board.Board;
 import Board.Pair;
 import Board.Tile;
 import Enums.MoveType;
+import Enums.PieceType;
 import Player.Player;
 import java.util.Vector;
 import javax.swing.ImageIcon;
@@ -25,6 +26,8 @@ public abstract class Piece {
     private boolean selected;
     private boolean taken;
     private boolean hasTakenFirstMove;
+    protected PieceType shortHand;
+    
 
     public Piece(Player owner) {
         player = owner;

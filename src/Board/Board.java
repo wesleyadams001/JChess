@@ -112,6 +112,7 @@ public final class Board {
      * @param orig the board that will be copied
      */
     public Board(Board orig){
+        this.enemyPlayer = orig.enemyPlayer;
         this.currentPlayer = orig.currentPlayer;
         this.playerOne = orig.playerOne;
         this.playerTwo = orig.playerTwo;

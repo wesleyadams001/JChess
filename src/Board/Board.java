@@ -74,7 +74,7 @@ public final class Board {
             }
         }
         
-        //         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w
+        //         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w default ren
         int i = 0, j = 0, k = 0;
         boolean boardComplete = false;
         for( ; !boardComplete ; k++){

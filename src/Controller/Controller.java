@@ -10,7 +10,7 @@ import Enums.ThemeColor;
 import Images.Images;
 import Player.Player;
 import Player.Viewer;
-
+import Board.FEN;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -34,8 +34,8 @@ public class Controller extends Application {
     Controller() {
         this.player1 = new Player("One", ThemeColor.LightPiece);
         this.player2 = new Player("Two", ThemeColor.DarkPiece);
-        //String fen = loadFromFile("start.fen");
-        gameBoard = new Board(this.player1, this.player2, "4r3/8/8/8/8/8/8/4K3 w");
+        FEN fen = new FEN();
+        gameBoard = new Board(this.player1, this.player2, fen.loadFromFile("null.fen"));
         
     }
     

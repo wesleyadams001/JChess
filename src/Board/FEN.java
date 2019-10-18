@@ -5,10 +5,20 @@
  */
 package Board;
 
+import java.io.File;
 import Enums.ThemeColor;
 import Pieces.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -88,5 +98,16 @@ public class FEN {
     
     private char determineActiveColor(final Board gameBoard) {
         return gameBoard.getCurrentPlayer().getColor().getAbbr().charAt(0);
+    }
+    
+    public String loadFromFile(String fileName) {
+        File input = new File(fileName);//.ren
+        try{
+            BufferedReader br = new BufferedReader(new FileReader(input));
+            return br.readLine();
+        }catch (Exception e) {
+            System.out.print(e.getMessage());
+            return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
+        }
     }
 }

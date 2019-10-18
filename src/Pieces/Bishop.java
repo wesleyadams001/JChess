@@ -9,6 +9,7 @@ import Board.Board;
 import Board.Pair;
 import Board.Tile;
 import Enums.MoveType;
+import Enums.PieceType;
 import java.util.Vector;
 import Player.Player;
 import static Images.Images.bishopIcons;
@@ -21,6 +22,7 @@ public class Bishop extends Piece{
     
     public Bishop(Player owner){
         super(owner);
+        this.shortHand = PieceType.bishop;
         image = bishopIcons.get(owner.getColor());
     }
     

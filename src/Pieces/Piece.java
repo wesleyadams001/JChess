@@ -170,5 +170,12 @@ public abstract class Piece {
 
         return true;
     }
+    /**
+     * gets the piece type of the piece
+     * @return you guessed it 
+     */
+    public PieceType getPieceType(){
+        return this.shortHand;
+    }
 
 }

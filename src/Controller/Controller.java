@@ -34,7 +34,8 @@ public class Controller extends Application {
     Controller() {
         this.player1 = new Player("One", ThemeColor.LightPiece);
         this.player2 = new Player("Two", ThemeColor.DarkPiece);
-        gameBoard = new Board(this.player1, this.player2);
+        //String fen = loadFromFile("start.fen");
+        gameBoard = new Board(this.player1, this.player2, "4r3/8/8/8/8/8/8/4K3 w");
         
     }
     

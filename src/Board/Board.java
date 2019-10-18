@@ -13,6 +13,7 @@ import Pieces.Rook;
 import Pieces.Pawn;
 import Pieces.Queen;
 import Player.Player;
+import java.util.HashSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +58,7 @@ public final class Board {
      * @param one
      * @param two
      */
-    public Board(Player one, Player two) {
+    public Board(Player one, Player two, String fen) {
         this.currentPlayer = one;
         this.enemyPlayer = two;
         this.playerOne = one;
@@ -72,40 +73,79 @@ public final class Board {
                 matrix[rowIndex][columnIndex] = tile;
             }
         }
-
-        // Add Pawns.
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            matrix[1][columnIndex].setPiece(new Pawn(two));
-            matrix[rowCount - 2][columnIndex].setPiece(new Pawn(one));
+        
+        //         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w
+        int i = 0, j = 0, k = 0;
+        boolean boardComplete = false;
+        for( ; !boardComplete ; k++){
+            switch (fen.charAt(k)){
+                case ' ':
+                    boardComplete=true; // a _ means we are done with the board data
+                    break;
+                case '/':
+                    i++; // a / means move to next rank/line
+                    j=0;
+                    break;
+                case 'r': // ROOKS
+                    matrix[i][j].setPiece(new Rook(two));
+                    j++;
+                    break;
+                case 'R':
+                    matrix[i][j].setPiece(new Rook(one));
+                    j++;
+                    break;
+                case 'n': // KNIGHTS
+                    matrix[i][j].setPiece(new Knight(two));
+                    j++;
+                    break;
+                case 'N':
+                    matrix[i][j].setPiece(new Knight(one));
+                    j++;
+                    break;
+                case 'b': // BISHOPS
+                    matrix[i][j].setPiece(new Bishop(two));
+                    j++;
+                    break;
+                case 'B':
+                    matrix[i][j].setPiece(new Bishop(one));
+                    j++;
+                    break;
+                case 'q': // QUEENS
+                    matrix[i][j].setPiece(new Queen(two));
+                    j++;
+                    break;
+                case 'Q': 
+                    matrix[i][j].setPiece(new Queen(one));
+                    j++;
+                    break;
+                case 'k': // KINGS
+                    matrix[i][j].setPiece(new King(two));
+                    j++;
+                    break;
+                case 'K':
+                    matrix[i][j].setPiece(new King(one));
+                    j++;
+                    break;
+                case 'p': // PAWNS
+                    matrix[i][j].setPiece(new Pawn(two));
+                    j++;
+                    break;
+                case 'P':
+                    matrix[i][j].setPiece(new Pawn(one));
+                    j++;
+                    break;
+                default:
+                    j+=Character.getNumericValue(fen.charAt(k));
+                
+            }
         }
-
-        // Add Kings. and set location of pair for each player
-        matrix[0][4].setPiece(new King(two));
-        matrix[rowCount - 1][4].setPiece(new King(one));
-        two.setLocationOfKing(matrix[0][4].getPosition());
-        one.setLocationOfKing(matrix[rowCount - 1][4].getPosition());
         
-        // Add Rooks.
-        matrix[0][0].setPiece(new Rook(two));
-        matrix[0][7].setPiece(new Rook(two));
-        matrix[rowCount - 1][0].setPiece(new Rook(one));
-        matrix[rowCount - 1][7].setPiece(new Rook(one));
+        this.setCurrentPlayer(fen.charAt(k) == 'w' ? this.getPlayerOne() : this.getPlayerTwo());
         
-        //Add Knights 
-        matrix[0][1].setPiece(new Knight(two));
-        matrix[0][6].setPiece(new Knight(two));
-        matrix[rowCount - 1][1].setPiece(new Knight(one));
-        matrix[rowCount - 1][6].setPiece(new Knight(one));
         
-        //Add Bishops
-        matrix[0][2].setPiece(new Bishop(two));
-        matrix[0][5].setPiece(new Bishop(two));
-        matrix[rowCount - 1][2].setPiece(new Bishop(one));
-        matrix[rowCount - 1][5].setPiece(new Bishop(one));
+        FEN ree = new FEN();
+        System.out.print("\n\n\n\n"+ree.serialize(this)+"\n\n\n\n");
         
-        //Add Queens
-        matrix[0][3].setPiece(new Queen(two));
-        matrix[rowCount - 1][3].setPiece(new Queen(one));
     }
     /**
      * constructor that duplicates the board passed to the constructor
@@ -139,22 +179,54 @@ public final class Board {
      * Destroy the current Board and create a new, ready-to-play Board.
      */
     
-    public void reset() {
+    public void reset(Tile[][] matrix, Player one, Player two) {
+        // Populate matrix with empty Tiles.
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                Tile tile = new Tile(new Pair(rowIndex, columnIndex));
+                matrix[rowIndex][columnIndex] = tile;
+            }
+        }
+        // Add Pawns.
+        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+            matrix[1][columnIndex].setPiece(new Pawn(two));
+            matrix[rowCount - 2][columnIndex].setPiece(new Pawn(one));
+        }
+
+        // Add Kings. and set location of pair for each player
+        matrix[0][4].setPiece(new King(two));
+        matrix[rowCount - 1][4].setPiece(new King(one));
+        two.setLocationOfKing(matrix[0][4].getPosition());
+        one.setLocationOfKing(matrix[rowCount - 1][4].getPosition());
+        
+        // Add Rooks.
+        matrix[0][0].setPiece(new Rook(two));
+        matrix[0][7].setPiece(new Rook(two));
+        matrix[rowCount - 1][0].setPiece(new Rook(one));
+        matrix[rowCount - 1][7].setPiece(new Rook(one));
+        
+        //Add Knights 
+        matrix[0][1].setPiece(new Knight(two));
+        matrix[0][6].setPiece(new Knight(two));
+        matrix[rowCount - 1][1].setPiece(new Knight(one));
+        matrix[rowCount - 1][6].setPiece(new Knight(one));
+        
+        //Add Bishops
+        matrix[0][2].setPiece(new Bishop(two));
+        matrix[0][5].setPiece(new Bishop(two));
+        matrix[rowCount - 1][2].setPiece(new Bishop(one));
+        matrix[rowCount - 1][5].setPiece(new Bishop(one));
+        
+        //Add Queens
+        matrix[0][3].setPiece(new Queen(two));
+        matrix[rowCount - 1][3].setPiece(new Queen(one));
+        
     }
 
     /**
      * Load an previously saved session of the game.
      * @param fileName
      */
-    public void load(String fileName) {
-    }
-
-    /**
-     * Save this session of the game.
-     * @param fileName
-     */
-    public void serialize(String fileName) {
-    }
     
     public Player getCurrentPlayer() {
         return currentPlayer;

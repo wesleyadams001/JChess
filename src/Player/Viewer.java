@@ -11,6 +11,7 @@ import Pieces.King;
 import Board.Pair;
 import Board.Tile;
 import Enums.ThemeColor;
+import Enums.PieceType;
 import Images.Images;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,6 +22,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.border.LineBorder;
+import Board.FEN;
 
 /**
  * Provides the viewing capabilities for the application
@@ -29,6 +31,7 @@ import javax.swing.border.LineBorder;
 public class Viewer extends JPanel{
     
     private final Check check;
+    private final FEN fen;
     
     public int mouseX, mouseY;//Mouse position
     public boolean pause;//if game is paused
@@ -51,6 +54,7 @@ public class Viewer extends JPanel{
         //initializeBoard();
         controller = c;
         check = new Check();
+        fen = new FEN();
 
         board = this.controller.gameBoard;
         buttonMatrix = new JButton[board.rowCount][board.columnCount];
@@ -133,8 +137,8 @@ public class Viewer extends JPanel{
         int tileWidth = 90;
         int tileHeight = 90;
 
-        boardFrame = new JFrame("Dokie, Dokie, Chess Club");
-        boardFrame.setLocationRelativeTo(this.info);
+        boardFrame = new JFrame("Doki Doki Chess Club");
+        boardFrame.setLocation(0,0);
 
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(null);
@@ -201,6 +205,7 @@ public class Viewer extends JPanel{
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
         
         
+        
         if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
             // This Tile is in the current player's possession. 
             tileButton.setEnabled(true);
@@ -255,15 +260,22 @@ public class Viewer extends JPanel{
 
                 try {
                     board.movePiece(currentSelection.getPosition(), targetTile.getPosition());
-                    if(currentSelection.getPiece().equals(King.class)){
+                    if(currentSelection.getPiece().getPieceType()==PieceType.king){
                         board.getCurrentPlayer().setLocationOfKing(targetTile.getPosition());
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("Switching player)");
-                board.toggleCurrentPlayer();
                 
+                System.out.println("Switching players \n\n new fen: "+fen.serialize(board));
+               
+                board.toggleCurrentPlayer();
+                /**
+                 * at this point in the code, the buttons are updated and reset and only the current player can select his or her buttons
+                 * here is where the start of turn game state checking will occur, running functions from check.java to make sure current player
+                 * is or is not in check 
+                 */
+
             }
 
             resetForRender();

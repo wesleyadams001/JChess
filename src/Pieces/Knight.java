@@ -9,6 +9,7 @@ import Board.Board;
 import Board.Pair;
 import Board.Tile;
 import Enums.MoveType;
+import Enums.PieceType;
 import java.util.Vector;
 import Player.Player;
 import static Images.Images.horseIcons;
@@ -21,6 +22,7 @@ public class Knight extends Piece{
     
     public Knight(Player owner){
         super(owner);
+        this.shortHand = PieceType.knight;
         image = horseIcons.get(owner.getColor());
     }
     

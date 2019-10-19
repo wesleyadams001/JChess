@@ -6,10 +6,7 @@
 package Board;
 
 import java.util.Vector;
-import java.util.*;
 import Player.Player;
-import Pieces.Piece;
-import Pieces.King;
 import Player.Viewer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +19,10 @@ public class Check {
     
     /**
      *
+     * @param test
      * @param board the game board itself we are testing
      * @param enemy is the player we want to see if able to move to pair
-     * @return boolean true if the pair is a possible move of another enemy piece
+     * @return Boolean true if the pair is a possible move of another enemy piece
      */
     public boolean pairUnderAttack(Pair test, Board board, Player enemy){
         

@@ -13,24 +13,26 @@ package Enums;
  * 
  */
 public enum PieceType {
-    king('K','k'),
-    queen('Q','q'),
-    bishop('B','b'),
-    knight('N','n'),
-    rook('R','r'),
-    pawn('P','p');
+    King('K','k'),
+    Queen('Q','q'),
+    Bishop('B','b'),
+    Knight('N','n'),
+    Rook('R','r'),
+    Pawn('P','p');
 
-    private final char abr1;
-    private final char abr2;
+    private final char light;
+    private final char dark;
     
-    private PieceType(char abr1, char abr2){
-        this.abr1 = abr1;
-        this.abr2 = abr2;
+    private PieceType(char light, char dark){
+        this.light = light;
+        this.dark = dark;
     }
-    public char getAbr1(){
-        return this.abr1;
+    
+    public char getLightLetter() {
+        return this.light;
     }
-    public char getAbr2(){
-        return this.abr2;
+    
+    public char getDarkLetter() {
+        return this.dark;
     }
 }

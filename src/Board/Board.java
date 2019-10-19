@@ -5,6 +5,7 @@
  */
 package Board;
 
+import Enums.PieceType;
 import Pieces.Bishop;
 import Pieces.Piece;
 import Pieces.King;
@@ -13,10 +14,6 @@ import Pieces.Rook;
 import Pieces.Pawn;
 import Pieces.Queen;
 import Player.Player;
-import java.util.HashSet;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -143,7 +140,7 @@ public final class Board {
         this.setCurrentPlayer(fen.charAt(k) == 'w' ? this.getPlayerOne() : this.getPlayerTwo());
         
         
-        FEN ree = new FEN();
+        Factory ree = new Factory();
         System.out.print("\n\n\n\n"+ree.serialize(this)+"\n\n\n\n");
         
     }
@@ -296,7 +293,7 @@ public final class Board {
      * Get the Player's selected Piece.
      * @return The first Piece found with isSelected() being true, null otherwise.
      */
-    public Tile getCurrentSelection() {
+    public Tile getTransientTile() {
         for (Tile[] row : matrix) {
             for (Tile tile : row) {
                 if (tile.isOccupied() && tile.getPiece().isSelected()) {
@@ -317,93 +314,31 @@ public final class Board {
      * 
      * @param from
      * @param to
-     * @throws Exception
      */
-    public void movePiece(Pair from, Pair to) throws Exception {
+    public void movePiece(Pair from, Pair to) {
         Tile toTile = getTile(to);
         if (toTile.isOccupied()) {
-            throw new Exception("The arrival Tile isn't empty.");
+            // throw new Exception("The arrival Tile isn't empty.");
+            toTile.removePiece();
         }
 
         Tile fromTile = getTile(from);
-        if (!fromTile.isOccupied()) {
-            throw new Exception("The departing Piece doesn't exist.");
+        if (fromTile.isOccupied()) {
+            // Useful for tracking special moves for Pawn, etc.
+            fromTile.getPiece().setHasTakenFirstMove(true);
+        } else {
+            // throw new Exception("The departing Piece doesn't exist.");
         }
 
         Piece fromPiece = fromTile.removePiece();
         toTile.setPiece(fromPiece);
-    }
-
-    public void tempTest() {
-        // TEMPORARY setup. This will show the potential moves of the rightmost
-        // enemy Pawn. A friendly Pawn has been moved to the enemy Pawn's diagonal
-        // for demonstration. Check the console.
-        // (T) = able to be taken
-        // (x) = able to be moved to
-        // ( ) = blank Tile
-        // (P) = any Piece
         
-        int rowIndex = 6; // Row index for Player 1's Pawns.
-        int columnIndex = 5; // Random Pawn in the row.
-        Tile player1PawnTile = getTile(new Pair(rowIndex, columnIndex));
+        // =================
+        // Move is finished.
+        // =================
         
-        // Comment this line out to test.
-        //player1PawnTile.getPiece().setHasTakenFirstMove(true);
-
-        // Empty space diagonal to Player 1's Pawn.
-        Tile emptySpace = getTile(new Pair(rowIndex - 1, columnIndex - 1)); 
-        
-        // Enemy Pawn.
-        Tile player2PawnTile = getTile(new Pair(1, columnIndex - 1));
-        
-        print();
-        System.out.println();
-
-        try {
-            // Move the Enemy Pawn into a kill position for Player 1's Pawn.
-            movePiece(player2PawnTile.getPosition(), emptySpace.getPosition());
-        } catch (Exception ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        // Get possible moves for Player 1's Pawn.
-        Vector<Pair> moves = player1PawnTile.getPiece().getPossibleMoves(this);
-        
-        print();
-        System.out.println();
-        
-        player1PawnTile.getPiece().setSelected(true);
-        
-        // Highlight the moves on the Board.
-        moves.forEach((position) -> {
-            getTile(position).setHighlighted(true);
-        });
-        
-        // Print the Board state to the console.
-        print();
-    }
-    
-    /**
-     * Temporary method to debug and test the Board before the GUI is implemented.
-     */
-    public void print() {
-        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                Tile tile = matrix[rowIndex][columnIndex];
-                if (tile.isHighlighted() && tile.isOccupied()) {
-                    System.out.print("(T) "); // This Tile has a Piece that can be taken by the currently selected Piece.
-                } else if (tile.isHighlighted()) {
-                    System.out.print("(x) "); // This Tile can be moved to by the currently selected Piece.
-                } else if (tile.isOccupied() && tile.getPiece().isSelected()) {
-                    System.out.print("(S) ");
-                } else if (!tile.isOccupied()) {
-                    System.out.print("( ) "); // This Tile is empty.
-                } else {
-                    System.out.print("(" + tile.getPiece().getPlayer().getColor().getAbbr() + ") "); // This Tile has a Piece.
-                }
-            }
-            
-            System.out.println();
+        if (toTile.getPiece().getPieceType() == PieceType.King){
+            getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }
     }
 

@@ -16,19 +16,22 @@ import Board.Pair;
 public class Player {
     private String name;
     private boolean isChecked;
-    private ThemeColor color;
+    private final ThemeColor color;
     private Pair kingPair;
     
     public Player(String name, ThemeColor color) {
         this.name = name;
         this.color = color;
     }
+    
     public void setIsChecked(boolean check){
         this.isChecked = check;
     }
+    
     public boolean isChecked() {
         return this.isChecked;
     }
+    
     public String getName() {
         return this.name;
     }
@@ -44,6 +47,7 @@ public class Player {
     public Pair getLocationOfKing(){
         return this.kingPair;
     }
+    
     public void setLocationOfKing(Pair king){
         this.kingPair = king;
     }

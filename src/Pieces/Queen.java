@@ -10,7 +10,6 @@ import Board.Pair;
 import Board.Tile;
 import Enums.MoveType;
 import Enums.PieceType;
-import static Images.Images.queenIcons;
 import Player.Player;
 import java.util.Vector;
 
@@ -21,10 +20,9 @@ import java.util.Vector;
 public class Queen  extends Piece{
     
     public Queen(Player owner){
-        super(owner);
-        this.shortHand = PieceType.queen;
-        image = queenIcons.get(owner.getColor()); 
+        super(owner, PieceType.Queen);
     }
+
     private Vector<Pair> getLanes(Board board){
         Vector<Pair> moves = new Vector<>();        //Store all possible moves to return
         Vector<Tile> laneUpward = new Vector<>();   //Store all tiles above the castle in the same column

@@ -6,37 +6,18 @@
 package Board;
 
 import java.io.File;
-import Enums.ThemeColor;
-import Pieces.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author nehalpatel
  */
-public class FEN {
-    private final Map<Class, Character> pieceMapping;
+public class Factory {
     
-    public FEN() {
-        pieceMapping = new HashMap<>();
-        pieceMapping.put(Rook.class, 'R');
-        pieceMapping.put(Knight.class, 'N');
-        pieceMapping.put(Bishop.class, 'B');
-        pieceMapping.put(Queen.class, 'Q');
-        pieceMapping.put(King.class, 'K');
-        pieceMapping.put(Pawn.class, 'P');
-    }
-  
+    public Factory() { }
+    
     public String serialize(final Board gameBoard) { 
         return generatePiecePlacement(gameBoard.getMatrix()) + determineActiveColor(gameBoard);
     }
@@ -59,7 +40,7 @@ public class FEN {
                     }
                     
                     // Append the current Piece.
-                    piecePlacement += determinePieceLetter(tile.getPiece());
+                    piecePlacement += tile.getPiece().getLetter();
                 } else {
                     // Track another empty square.
                     emptySquares += 1;
@@ -80,32 +61,16 @@ public class FEN {
         return piecePlacement+" ";
     }
     
-    private Character determinePieceLetter(final Piece piece) {
-        if (pieceMapping.containsKey(piece.getClass())) {
-            // Get the single character representation for the Piece. 
-            Character letter = pieceMapping.get(piece.getClass());
-            
-            // Convert to lowercase if it's a black piece.
-            if (piece.getPlayer().getColor() == ThemeColor.DarkPiece) {
-                letter = Character.toLowerCase(letter);
-            }
-            
-            return letter;
-        }
-        
-        return null;
-    }
-    
     private char determineActiveColor(final Board gameBoard) {
         return gameBoard.getCurrentPlayer().getColor().getAbbr().charAt(0);
     }
     
     public String loadFromFile(String fileName) {
         File input = new File(fileName);//.ren
-        try{
-            BufferedReader br = new BufferedReader(new FileReader(input));
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(input))) {
             return br.readLine();
-        }catch (Exception e) {
+        } catch (IOException e) {
             System.out.print(e.getMessage());
             return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
         }

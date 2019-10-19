@@ -12,7 +12,6 @@ import Enums.ThemeColor;
 import Enums.MoveType;
 import Enums.PieceType;
 import Player.Player;
-import static Images.Images.pawnIcons;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Vector;
@@ -31,8 +30,8 @@ public class Pawn extends Piece {
     private final Map<Move, Integer> columnOffset;
 
     public Pawn(Player owner) {
-        super(owner);
-        this.shortHand = PieceType.pawn;
+        super(owner, PieceType.Pawn);
+
         rowOffset = new EnumMap<>(Move.class);
         columnOffset = new EnumMap<>(Move.class);
 
@@ -56,8 +55,6 @@ public class Pawn extends Piece {
         // One ahead and to the right of this Piece.
         rowOffset.put(Move.RightDiagonal, x * -1);
         columnOffset.put(Move.RightDiagonal, x * 1);
-
-        image = pawnIcons.get(owner.getColor());
     }
 
     @Override

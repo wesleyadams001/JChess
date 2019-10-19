@@ -6,12 +6,9 @@
 package Player;
 
 import Board.Board;
-import Board.Check;
-import Pieces.King;
 import Board.Pair;
 import Board.Tile;
 import Enums.ThemeColor;
-import Enums.PieceType;
 import Images.Images;
 import java.awt.*;
 import java.awt.event.*;
@@ -19,19 +16,14 @@ import javax.swing.*;
 import Controller.Controller;
 import java.awt.Container;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.border.LineBorder;
-import Board.FEN;
+import Player.Interface.TileDelegate;
 
 /**
  * Provides the viewing capabilities for the application
  * @author Wesley
  */
 public class Viewer extends JPanel{
-    
-    private final Check check;
-    private final FEN fen;
     
     public int mouseX, mouseY;//Mouse position
     public boolean pause;//if game is paused
@@ -45,16 +37,16 @@ public class Viewer extends JPanel{
     private int p1Score;
     private int p2Score;
     private Vector<Pair>moves;
-    private JFrame boardFrame;
+    public JFrame boardFrame;
     private final JButton[][] buttonMatrix;
     private final Board board;
+    
+    private TileDelegate tileClickHandler = null;
     
     public Viewer(Controller c)
     {
         //initializeBoard();
         controller = c;
-        check = new Check();
-        fen = new FEN();
 
         board = this.controller.gameBoard;
         buttonMatrix = new JButton[board.rowCount][board.columnCount];
@@ -154,6 +146,8 @@ public class Viewer extends JPanel{
                 tileButton.setOpaque(true);
                 tileButton.setBounds(xVal, yVal, tileWidth, tileHeight);
                 tileButton.setName(i + "," + j);
+                tileButton.putClientProperty("rank", i);
+                tileButton.putClientProperty("file", j);
 
                 tileButton.addActionListener((ActionEvent e) -> {
                     handleClick(e);
@@ -173,7 +167,7 @@ public class Viewer extends JPanel{
         boardFrame.setVisible(true);
     }
 
-    private void updateButtons() {
+    public void updateButtons() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 Pair tilePosition = tile.getPosition();
@@ -203,9 +197,6 @@ public class Viewer extends JPanel{
     }
 
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
-        
-        
-        
         if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
             // This Tile is in the current player's possession. 
             tileButton.setEnabled(true);
@@ -220,7 +211,7 @@ public class Viewer extends JPanel{
         }
     }
 
-    private void resetForRender() {
+    public void resetForRender() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 // Reset Tile presentation.
@@ -236,69 +227,21 @@ public class Viewer extends JPanel{
             }
         }
     }
+    
+    public void setTileClickHandler(TileDelegate handler) {
+        this.tileClickHandler = handler;
+        
+    }
 
     private void handleClick(ActionEvent e) {
         JButton target = (JButton) e.getSource();
 
-        String tileName = target.getName();
-        int x = Character.getNumericValue(tileName.charAt(0));
-        int y = Character.getNumericValue(tileName.charAt(2));
-        Tile targetTile = board.getTile(new Pair(x, y));
-
-        if (targetTile.isHighlighted()) {  
-            // if the tile is highligheted, ie, if the player has selected a piece to move
-            Tile currentSelection = board.getCurrentSelection();
-
-            if (currentSelection != null) {
-                if (currentSelection.isOccupied()) {
-                    currentSelection.getPiece().setHasTakenFirstMove(true);
-                }
-
-                if (targetTile.isOccupied()) {
-                    targetTile.removePiece();
-                }
-
-                try {
-                    board.movePiece(currentSelection.getPosition(), targetTile.getPosition());
-                    if(currentSelection.getPiece().getPieceType()==PieceType.king){
-                        board.getCurrentPlayer().setLocationOfKing(targetTile.getPosition());
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                System.out.println("Switching players \n\n new fen: "+fen.serialize(board));
-               
-                board.toggleCurrentPlayer();
-                /**
-                 * at this point in the code, the buttons are updated and reset and only the current player can select his or her buttons
-                 * here is where the start of turn game state checking will occur, running functions from check.java to make sure current player
-                 * is or is not in check 
-                 */
-
-            }
-
-            resetForRender();
-        } else {
-            // else ally piece has been selected 
-            resetForRender();
-
-            if (targetTile.isOccupied()) {
-                targetTile.getPiece().setSelected(true);
-
-                Vector<Pair> possibleMoves = targetTile.getPiece().getPossibleMoves(board);
-                possibleMoves.forEach((pair) -> {
-                    board.getTile(pair).setHighlighted(true);
-                });
-                /**
-                 * Bellow code is testing the pairUnderAttack()
-                 */
-                
-                if(check.pairUnderAttack(new Pair(x,y), board, board.getEnemyPlayer())){
-                    System.out.print("\nThe pair ("+x+" , "+y+") is under attack!!\n");
-                }
-            }
-        }
+        int x = (int) target.getClientProperty("rank");
+        int y = (int) target.getClientProperty("file");
+        
+        Tile clickedTile = board.getTile(new Pair(x, y));
+        
+        this.tileClickHandler.didClick(clickedTile);
         
         updateButtons();
         boardFrame.repaint();

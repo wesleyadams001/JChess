@@ -39,7 +39,7 @@ public class Tile {
 
     /**
      * Place a Piece on this Tile.
-     * @param piece The Piece to place on this Tile.
+     * @param newPiece
      */
     public void setPiece(Piece newPiece) {
         // TODO: handle case where a Piece is already on this Tile.
@@ -74,7 +74,7 @@ public class Tile {
     }
 
     /**
-     * 
+     * Marks the Tile as highlighted.
      * @param highlighted
      */
     public void setHighlighted(boolean highlighted) {
@@ -82,19 +82,11 @@ public class Tile {
     }
 
     /**
-     *
+     * Returns the Tile's color on the Board.
      * @return
      */
     public Color getColor() {
         return color;
-    }
-
-    /**
-     *
-     * @param color
-     */
-    public void setColor(ThemeColor themeColor) {
-        this.color = themeColor.getColor();
     }
 
     /**
@@ -103,12 +95,6 @@ public class Tile {
      */
     public boolean isHomeRow() {        
         return (this.position.getRow() == 0) || (this.position.getRow() == 7);
-    }
-    
-    /**
-     *
-     */
-    public void click() {
     }
     
     /**

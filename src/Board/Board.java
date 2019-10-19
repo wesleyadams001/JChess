@@ -17,22 +17,22 @@ import Player.Player;
 public final class Board {
 
     /**
-     *
+     * Represents the Player currently playing.
      */
     private Player currentPlayer;
 
     /**
-     *
+     * Represents the Player waiting for their turn.
      */
     private Player enemyPlayer;
 
     /**
-     *
+     * Represents the Player in charge of the light Pieces.
      */
     private final Player lightPlayer;
 
     /**
-     *
+     * Represents the Player in charge of the dark Pieces.
      */
     private final Player darkPlayer;
 
@@ -46,8 +46,14 @@ public final class Board {
      */
     public final int columnCount = 8;
 
+    /**
+     * Holds all the Pieces.
+     */
     private final Tile[][] matrix;
 
+    /**
+     * Represents the currently selected Piece.
+     */
     private Piece selectedPiece;
 
     /**
@@ -73,35 +79,67 @@ public final class Board {
         }
     }
 
+    /**
+     * Returns the active Player. 
+     * @return 
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Updates the active Player.
+     * @param currentPlayer 
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Returns the inactive Player.
+     * @return 
+     */
     public Player getEnemyPlayer() {
         return this.enemyPlayer;
     }
     
+    /**
+     * Updates the inactive Player.
+     * @param enemy 
+     */
     public void setEnemyPlayer(Player enemy) {
         this.enemyPlayer = enemy;
     }
 
+    /**
+     * Returns the Player in control of the light Pieces.
+     * @return 
+     */
     public Player getLightPlayer() {
         return lightPlayer;
     }
 
+    /**
+     * Returns the Player in control of the dark Pieces.
+     * @return 
+     */
     public Player getDarkPlayer() {
         return darkPlayer;
     }
 
+    /**
+     * Switches agency to the other player.
+     */
     public void switchPlayers() {
         setCurrentPlayer(getCurrentPlayer() == getLightPlayer() ? getDarkPlayer() : getLightPlayer());
         setEnemyPlayer(getEnemyPlayer() == getLightPlayer() ? getDarkPlayer() : getLightPlayer());
     }
 
+    /**
+     * Determines if a Pair is within the bounds of the Board.
+     * @param pair
+     * @return 
+     */
     public boolean isValidPair(Pair pair) {
         int rowIndex = pair.getRow();
         int columnIndex = pair.getColumn();
@@ -138,32 +176,60 @@ public final class Board {
         return this.selectedPiece;
     }
 
+    /**
+     * Marks a Piece as selected.
+     * @param piece 
+     */
     public void selectPiece(Piece piece) {
         piece.setSelected(true);
         this.selectedPiece = piece;
     }
 
+    /**
+     * Deselects a Piece.
+     * @param piece 
+     */
     public void deselectPiece(Piece piece) {
         piece.setSelected(false);
         this.selectedPiece = null;
     }
 
+    /**
+     * Determines if the Tile was clicked in an attempt to be selected.
+     * @param tile
+     * @return 
+     */
     private Boolean clickIsSelection(Tile tile) {
         return (!tile.isHighlighted() &&
                 tile.isOccupied());
     }
     
+    /**
+     * Determines if the Tile was clicked in an attempt to commit a move.
+     * @param tile
+     * @return 
+     */
     private Boolean clickIsMove(Tile tile) {
         return (tile.isHighlighted() &&
                 this.getSelectedPiece() != null);
     }
 
+    /**
+     * Determines if the Tile was clicked in an attempt to cancel a previous selection.
+     * @param tile
+     * @return 
+     */
     private Boolean clickIsDeselection(Tile tile) {
         return (!tile.isHighlighted() &&
                 !tile.isOccupied()
                 );
     }
 
+    /**
+     * Determines the user's intent in clicking the Tile.
+     * @param tile
+     * @return 
+     */
     public ClickType determineClickIntent(Tile tile) {
         if (clickIsSelection(tile)) {
             return ClickType.Selection;

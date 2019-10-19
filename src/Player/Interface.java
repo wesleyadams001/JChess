@@ -8,7 +8,7 @@ package Player;
 import Board.Tile;
 
 /**
- *
+ * Represents a Viewer->Controller event mapping.
  * @author nehalpatel
  */
 public class Interface {

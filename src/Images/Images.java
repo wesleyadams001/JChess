@@ -23,8 +23,7 @@ public class Images {
     public static HashMap<PieceType, HashMap<ThemeColor, ImageIcon>> Icons = new HashMap<>();
 
     /**
-     * Initialize all the images image mappings for the
-         * chess pieces
+     * Initialize all the image mappings for the chess Pieces.
      */
     public void loadImages() {
         try {

@@ -30,24 +30,36 @@ public class Controller extends Application {
 
     Viewer gameViewer; // For user interaction
     public Board gameBoard;
-    private final Player lightPlayer;
-    private final Player darkPlayer;
+
+    Controller() { }
 
     /**
+     * Creates the Controller instance.
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Controller c = new Controller();
+        Controller gameController = new Controller();
+
+        // It's important to load the images before the Pieces are initiated.
+        gameController.loadImages();
+        gameController.startGame();
     }
-    
-    Controller() {
-        // Read Piece images into memory.
+
+    /**
+     * Read Piece images into memory.
+     */
+    private void loadImages() {
         Images pieceAssets = new Images();
         pieceAssets.loadImages();
-        
+    }
+
+    /**
+     * Sets up the Board and launches the Viewer.
+     */
+    private void startGame() {
         // TODO: Use text fields to set player names.
-        lightPlayer = new Player("Light", ThemeColor.LightPiece);
-        darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
+        Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
+        Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
         
@@ -55,25 +67,11 @@ public class Controller extends Application {
         gameViewer = new Viewer(this);
         gameViewer.setTileClickHandler(this::didClickTile);
     }
-    
-    @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
 
+    /**
+     * Handles Tile click events.
+     * @param tile 
+     */
     public void didClickTile(Tile tile)  {
         switch (gameBoard.determineClickIntent(tile)) {
             case Selection:
@@ -94,6 +92,10 @@ public class Controller extends Application {
         }
     }
 
+    /**
+     * Handles a Tile selection intent.
+     * @param piece 
+     */
     private void handleSelection(Piece piece) {
         // Get Pieces in default state for move calculation.
         gameViewer.resetForRender();
@@ -108,6 +110,10 @@ public class Controller extends Application {
         });
     }
 
+    /**
+     * Handles a Tile move intent.
+     * @param clickedTile 
+     */
     private void handleTurn(Tile clickedTile) {
         // The friendly Piece that the player first clicked to intiate this move. Better known as the the "from"...
         Piece transientPiece = gameBoard.getSelectedPiece();
@@ -120,8 +126,29 @@ public class Controller extends Application {
         gameViewer.resetForRender();
     }
 
+    /**
+     * Handles a Tile deselection intent.
+     */
     private void handleDeselection() {
         // The player cancelled their selection, so we should reset selection, highlights, etc.
         gameViewer.resetForRender();
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Button btn = new Button();
+        btn.setText("Say 'Hello World'");
+        btn.setOnAction((ActionEvent event) -> {
+            System.out.println("Hello World!");
+        });
+        
+        StackPane root = new StackPane();
+        root.getChildren().add(btn);
+        
+        Scene scene = new Scene(root, 300, 250);
+        
+        primaryStage.setTitle("Hello World!");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

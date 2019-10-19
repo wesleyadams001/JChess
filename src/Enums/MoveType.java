@@ -6,11 +6,11 @@
 package Enums;
 
 /**
- * An Enum that indicates an associated move type
+ * Indicates an associated move type.
  * @author Wesley
  */
 public enum MoveType {
-        EmptyTileOnly,
-        EnemyPieceOnly,
-        EmptyOrEnemyPiece,
- }
+    EmptyTileOnly,
+    EnemyPieceOnly,
+    EmptyOrEnemyPiece,
+}

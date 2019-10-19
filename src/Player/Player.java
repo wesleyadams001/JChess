@@ -24,30 +24,50 @@ public class Player {
         this.color = color;
     }
     
+    /**
+     * Mark Player as "in check."
+     * @param check 
+     */
     public void setIsChecked(boolean check){
         this.isChecked = check;
     }
     
+    /**
+     * Determine whether Player is "in check."
+     * @return 
+     */
     public boolean isChecked() {
         return this.isChecked;
     }
     
+    /**
+     * Returns the Player's name.
+     * @return 
+     */
     public String getName() {
         return this.name;
     }
     
-    public void setName(String n) {
-        this.name = n;
-    }
-    
+    /**
+     * Returns the Player's color.
+     * @return 
+     */
     public ThemeColor getColor() {
         return this.color;
     }
     
+    /**
+     * Returns the location of Player's King.
+     * @return 
+     */
     public Pair getLocationOfKing(){
         return this.kingPair;
     }
     
+    /**
+     * Updates the location of Player's King.
+     * @param king 
+     */
     public void setLocationOfKing(Pair king){
         this.kingPair = king;
     }

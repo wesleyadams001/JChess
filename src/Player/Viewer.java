@@ -9,15 +9,14 @@ import Board.Board;
 import Board.Pair;
 import Board.Tile;
 import Enums.ThemeColor;
-import Images.Images;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import Controller.Controller;
-import java.awt.Container;
-import java.util.Vector;
 import javax.swing.border.LineBorder;
 import Player.Interface.TileDelegate;
+
+// import java.awt.Container;
 
 /**
  * Provides the viewing capabilities for the application
@@ -27,9 +26,14 @@ public class Viewer extends JPanel{
     
     public int mouseX, mouseY;//Mouse position
     public boolean pause;//if game is paused
-    private Images pieces;//Image class
-    private int xDimensions, yDimensions;
+    
     private final Controller controller;
+    private final Board board;
+    private final JButton[][] buttonMatrix;
+    public JFrame boardFrame;
+
+    /*
+    private int xDimensions, yDimensions;
     private static JFrame frame; // The frame on which the Board is displayed
     private static JFrame info;
     private String p1Name;
@@ -37,15 +41,12 @@ public class Viewer extends JPanel{
     private int p1Score;
     private int p2Score;
     private Vector<Pair>moves;
-    public JFrame boardFrame;
-    private final JButton[][] buttonMatrix;
-    private final Board board;
+    */
     
     private TileDelegate tileClickHandler = null;
     
     public Viewer(Controller c)
     {
-        //initializeBoard();
         controller = c;
 
         board = this.controller.gameBoard;
@@ -58,6 +59,7 @@ public class Viewer extends JPanel{
         // setupNames();
     }
 
+    /*
     private void setupNames() {
         info = new JFrame("Enter Names");
         info.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +126,11 @@ public class Viewer extends JPanel{
         info.pack();
         info.setVisible(true);
     }
+    */
 
+    /**
+     * Launches the Board window.
+     */
     private void setupFrame() {
         int tileWidth = 90;
         int tileHeight = 90;
@@ -168,6 +174,9 @@ public class Viewer extends JPanel{
         boardFrame.setVisible(true);
     }
 
+    /**
+     * Refreshes Tile display according to Board state.
+     */
     private void updateButtons() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
@@ -179,6 +188,11 @@ public class Viewer extends JPanel{
         }
     }
 
+    /**
+     * Re-paints Tiles according to selection, highlight, etc.
+     * @param tile
+     * @param tileButton 
+     */
     private void paintTileButton(Tile tile, JButton tileButton) {
         tileButton.setBackground(tile.getColor());
         tileButton.setIcon(tile.isOccupied() ? tile.getPiece().getImage() : null);
@@ -197,6 +211,11 @@ public class Viewer extends JPanel{
         }
     }
 
+    /**
+     * Enables/Disables Tile clicks based on current Player, highlighted, etc.
+     * @param tile
+     * @param tileButton 
+     */
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
         if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
             // This Tile is in the current player's possession. 
@@ -212,6 +231,9 @@ public class Viewer extends JPanel{
         }
     }
 
+    /**
+     * Sets Tile display back to default state.
+     */
     public void resetForRender() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
@@ -229,10 +251,18 @@ public class Viewer extends JPanel{
         }
     }
     
+    /**
+     * Maps the Controller's click handler to the Tiles.
+     * @param handler 
+     */
     public void setTileClickHandler(TileDelegate handler) {
         this.tileClickHandler = handler;
     }
 
+    /**
+     * Passes click command to Controller and redraws the Board.
+     * @param e 
+     */
     private void handleClick(ActionEvent e) {
         JButton target = (JButton) e.getSource();
 

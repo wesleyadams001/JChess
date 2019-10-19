@@ -5,6 +5,7 @@
  */
 package Board;
 
+import Enums.ThemeColor;
 import Pieces.*;
 import Player.Player;
 import java.io.File;
@@ -20,6 +21,13 @@ public class Factory {
     
     public Factory() { }
     
+    /**
+     * Makes a new Board instance.
+     * @param lightPlayer
+     * @param darkPlayer
+     * @param FEN
+     * @return 
+     */
     public static Board makeBoard(final Player lightPlayer, final Player darkPlayer, final String FEN) {
         Board board = new Board(lightPlayer, darkPlayer);
 
@@ -99,15 +107,34 @@ public class Factory {
         return board;
     }
     
+    /**
+     * Creates a FEN representation of the Board.
+     * @param gameBoard
+     * @return 
+     */
     public static String serializeBoard(final Board gameBoard) { 
         return generatePiecePlacement(gameBoard.getMatrix()) + determineActiveColor(gameBoard);
     }
 
+    /**
+     * Creates a deep copy of the Board.
+     * @param gameBoard
+     * @return 
+     */
     public static Board cloneBoard(final Board gameBoard) {
         String FEN = serializeBoard(gameBoard);
-        return makeBoard(gameBoard.getLightPlayer(), gameBoard.getDarkPlayer(), FEN);
+        
+        Player newLight = new Player("Light", ThemeColor.LightPiece);
+        Player newDark = new Player("Dark", ThemeColor.DarkPiece);
+        
+        return makeBoard(newLight, newDark, FEN);
     }
 
+    /**
+     * Creates the piece placement part of the FEN.
+     * @param matrix
+     * @return 
+     */
     private static String generatePiecePlacement(final Tile[][] matrix) {
         String piecePlacement = "";
         for (int rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
@@ -147,10 +174,20 @@ public class Factory {
         return piecePlacement+" ";
     }
     
+    /**
+     * Creates the active color part of the FEN.
+     * @param gameBoard
+     * @return 
+     */
     private static char determineActiveColor(final Board gameBoard) {
         return gameBoard.getCurrentPlayer().getColor().getAbbr().charAt(0);
     }
     
+    /**
+     * Reads FEN notation from a file.
+     * @param fileName
+     * @return 
+     */
     public static String readFENFromFile(String fileName) {
         File input = new File(fileName);//.ren
         

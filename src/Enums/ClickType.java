@@ -6,7 +6,7 @@
 package Enums;
 
 /**
- *
+ * Represents the user's intent for clicking a Tile.
  * @author nehalpatel
  */
 public enum ClickType {

@@ -145,7 +145,8 @@ public class Viewer extends JPanel{
                 tileButton.setBorder(new LineBorder(Color.BLACK));
                 tileButton.setOpaque(true);
                 tileButton.setBounds(xVal, yVal, tileWidth, tileHeight);
-                tileButton.setName(i + "," + j);
+
+                // Store coordinates for click handler.
                 tileButton.putClientProperty("rank", i);
                 tileButton.putClientProperty("file", j);
 
@@ -167,7 +168,7 @@ public class Viewer extends JPanel{
         boardFrame.setVisible(true);
     }
 
-    public void updateButtons() {
+    private void updateButtons() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 Pair tilePosition = tile.getPosition();
@@ -222,7 +223,7 @@ public class Viewer extends JPanel{
                 // Reset Tile state.
                 tile.setHighlighted(false);
                 if (tile.isOccupied()) {
-                    tile.getPiece().setSelected(false);
+                    board.deselectPiece(tile.getPiece());
                 }
             }
         }
@@ -230,7 +231,6 @@ public class Viewer extends JPanel{
     
     public void setTileClickHandler(TileDelegate handler) {
         this.tileClickHandler = handler;
-        
     }
 
     private void handleClick(ActionEvent e) {

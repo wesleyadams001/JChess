@@ -6,9 +6,9 @@
 package Controller;
 
 import Board.Board;
-import Board.Check;
 import Enums.ThemeColor;
 import Images.Images;
+import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
 import Board.Factory;
@@ -30,12 +30,9 @@ public class Controller extends Application {
 
     Viewer gameViewer; // For user interaction
     public Board gameBoard;
-    private final Player player1;
-    private final Player player2;
-    
-    private final Check check;
-    private final Factory fen;
-    
+    private final Player lightPlayer;
+    private final Player darkPlayer;
+
     /**
      * @param args the command line arguments
      */
@@ -49,14 +46,10 @@ public class Controller extends Application {
         pieceAssets.loadImages();
         
         // TODO: Use text fields to set player names.
-        player1 = new Player("One", ThemeColor.LightPiece);
-        player2 = new Player("Two", ThemeColor.DarkPiece);
+        lightPlayer = new Player("Light", ThemeColor.LightPiece);
+        darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
-        // TODO: Make Factory generate Board instances.
-        fen = new Factory();
-        gameBoard = new Board(player1, player2, fen.loadFromFile("starter.fen"));
-        
-        check = new Check();
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
@@ -81,66 +74,53 @@ public class Controller extends Application {
         primaryStage.show();
     }
 
-    private Boolean isSelection(Tile tile) {
-        return (!tile.isHighlighted() &&
-                tile.isOccupied());
-    }
-    
-    private Boolean isMovement(Tile tile) {
-        return (tile.isHighlighted() &&
-                gameBoard.getTransientTile() != null);
-    }
-
-    private Boolean isCancel(Tile tile) {
-        return (!tile.isHighlighted() &&
-                !tile.isOccupied() &&
-                gameBoard.getTransientTile() != null
-                );
-    }
-
-    public void didClickTile(Tile clickedTile)  {
-        if (isSelection(clickedTile)) {
-            // The player selected a new "transient" Piece.
-            handleSelection(clickedTile);
-            
-        } else if (isMovement(clickedTile)) {
-            // The player selected a new location to move the "transient" Piece to.
-            handleTurn(clickedTile);
-            
-        } else if (isCancel(clickedTile)) {
-            // The player cancelled their selection.
-            handleCancel(clickedTile);
-            
+    public void didClickTile(Tile tile)  {
+        switch (gameBoard.determineClickIntent(tile)) {
+            case Selection:
+                // The player selected a new "transient" Piece.
+                handleSelection(tile.getPiece());
+                break;
+            case Move:
+                // The player selected a new location to move the "transient" Piece to.
+                handleTurn(tile);
+                break;
+            case Deselection:
+                // The player cancelled their selection.
+                handleDeselection();
+                break;
+            case Other:
+                // Something bizarre happened.
+                break;
         }
     }
-    
-    private void handleSelection(Tile clickedTile) {
+
+    private void handleSelection(Piece piece) {
         // Get Pieces in default state for move calculation.
         gameViewer.resetForRender();
 
         // Only the clicked Tile is selected.
-        clickedTile.getPiece().setSelected(true);
+        gameBoard.selectPiece(piece);
 
         // Highlight all possible moves for the clicked Tile.
-        Vector<Pair> possibleMoves = clickedTile.getPiece().getPossibleMoves(gameBoard);
+        Vector<Pair> possibleMoves = piece.getPossibleMoves(gameBoard);
         possibleMoves.forEach((pair) -> {
             gameBoard.getTile(pair).setHighlighted(true);
         });
     }
-    
+
     private void handleTurn(Tile clickedTile) {
         // The friendly Piece that the player first clicked to intiate this move. Better known as the the "from"...
-        Tile transientTile = gameBoard.getTransientTile();
+        Piece transientPiece = gameBoard.getSelectedPiece();
 
-        // The turn itself happens here. Then we pass it to the other player.
-        gameBoard.movePiece(transientTile.getPosition(), clickedTile.getPosition());
-        gameBoard.toggleCurrentPlayer();
+        // The turn itself happens here. We used clickedTile's position because it might not be occupied.
+        gameBoard.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
+        gameBoard.switchPlayers();
 
         // Reset selection, highlights, etc.
         gameViewer.resetForRender();
     }
 
-    private void handleCancel(Tile clickedTile) {
+    private void handleDeselection() {
         // The player cancelled their selection, so we should reset selection, highlights, etc.
         gameViewer.resetForRender();
     }

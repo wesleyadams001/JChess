@@ -24,7 +24,7 @@ public class Check {
      * @param enemy is the player we want to see if able to move to pair
      * @return Boolean true if the pair is a possible move of another enemy piece
      */
-    public boolean pairUnderAttack(Pair test, Board board, Player enemy){
+    public static boolean pairUnderAttack(Pair test, Board board, Player enemy){
         
         Tile[][] matrix = board.getMatrix();
         for(int i = 0; i < 8; i++){
@@ -51,7 +51,7 @@ public class Check {
         return false;
     }
     
-    public boolean kingCanMove(Pair locKing, Board board, Player alpha){
+    public static boolean kingCanMove(Pair locKing, Board board, Player alpha){
         // check to first see if the king is in check
         if ( pairUnderAttack(locKing, board, alpha) ){
             /*get the possible moves of the king, 
@@ -61,12 +61,7 @@ public class Check {
             */
             Tile[][] matrix = board.getMatrix();
             Vector<Pair> kingMoves = matrix[locKing.getRow()][locKing.getColumn()].getPiece().getPossibleMoves(board);
-            Player enemy;
-            if ( board.getPlayerOne()==alpha){
-                enemy = board.getPlayerTwo();
-            }else{
-                enemy = board.getPlayerOne();
-            }
+            Player enemy = board.getEnemyPlayer();
             for (int k = 0; k < kingMoves.size(); k++){
                 if (!pairUnderAttack(kingMoves.get(k), board, enemy)){
                     return true;
@@ -76,7 +71,7 @@ public class Check {
         return false;
     }
     
-    public boolean kingCanBeSaved(Pair locKing, Board board, Player enemy){
+    public static boolean kingCanBeSaved(Pair locKing, Board board, Player enemy){
         Tile[][] matrix = board.getMatrix();
         for ( int i = 0; i < 8 ; i ++ ){
             for ( int j = 0; j < 8 ; j ++ ){
@@ -88,7 +83,7 @@ public class Check {
                         pass king location to pairUnderAttack(), see if it returns false
                         if false, king can be saved, else if true, keep going until false
                         */
-                        Board temp = new Board(board);
+                        Board temp = Factory.cloneBoard(board);
                         try {
                             temp.movePiece(matrix[i][j].getPosition(),allyMoves.get(k));
                         } catch (Exception ex) {

@@ -9,9 +9,12 @@ import Board.Board;
 import Board.Pair;
 import Board.Tile;
 import Enums.MoveType;
+import Enums.PieceType;
+import Enums.ThemeColor;
 import Player.Player;
 import java.util.Vector;
 import javax.swing.ImageIcon;
+import static Images.Images.Icons;
 
 /**
  *
@@ -19,15 +22,27 @@ import javax.swing.ImageIcon;
  */
 public abstract class Piece {
 
-    private Player player;
     private Pair position;
-    protected ImageIcon image;
+    private final Player player;
+    
     private boolean selected;
     private boolean taken;
     private boolean hasTakenFirstMove;
+    
+    private final char letter;
+    protected final ImageIcon image;
+    protected final PieceType shortHand;
 
-    public Piece(Player owner) {
+    public Piece(Player owner, PieceType type) {
         player = owner;
+        shortHand = type;
+        image = Icons.get(shortHand).get(owner.getColor());
+        
+        if (owner.getColor() == ThemeColor.LightPiece) {
+            letter = shortHand.getLightLetter();
+        } else {
+            letter = shortHand.getDarkLetter();
+        }
     }
 
     /**
@@ -51,14 +66,6 @@ public abstract class Piece {
      */
     public Player getPlayer() {
         return player;
-    }
-
-    /**
-     *
-     * @param player
-     */
-    public final void setPlayer(Player player) {
-        this.player = player;
     }
 
     /**
@@ -166,6 +173,18 @@ public abstract class Piece {
         }
 
         return true;
+    }
+
+    public char getLetter() {
+        return this.letter;
+    }
+
+    /**
+     * gets the piece type of the piece
+     * @return you guessed it 
+     */
+    public PieceType getPieceType() {
+        return this.shortHand;
     }
 
 }

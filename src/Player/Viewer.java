@@ -16,9 +16,8 @@ import javax.swing.*;
 import Controller.Controller;
 import java.awt.Container;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.border.LineBorder;
+import Player.Interface.TileDelegate;
 
 /**
  * Provides the viewing capabilities for the application
@@ -38,9 +37,11 @@ public class Viewer extends JPanel{
     private int p1Score;
     private int p2Score;
     private Vector<Pair>moves;
-    private JFrame boardFrame;
+    public JFrame boardFrame;
     private final JButton[][] buttonMatrix;
     private final Board board;
+    
+    private TileDelegate tileClickHandler = null;
     
     public Viewer(Controller c)
     {
@@ -52,7 +53,7 @@ public class Viewer extends JPanel{
 
         // Display the board to the screen.
         setupFrame();
-
+        
         //get Names from players
         // setupNames();
     }
@@ -128,8 +129,8 @@ public class Viewer extends JPanel{
         int tileWidth = 90;
         int tileHeight = 90;
 
-        boardFrame = new JFrame("Dokie, Dokie, Chess Club");
-        boardFrame.setLocationRelativeTo(this.info);
+        boardFrame = new JFrame("Doki Doki Chess Club");
+        boardFrame.setLocation(0,0);
 
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(null);
@@ -145,6 +146,8 @@ public class Viewer extends JPanel{
                 tileButton.setOpaque(true);
                 tileButton.setBounds(xVal, yVal, tileWidth, tileHeight);
                 tileButton.setName(i + "," + j);
+                tileButton.putClientProperty("rank", i);
+                tileButton.putClientProperty("file", j);
 
                 tileButton.addActionListener((ActionEvent e) -> {
                     handleClick(e);
@@ -164,7 +167,7 @@ public class Viewer extends JPanel{
         boardFrame.setVisible(true);
     }
 
-    private void updateButtons() {
+    public void updateButtons() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 Pair tilePosition = tile.getPosition();
@@ -200,13 +203,15 @@ public class Viewer extends JPanel{
         } else if (tile.isHighlighted()) {
             // This Tile is a possible move.
             tileButton.setEnabled(true);
+        } else if (!tile.isOccupied()){
+            tileButton.setEnabled(true);
         } else {
             // This could is (1) empty or (2) holds the other player's Piece.
             tileButton.setEnabled(false);
         }
     }
 
-    private void resetForRender() {
+    public void resetForRender() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 // Reset Tile presentation.
@@ -222,50 +227,22 @@ public class Viewer extends JPanel{
             }
         }
     }
+    
+    public void setTileClickHandler(TileDelegate handler) {
+        this.tileClickHandler = handler;
+        
+    }
 
     private void handleClick(ActionEvent e) {
         JButton target = (JButton) e.getSource();
 
-        String tileName = target.getName();
-        int x = Character.getNumericValue(tileName.charAt(0));
-        int y = Character.getNumericValue(tileName.charAt(2));
-        Tile targetTile = board.getTile(new Pair(x, y));
-
-        if (targetTile.isHighlighted()) {
-            Tile currentSelection = board.getCurrentSelection();
-
-            if (currentSelection != null) {
-                if (currentSelection.isOccupied()) {
-                    currentSelection.getPiece().setHasTakenFirstMove(true);
-                }
-
-                if (targetTile.isOccupied()) {
-                    targetTile.removePiece();
-                }
-
-                try {
-                    board.movePiece(currentSelection.getPosition(), targetTile.getPosition());
-                } catch (Exception ex) {
-                    Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                board.toggleCurrentPlayer();
-            }
-
-            resetForRender();
-        } else {
-            resetForRender();
-
-            if (targetTile.isOccupied()) {
-                targetTile.getPiece().setSelected(true);
-
-                Vector<Pair> possibleMoves = targetTile.getPiece().getPossibleMoves(board);
-                possibleMoves.forEach((pair) -> {
-                    board.getTile(pair).setHighlighted(true);
-                });
-            }
-        }
-
+        int x = (int) target.getClientProperty("rank");
+        int y = (int) target.getClientProperty("file");
+        
+        Tile clickedTile = board.getTile(new Pair(x, y));
+        
+        this.tileClickHandler.didClick(clickedTile);
+        
         updateButtons();
         boardFrame.repaint();
         boardFrame.revalidate();

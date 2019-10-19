@@ -9,8 +9,8 @@ import Board.Board;
 import Board.Tile;
 import Board.Pair;
 import Enums.MoveType;
+import Enums.PieceType;
 import Player.Player;
-import static Images.Images.kingIcons;
 import java.util.Vector;
 
 /**
@@ -20,9 +20,7 @@ import java.util.Vector;
 public class King extends Piece{
 
     public King(Player owner) {
-        //Call function to initialize player object
-        super(owner);
-        image = kingIcons.get(owner.getColor());
+        super(owner, PieceType.King);
     }
     
     /**

@@ -5,6 +5,7 @@
  */
 package Board;
 
+import Enums.PieceType;
 import Pieces.Bishop;
 import Pieces.Piece;
 import Pieces.King;
@@ -13,9 +14,6 @@ import Pieces.Rook;
 import Pieces.Pawn;
 import Pieces.Queen;
 import Player.Player;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +25,8 @@ public final class Board {
      *
      */
     private Player currentPlayer;
+    
+    private Player enemyPlayer;
 
     /**
      *
@@ -55,8 +55,9 @@ public final class Board {
      * @param one
      * @param two
      */
-    public Board(Player one, Player two) {
+    public Board(Player one, Player two, String fen) {
         this.currentPlayer = one;
+        this.enemyPlayer = two;
         this.playerOne = one;
         this.playerTwo = two;
 
@@ -69,17 +70,132 @@ public final class Board {
                 matrix[rowIndex][columnIndex] = tile;
             }
         }
-
+        
+        //         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w default ren
+        int i = 0, j = 0, k = 0;
+        boolean boardComplete = false;
+        for( ; !boardComplete ; k++){
+            switch (fen.charAt(k)){
+                case ' ':
+                    boardComplete=true; // a _ means we are done with the board data
+                    break;
+                case '/':
+                    i++; // a / means move to next rank/line
+                    j=0;
+                    break;
+                case 'r': // ROOKS
+                    matrix[i][j].setPiece(new Rook(two));
+                    j++;
+                    break;
+                case 'R':
+                    matrix[i][j].setPiece(new Rook(one));
+                    j++;
+                    break;
+                case 'n': // KNIGHTS
+                    matrix[i][j].setPiece(new Knight(two));
+                    j++;
+                    break;
+                case 'N':
+                    matrix[i][j].setPiece(new Knight(one));
+                    j++;
+                    break;
+                case 'b': // BISHOPS
+                    matrix[i][j].setPiece(new Bishop(two));
+                    j++;
+                    break;
+                case 'B':
+                    matrix[i][j].setPiece(new Bishop(one));
+                    j++;
+                    break;
+                case 'q': // QUEENS
+                    matrix[i][j].setPiece(new Queen(two));
+                    j++;
+                    break;
+                case 'Q': 
+                    matrix[i][j].setPiece(new Queen(one));
+                    j++;
+                    break;
+                case 'k': // KINGS
+                    matrix[i][j].setPiece(new King(two));
+                    j++;
+                    break;
+                case 'K':
+                    matrix[i][j].setPiece(new King(one));
+                    j++;
+                    break;
+                case 'p': // PAWNS
+                    matrix[i][j].setPiece(new Pawn(two));
+                    j++;
+                    break;
+                case 'P':
+                    matrix[i][j].setPiece(new Pawn(one));
+                    j++;
+                    break;
+                default:
+                    j+=Character.getNumericValue(fen.charAt(k));
+                
+            }
+        }
+        
+        this.setCurrentPlayer(fen.charAt(k) == 'w' ? this.getPlayerOne() : this.getPlayerTwo());
+        
+        
+        Factory ree = new Factory();
+        System.out.print("\n\n\n\n"+ree.serialize(this)+"\n\n\n\n");
+        
+    }
+    /**
+     * constructor that duplicates the board passed to the constructor
+     * @param orig the board that will be copied
+     */
+    public Board(Board orig){
+        this.enemyPlayer = orig.enemyPlayer;
+        this.currentPlayer = orig.currentPlayer;
+        this.playerOne = orig.playerOne;
+        this.playerTwo = orig.playerTwo;
+        //duplicating the matrix
+        this.matrix = new Tile[orig.rowCount][orig.columnCount];
+        // Populate matrix with empty Tiles.
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                Tile tile = new Tile(new Pair(rowIndex, columnIndex));
+                matrix[rowIndex][columnIndex] = tile;
+            }
+        }
+        //copy the state of the board over
+        for(int i=0;i<rowCount;i++){
+            for(int j=0;j<columnCount;j++){
+                if(orig.matrix[i][j].isOccupied()){
+                    this.matrix[i][j].setPiece(orig.matrix[i][j].getPiece());
+                }
+            }
+        }
+    }
+    
+    /**
+     * Destroy the current Board and create a new, ready-to-play Board.
+     */
+    
+    public void reset(Tile[][] matrix, Player one, Player two) {
+        // Populate matrix with empty Tiles.
+        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                Tile tile = new Tile(new Pair(rowIndex, columnIndex));
+                matrix[rowIndex][columnIndex] = tile;
+            }
+        }
         // Add Pawns.
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
             matrix[1][columnIndex].setPiece(new Pawn(two));
             matrix[rowCount - 2][columnIndex].setPiece(new Pawn(one));
         }
 
-        // Add Kings.
+        // Add Kings. and set location of pair for each player
         matrix[0][4].setPiece(new King(two));
         matrix[rowCount - 1][4].setPiece(new King(one));
-
+        two.setLocationOfKing(matrix[0][4].getPosition());
+        one.setLocationOfKing(matrix[rowCount - 1][4].getPosition());
+        
         // Add Rooks.
         matrix[0][0].setPiece(new Rook(two));
         matrix[0][7].setPiece(new Rook(two));
@@ -101,34 +217,27 @@ public final class Board {
         //Add Queens
         matrix[0][3].setPiece(new Queen(two));
         matrix[rowCount - 1][3].setPiece(new Queen(one));
-    }
-
-    /**
-     * Destroy the current Board and create a new, ready-to-play Board.
-     */
-    public void reset() {
+        
     }
 
     /**
      * Load an previously saved session of the game.
      * @param fileName
      */
-    public void load(String fileName) {
-    }
-
-    /**
-     * Save this session of the game.
-     * @param fileName
-     */
-    public void serialize(String fileName) {
-    }
     
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-
+    
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+    public Player getEnemyPlayer() {
+        return this.enemyPlayer;
+    }
+    
+    public void setEnemyPlayer(Player enemy) {
+        this.enemyPlayer = enemy;
     }
 
     public Player getPlayerOne() {
@@ -149,6 +258,7 @@ public final class Board {
 
     public void toggleCurrentPlayer() {
         setCurrentPlayer(getCurrentPlayer() == getPlayerOne() ? getPlayerTwo() : getPlayerOne());
+        setEnemyPlayer(getEnemyPlayer() == getPlayerOne() ? getPlayerTwo() : getPlayerOne());
     }
 
     public boolean isValidPair(Pair pair) {
@@ -183,7 +293,7 @@ public final class Board {
      * Get the Player's selected Piece.
      * @return The first Piece found with isSelected() being true, null otherwise.
      */
-    public Tile getCurrentSelection() {
+    public Tile getTransientTile() {
         for (Tile[] row : matrix) {
             for (Tile tile : row) {
                 if (tile.isOccupied() && tile.getPiece().isSelected()) {
@@ -204,93 +314,31 @@ public final class Board {
      * 
      * @param from
      * @param to
-     * @throws Exception
      */
-    public void movePiece(Pair from, Pair to) throws Exception {
+    public void movePiece(Pair from, Pair to) {
         Tile toTile = getTile(to);
         if (toTile.isOccupied()) {
-            throw new Exception("The arrival Tile isn't empty.");
+            // throw new Exception("The arrival Tile isn't empty.");
+            toTile.removePiece();
         }
 
         Tile fromTile = getTile(from);
-        if (!fromTile.isOccupied()) {
-            throw new Exception("The departing Piece doesn't exist.");
+        if (fromTile.isOccupied()) {
+            // Useful for tracking special moves for Pawn, etc.
+            fromTile.getPiece().setHasTakenFirstMove(true);
+        } else {
+            // throw new Exception("The departing Piece doesn't exist.");
         }
 
         Piece fromPiece = fromTile.removePiece();
         toTile.setPiece(fromPiece);
-    }
-
-    public void tempTest() {
-        // TEMPORARY setup. This will show the potential moves of the rightmost
-        // enemy Pawn. A friendly Pawn has been moved to the enemy Pawn's diagonal
-        // for demonstration. Check the console.
-        // (T) = able to be taken
-        // (x) = able to be moved to
-        // ( ) = blank Tile
-        // (P) = any Piece
         
-        int rowIndex = 6; // Row index for Player 1's Pawns.
-        int columnIndex = 5; // Random Pawn in the row.
-        Tile player1PawnTile = getTile(new Pair(rowIndex, columnIndex));
+        // =================
+        // Move is finished.
+        // =================
         
-        // Comment this line out to test.
-        //player1PawnTile.getPiece().setHasTakenFirstMove(true);
-
-        // Empty space diagonal to Player 1's Pawn.
-        Tile emptySpace = getTile(new Pair(rowIndex - 1, columnIndex - 1)); 
-        
-        // Enemy Pawn.
-        Tile player2PawnTile = getTile(new Pair(1, columnIndex - 1));
-        
-        print();
-        System.out.println();
-
-        try {
-            // Move the Enemy Pawn into a kill position for Player 1's Pawn.
-            movePiece(player2PawnTile.getPosition(), emptySpace.getPosition());
-        } catch (Exception ex) {
-            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        // Get possible moves for Player 1's Pawn.
-        Vector<Pair> moves = player1PawnTile.getPiece().getPossibleMoves(this);
-        
-        print();
-        System.out.println();
-        
-        player1PawnTile.getPiece().setSelected(true);
-        
-        // Highlight the moves on the Board.
-        moves.forEach((position) -> {
-            getTile(position).setHighlighted(true);
-        });
-        
-        // Print the Board state to the console.
-        print();
-    }
-    
-    /**
-     * Temporary method to debug and test the Board before the GUI is implemented.
-     */
-    public void print() {
-        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                Tile tile = matrix[rowIndex][columnIndex];
-                if (tile.isHighlighted() && tile.isOccupied()) {
-                    System.out.print("(T) "); // This Tile has a Piece that can be taken by the currently selected Piece.
-                } else if (tile.isHighlighted()) {
-                    System.out.print("(x) "); // This Tile can be moved to by the currently selected Piece.
-                } else if (tile.isOccupied() && tile.getPiece().isSelected()) {
-                    System.out.print("(S) ");
-                } else if (!tile.isOccupied()) {
-                    System.out.print("( ) "); // This Tile is empty.
-                } else {
-                    System.out.print("(" + tile.getPiece().getPlayer().getColor().getAbbr() + ") "); // This Tile has a Piece.
-                }
-            }
-            
-            System.out.println();
+        if (toTile.getPiece().getPieceType() == PieceType.King){
+            getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }
     }
 

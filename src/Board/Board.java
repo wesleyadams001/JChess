@@ -25,7 +25,10 @@ public final class Board {
      *
      */
     private Player currentPlayer;
-    
+
+    /**
+     *
+     */
     private Player enemyPlayer;
 
     /**
@@ -138,12 +141,9 @@ public final class Board {
         }
         
         this.setCurrentPlayer(fen.charAt(k) == 'w' ? this.getPlayerOne() : this.getPlayerTwo());
-        
-        
-        Factory ree = new Factory();
-        System.out.print("\n\n\n\n"+ree.serialize(this)+"\n\n\n\n");
-        
+        this.setEnemyPlayer(fen.charAt(k) == 'b' ? this.getPlayerTwo() : this.getPlayerOne());
     }
+
     /**
      * constructor that duplicates the board passed to the constructor
      * @param orig the board that will be copied

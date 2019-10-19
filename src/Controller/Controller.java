@@ -14,7 +14,6 @@ import Player.Viewer;
 import Board.Factory;
 import Board.Pair;
 import Board.Tile;
-import Enums.PieceType;
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;

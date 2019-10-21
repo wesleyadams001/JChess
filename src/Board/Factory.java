@@ -194,6 +194,7 @@ public class Factory {
         try (BufferedReader br = new BufferedReader(new FileReader(input))) {
             return br.readLine();
         } catch (IOException e) {
+            //if it cannot read from file, it will pass the default board state as a string-
             System.out.print(e.getMessage());
             return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
         }

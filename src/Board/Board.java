@@ -256,6 +256,7 @@ public final class Board {
         Tile toTile = getTile(to);
         if (toTile.isOccupied()) {
             // throw new Exception("The arrival Tile isn't empty.");
+            //removes the piece at destination pair
             toTile.removePiece();
         }
 
@@ -266,14 +267,17 @@ public final class Board {
         } else {
             // throw new Exception("The departing Piece doesn't exist.");
         }
-
+        //removes moving piece from orig pair
         Piece fromPiece = fromTile.removePiece();
+        //sets piece to destination pair
         toTile.setPiece(fromPiece);
         
         // =================
         // Move is finished.
         // =================
         
+        
+        //if king was moved, update king location tracker attribute of player class
         if (toTile.getPiece().getPieceType() == PieceType.King){
             getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }

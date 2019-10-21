@@ -56,7 +56,7 @@ public class Viewer extends JPanel{
         setupFrame();
         
         //get Names from players
-        // setupNames();
+        //setupNames();
     }
 
     /*
@@ -136,7 +136,7 @@ public class Viewer extends JPanel{
         int tileHeight = 90;
 
         boardFrame = new JFrame("Doki Doki Chess Club");
-        boardFrame.setLocation(0,0);
+        //boardFrame.setLocation(0,0);
 
         JPanel boardPanel = new JPanel();
         boardPanel.setLayout(null);

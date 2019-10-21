@@ -5,15 +5,12 @@
  */
 package Controller;
 
-import Board.Board;
+import Board.*;
 import Enums.ThemeColor;
 import Images.Images;
 import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
-import Board.Factory;
-import Board.Pair;
-import Board.Tile;
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -61,7 +58,7 @@ public class Controller extends Application {
         Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
         Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
-        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("animehoes.fen"));
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
@@ -115,12 +112,28 @@ public class Controller extends Application {
      * @param clickedTile 
      */
     private void handleTurn(Tile clickedTile) {
-        // The friendly Piece that the player first clicked to intiate this move. Better known as the the "from"...
+        /** Create a temp state of the gameBoard to validate the move, 
+         *  The friendly Piece that the player first clicked to initiate this move. Better known as the the "from" ...
+         *  The move is made on the temp board, then we test if the player's king is still or becomes in check
+         */
+        Board temp = Factory.cloneBoard(gameBoard);
+        temp.setCurrentPlayer(gameBoard.getCurrentPlayer() == gameBoard.getLightPlayer() ? temp.getLightPlayer() : temp.getDarkPlayer());
+        temp.setEnemyPlayer(gameBoard.getCurrentPlayer() == gameBoard.getLightPlayer() ? temp.getDarkPlayer() : temp.getLightPlayer());
         Piece transientPiece = gameBoard.getSelectedPiece();
-
-        // The turn itself happens here. We used clickedTile's position because it might not be occupied.
-        gameBoard.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
-        gameBoard.switchPlayers();
+        
+        temp.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
+        
+        if(!Check.pairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp, temp.getEnemyPlayer())){
+            // The players king is not in check, therefore it is a valid move, run instruction to make move
+            // The turn itself happens here. We used clickedTile's position because it might not be occupied.
+            gameBoard.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
+            gameBoard.switchPlayers(); 
+            newTurn();
+        }else{
+            System.out.println("=================== INVALID MOVE, you are putting yourself in check! =========================");
+        }
+        
+        
 
         // Reset selection, highlights, etc.
         gameViewer.resetForRender();
@@ -133,7 +146,19 @@ public class Controller extends Application {
         // The player cancelled their selection, so we should reset selection, highlights, etc.
         gameViewer.resetForRender();
     }
-
+    /**
+     * Handles switching players and updating the ' check / mate ' state of the new player
+     */
+    private void newTurn(){
+        if(Check.pairUnderAttack(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
+            if(Check.kingCanBeSaved(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
+                System.out.println("=================== Current Player is in CHECKMATE =========================");
+            }else{
+                System.out.println("=================== Current Player is in CHECK =========================");
+            }
+        }
+    }
+    
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button();
@@ -151,4 +176,5 @@ public class Controller extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
 }

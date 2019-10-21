@@ -51,25 +51,25 @@ public class Check {
         return false;
     }
     
-    public static boolean kingCanMove(Pair locKing, Board board, Player alpha){
-        // check to first see if the king is in check
-        if ( pairUnderAttack(locKing, board, alpha) ){
-            /*get the possible moves of the king, 
-            create a temp tile matrix of board, 
-            pass the row and col of pair king to the tile matrix to get the tile, 
-            call getPiece to get the king, then call getPossibleMoves
-            */
-            Tile[][] matrix = board.getMatrix();
-            Vector<Pair> kingMoves = matrix[locKing.getRow()][locKing.getColumn()].getPiece().getPossibleMoves(board);
-            Player enemy = board.getEnemyPlayer();
-            for (int k = 0; k < kingMoves.size(); k++){
-                if (!pairUnderAttack(kingMoves.get(k), board, enemy)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+//    public static boolean kingCanMove(Pair locKing, Board board, Player alpha){
+//        // check to first see if the king is in check
+//        if ( pairUnderAttack(locKing, board, alpha) ){
+//            /*get the possible moves of the king, 
+//            create a temp tile matrix of board, 
+//            pass the row and col of pair king to the tile matrix to get the tile, 
+//            call getPiece to get the king, then call getPossibleMoves
+//            */
+//            Tile[][] matrix = board.getMatrix();
+//            Vector<Pair> kingMoves = matrix[locKing.getRow()][locKing.getColumn()].getPiece().getPossibleMoves(board);
+//            Player enemy = board.getEnemyPlayer();
+//            for (int k = 0; k < kingMoves.size(); k++){
+//                if (!pairUnderAttack(kingMoves.get(k), board, enemy)){
+//                    return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
     
     public static boolean kingCanBeSaved(Pair locKing, Board board, Player enemy){
         Tile[][] matrix = board.getMatrix();
@@ -84,13 +84,13 @@ public class Check {
                         if false, king can be saved, else if true, keep going until false
                         */
                         Board temp = Factory.cloneBoard(board);
-                        try {
-                            temp.movePiece(matrix[i][j].getPosition(),allyMoves.get(k));
-                        } catch (Exception ex) {
-                            Logger.getLogger(Viewer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        temp.setCurrentPlayer(board.getCurrentPlayer() == board.getLightPlayer() ? temp.getLightPlayer() : temp.getDarkPlayer());
+                        temp.setEnemyPlayer(board.getCurrentPlayer() == board.getLightPlayer() ? temp.getDarkPlayer() : temp.getLightPlayer());
+                        
+                        temp.movePiece(matrix[i][j].getPosition(),allyMoves.get(k));
+                        
                         //check to see after piece has been moved if king is still under attack
-                        if(!pairUnderAttack(locKing, temp, enemy)){
+                        if(!pairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp, temp.getEnemyPlayer())){
                             return true;
                         }
                         //if we get here that means king is not saved for that possible move and we need to reset the temp board back             

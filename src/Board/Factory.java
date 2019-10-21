@@ -102,7 +102,7 @@ public class Factory {
         }
 
         board.setCurrentPlayer(FEN.charAt(k) == 'w' ? board.getLightPlayer() : board.getDarkPlayer());
-        board.setEnemyPlayer(FEN.charAt(k) == 'b' ? board.getDarkPlayer() : board.getLightPlayer());
+        board.setEnemyPlayer(FEN.charAt(k) == 'w' ? board.getDarkPlayer() : board.getLightPlayer());
 
         return board;
     }

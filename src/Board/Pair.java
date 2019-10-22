@@ -6,7 +6,7 @@
 package Board;
 
 /**
- *
+ * A class that represents Pairs ie (x,y)
  * @author nehalpatel
  */
 public class Pair {

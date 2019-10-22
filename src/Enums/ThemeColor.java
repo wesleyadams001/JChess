@@ -49,6 +49,10 @@ public enum ThemeColor {
         return this.num;
     }
 
+    /**
+     * gets the color
+     * @return 
+     */
     public Color getColor() {
         return this.col;
     }

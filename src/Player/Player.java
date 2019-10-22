@@ -11,7 +11,7 @@ import Enums.ThemeColor;
 import Board.Pair;
 
 /**
- *
+ * Class that contains the player logic
  * @author nehalpatel
  */
 public class Player {

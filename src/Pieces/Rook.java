@@ -14,7 +14,7 @@ import Player.Player;
 import java.util.Vector;
 
 /**
- *
+ * The class that implements the rook move generation logic
  * @author jonathanjoiner
  */
 public class Rook extends Piece {

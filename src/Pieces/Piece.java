@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 import static Images.Images.Icons;
 
 /**
- *
+ * The abstract piece type that all pieces use as a base
  * @author nehalpatel
  */
 public abstract class Piece {
@@ -26,7 +26,6 @@ public abstract class Piece {
     private final Player player;
     
     private boolean selected;
-    private boolean taken;
     private boolean hasTakenFirstMove;
     
     private final char letter;
@@ -46,7 +45,7 @@ public abstract class Piece {
     }
 
     /**
-     *
+     * Returns the vector of pairs to which a piece can move to with its special move
      * @param board
      * @param p
      * @return
@@ -63,7 +62,7 @@ public abstract class Piece {
     
 
     /**
-     *
+     * Returns the player to which the piece belongs
      * @return
      */
     public Player getPlayer() {
@@ -71,7 +70,7 @@ public abstract class Piece {
     }
 
     /**
-     *
+     * returns the current position of the piece
      * @return
      */
     public Pair getCurrentPosition() {
@@ -79,7 +78,7 @@ public abstract class Piece {
     }
 
     /**
-     *
+     * sets the current position of a piece
      * @param position
      */
     public void setCurrentPosition(Pair position) {
@@ -87,7 +86,7 @@ public abstract class Piece {
     }
     
     /**
-     *
+     * Gets the image associated with the piece
      * @return
      */
     public ImageIcon getImage() {
@@ -95,7 +94,7 @@ public abstract class Piece {
     }
 
     /**
-     *
+     * Boolean to indicate piece is selected
      * @return
      */
     public boolean isSelected() {
@@ -103,31 +102,16 @@ public abstract class Piece {
     }
 
     /**
-     *
+     * Sets the selected piece
      * @param selected
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean isTaken() {
-        return taken;
-    }
 
     /**
-     *
-     * @param taken
-     */
-    public void setTaken(boolean taken) {
-        this.taken = taken;
-    }
-
-    /**
-     *
+     * indicates if the piece has taken its first move
      * @return
      */
     public boolean hasTakenFirstMove() {
@@ -135,7 +119,7 @@ public abstract class Piece {
     }
 
     /**
-     *
+     * sets if the piece has taken its first move
      * @param hasTakenFirstMove
      */
     public void setHasTakenFirstMove(boolean hasTakenFirstMove) {
@@ -177,6 +161,10 @@ public abstract class Piece {
         return true;
     }
 
+    /**
+     * Gets the letter associated with the piece
+     * @return 
+     */
     public char getLetter() {
         return this.letter;
     }

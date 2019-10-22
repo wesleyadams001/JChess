@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- *
+ * Factory to create new board instances
  * @author nehalpatel
  */
 public class Factory {

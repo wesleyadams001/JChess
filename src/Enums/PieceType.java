@@ -23,15 +23,28 @@ public enum PieceType {
     private final char light;
     private final char dark;
     
+    /**
+     * The default constructor for Piece type enum
+     * @param light
+     * @param dark 
+     */
     private PieceType(char light, char dark){
         this.light = light;
         this.dark = dark;
     }
     
+    /**
+     * Gets the Light Letter
+     * @return char
+     */
     public char getLightLetter() {
         return this.light;
     }
     
+    /**
+     * Gets the Dark letter
+     * @return char
+     */
     public char getDarkLetter() {
         return this.dark;
     }

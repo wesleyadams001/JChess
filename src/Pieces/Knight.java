@@ -14,7 +14,7 @@ import java.util.Vector;
 import Player.Player;
 
 /**
- *
+ * The Class that holds the available move generation logic for the knight
  * @author jonathanjoiner
  */
 public class Knight extends Piece{

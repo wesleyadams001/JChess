@@ -6,12 +6,12 @@
 package Enums;
 
 /**
- *
+ * An enumeration that represents 
  * @author nehalpatel
  */
 public enum MoveResult {
-    InvalidCheck,
+    InvalidEscape,
     Check,
     Checkmate,
-    Benign
+    BetaMove
 }

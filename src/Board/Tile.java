@@ -22,7 +22,7 @@ public class Tile {
     private boolean special;
     
     /**
-     *
+     * Default constructor for Tile
      * @param position The Pair representing the Tile's place on the Board.
      */
     public Tile(Pair position) {
@@ -52,6 +52,10 @@ public class Tile {
         this.piece = newPiece;
     }
 
+    /**
+     * Removes the piece
+     * @return
+     */
     public Piece removePiece() {
         Piece removedPiece = this.piece;
         setPiece(null);

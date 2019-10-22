@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- *
+ * The Class that implements the move generation logic for the pawn
  * @author nehalpatel
  */
 public class Pawn extends Piece {

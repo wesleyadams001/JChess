@@ -14,7 +14,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import Controller.Controller;
 import javax.swing.border.LineBorder;
-import Player.Interface.TileDelegate;
+import Player.EventMapping.TileDelegate;
 
 // import java.awt.Container;
 

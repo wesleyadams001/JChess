@@ -14,7 +14,7 @@ import java.util.Vector;
 import Player.Player;
 
 /**
- *
+ * Class that holds the available moves for a bishop
  * @author jonathanjoiner
  */
 public class Bishop extends Piece{

@@ -9,7 +9,7 @@ import java.util.Vector;
 import Player.Player;
 
 /**
- *
+ * Class that accounts for Check functionality
  * @author Chris
  */
 public class Check {
@@ -48,26 +48,11 @@ public class Check {
         return false;
     }
     
-//    public static boolean kingCanMove(Pair locKing, Board board, Player alpha){
-//        // check to first see if the king is in check
-//        if ( pairUnderAttack(locKing, board, alpha) ){
-//            /*get the possible moves of the king, 
-//            create a temp tile matrix of board, 
-//            pass the row and col of pair king to the tile matrix to get the tile, 
-//            call getPiece to get the king, then call getPossibleMoves
-//            */
-//            Tile[][] matrix = board.getMatrix();
-//            Vector<Pair> kingMoves = matrix[locKing.getRow()][locKing.getColumn()].getPiece().getPossibleMoves(board);
-//            Player enemy = board.getEnemyPlayer();
-//            for (int k = 0; k < kingMoves.size(); k++){
-//                if (!pairUnderAttack(kingMoves.get(k), board, enemy)){
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-    
+    /**
+     * If any ally can intercede on the kings behalf
+     * @param board
+     * @return boolean
+     */
     public static boolean kingCanBeSaved(Board board){
         Player enemy = board.getEnemyPlayer();
         Tile[][] matrix = board.getMatrix();

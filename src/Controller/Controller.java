@@ -65,7 +65,7 @@ public class Controller extends Application {
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
-        gameViewer.setTileClickHandler(this::didClickTile);
+        gameViewer.setTileClickHandler(this::didClickTile); //()=>
     }
 
     /**
@@ -129,7 +129,7 @@ public class Controller extends Application {
         Player simulatedCurrentPlayer = simulatedBoard.getCurrentPlayer();
 
         if (simulatedCurrentPlayer.isKingUnderAttack(simulatedBoard)) {
-            return MoveResult.InvalidCheck;
+            return MoveResult.InvalidEscape;
         } else {
             // The players king is not in check, therefore it is a valid move, run instruction to make move
             // The turn itself happens here. We used clickedTile's position because it might not be occupied.
@@ -188,7 +188,7 @@ public class Controller extends Application {
             System.out.print("Player is not in check");
         }
 
-        return MoveResult.Benign;
+        return MoveResult.BetaMove;
     }
 
     /**
@@ -197,7 +197,7 @@ public class Controller extends Application {
      */
     private void didCommitMove(MoveResult moveResult) {
         switch (moveResult) {
-            case InvalidCheck:
+            case InvalidEscape:
                 System.out.println("=================== INVALID MOVE, you are putting yourself in check! =========================");
                 break;
             case Check:
@@ -206,7 +206,7 @@ public class Controller extends Application {
             case Checkmate:
                 showMessageDialog(null, "Checkmate. " + gameBoard.getEnemyPlayer().getName() + " wins!");
                 break;
-            case Benign:
+            case BetaMove:
                 break;
         }
     }

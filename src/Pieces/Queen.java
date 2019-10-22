@@ -14,7 +14,7 @@ import Player.Player;
 import java.util.Vector;
 
 /**
- *
+ * The class that contains the logic that 
  * @author jonathanjoiner
  */
 public class Queen  extends Piece{

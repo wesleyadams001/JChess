@@ -11,7 +11,7 @@ import Board.Tile;
  * Represents a Viewer->Controller event mapping.
  * @author nehalpatel
  */
-public class Interface {
+public class EventMapping {
     public interface TileDelegate 
     {
         public void didClick(Tile tile);

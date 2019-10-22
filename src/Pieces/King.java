@@ -45,7 +45,8 @@ public class King extends Piece{
             if(!this.hasTakenFirstMove()){ // king can not have previously moved
                 if(rookLeft != null && !rookLeft.hasTakenFirstMove()){ // testing rook left move
                     for(int i = rookLeft.getCurrentPosition().getColumn()+1; i < this.getCurrentPosition().getColumn() ; i++){ //looping throw the rank starting at the rook and until the king
-                        if(board.getMatrix()[homeRow][i].getPiece()==null && Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)){ // making sure each pair until the king is not under attack
+                        // making sure each pair until the king is not under attack
+                        if (board.getMatrix()[homeRow][i].getPiece()!=null || Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)) {
                             canCastleLeft = false;
                         }
                     }
@@ -54,7 +55,8 @@ public class King extends Piece{
                 }
                 if(rookRight != null && !rookRight.hasTakenFirstMove()){ //testing rook right move
                     for(int i = rookRight.getCurrentPosition().getColumn()-1; i > this.getCurrentPosition().getColumn() ; i--){
-                        if(board.getMatrix()[homeRow][i].getPiece()==null && Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)){ // making sure each pair until the king is not under attack
+                        // making sure each pair until the king is not under attack
+                        if (board.getMatrix()[homeRow][i].getPiece()!=null || Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)) {
                             canCastleRight = false;
                         }
                     }

@@ -61,7 +61,7 @@ public class Controller extends Application {
         Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
         Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
-        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("checkmate.fen"));
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);

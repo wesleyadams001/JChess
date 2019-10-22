@@ -159,7 +159,6 @@ public class Controller extends Application {
         }
         
         
-
         // Reset selection, highlights, etc.
         gameViewer.resetForRender();
     }

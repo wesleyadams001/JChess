@@ -6,11 +6,12 @@
 package Controller;
 
 import Board.*;
-import Enums.ThemeColor;
+import Enums.*;
 import Images.Images;
 import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
+import java.util.HashSet;
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -102,9 +103,15 @@ public class Controller extends Application {
 
         // Highlight all possible moves for the clicked Tile.
         Vector<Pair> possibleMoves = piece.getPossibleMoves(gameBoard);
+        Vector<Pair> special = piece.specialMoves(gameBoard);
+        special.forEach((pair) -> {
+            gameBoard.getTile(pair).setSpecial(true);
+        });
         possibleMoves.forEach((pair) -> {
             gameBoard.getTile(pair).setHighlighted(true);
         });
+        
+        
     }
 
     /**
@@ -127,6 +134,24 @@ public class Controller extends Application {
             // The players king is not in check, therefore it is a valid move, run instruction to make move
             // The turn itself happens here. We used clickedTile's position because it might not be occupied.
             gameBoard.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
+            // special moves require more functionality
+            if(clickedTile.isSpecial()){
+                // see if its a special move of the king
+                if(transientPiece.getPieceType() == PieceType.King){ 
+                    // save the pair of the king and what should be the location of the rooks
+                    // in order to get to this part of the code, the rooks have to be in the starting position, so its safe to hardcode
+                    Pair king = gameBoard.getCurrentPlayer().getLocationOfKing();
+                    Pair rookLeft = new Pair(king.getRow(), king.getColumn()-1);
+                    Pair rookRight = new Pair(king.getRow(), king.getColumn()+1);
+                    // if the rook is to the left of the king, move the rook to the right of the king, vise versa
+                    if(gameBoard.getTile(rookLeft).isOccupied() && gameBoard.getTile(rookLeft).getPiece().getPieceType()==PieceType.Rook) { 
+                        gameBoard.movePiece(rookLeft, new Pair(king.getRow(), king.getColumn()+1));
+                    }else if(gameBoard.getTile(rookRight).isOccupied() && gameBoard.getTile(rookRight).getPiece().getPieceType()==PieceType.Rook){
+                        gameBoard.movePiece(rookRight, new Pair(king.getRow(), king.getColumn()-1));
+                    
+                    }
+                }
+            }
             gameBoard.switchPlayers(); 
             newTurn();
         }else{

@@ -19,6 +19,7 @@ public class Tile {
     private boolean highlighted;
     private Color color;
     private final Pair position;
+    private boolean special;
     
     /**
      *
@@ -79,6 +80,14 @@ public class Tile {
      */
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
+    }
+    
+    public boolean isSpecial() {
+        return special;
+    }
+    
+    public void setSpecial(boolean s) {
+        this.special = s;
     }
 
     /**

@@ -210,7 +210,7 @@ public final class Board {
      * @return 
      */
     private Boolean clickIsMove(Tile tile) {
-        return (tile.isHighlighted() &&
+        return ((tile.isHighlighted() || tile.isSpecial()) &&
                 this.getSelectedPiece() != null);
     }
 

@@ -19,7 +19,8 @@ public enum ThemeColor {
     LightTile("lb", 3, new Color(222, 184, 135)),
     DarkTile("db", 4, new Color(139, 69, 19)),
     Friendly("bl", 5, new Color(52, 152, 219)),
-    Enemy("r", 6, new Color(231, 76, 60));
+    Enemy("r", 6, new Color(231, 76, 60)),
+    Special("g", 7, new Color(5, 255, 30));
 
     private final int num;
     private final String abbr;

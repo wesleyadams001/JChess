@@ -5,11 +5,8 @@
  */
 package Pieces;
 
-import Board.Board;
-import Board.Tile;
-import Board.Pair;
-import Enums.MoveType;
-import Enums.PieceType;
+import Board.*;
+import Enums.*;
 import Player.Player;
 import java.util.Vector;
 
@@ -28,76 +25,59 @@ public class King extends Piece{
      * @return vector of Pair objects 
      */
     @Override
-    public Vector<Pair> specialMoves(Board board, Piece p) {
-        //A special move with the king known as castling is allowed only once per player, per game
-        //The king and rook involved in castling must not have previously moved;
-        //There must be no pieces between the king and the rook;
-        //The king may not currently be in check, nor may the king pass through or end up in a square that is under attack by an enemy piece 
-        //(though the rook is permitted to be under attack and to pass over an attacked square);
-        //The king and the rook must be on the same rank
+    public Vector<Pair> specialMoves(Board board) {
         
-        Vector<Pair> specialMoves = new Vector<>(); //The king special castling moves
+        // CASTLE.EXE 
         
-        Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
-        final int row = position.getRow();          //Initialize variable to hold row position
-        final int column = position.getColumn();    //Initialize variable to hold column position
-        boolean pos1 = false;                       //Boolean for testing castlePos1
-        boolean pos2 = false;                       //Boolean for testing castlePos2
+        //set the rooks
+        int homeRow = board.getCurrentPlayer().getColor() == ThemeColor.DarkPiece ? 0 : 7;
+        Piece rookLeft = board.getMatrix()[homeRow][0].getPiece();
+        Piece rookRight = board.getMatrix()[homeRow][7].getPiece();
         
+        boolean canCastleLeft = true;
+        boolean canCastleRight = true;
         
-        //Tiles for castle positions to the left and right of initial King square
-        Tile castlePos1 = board.getTile(new Pair(row, column - 4));
-        Tile castlePos2 = board.getTile(new Pair(row, column + 3));
+        Vector<Pair> specialMoves = new Vector<>();
         
-        //The king special castling moves
-        if(this.hasTakenFirstMove()){
-            throw new UnsupportedOperationException("King has taken first move. can't castle");
-        }
-
-        //Tests if LongSide castle is still in castling position, and hasn't taken first move
-        if(castlePos1.isOccupied()){
-            if(castlePos1.getPiece().getClass() == Rook.class){
-                if(castlePos1.getPiece().hasTakenFirstMove() == false){
-                    pos1 = true;
+        Player enemy = board.getEnemyPlayer() == this.getPlayer() ? board.getCurrentPlayer() : board.getEnemyPlayer(); // used for pair under attack
+        
+        if(!Check.pairUnderAttack(this.getCurrentPosition(), board, enemy)){ // king can not be in check
+            if(!this.hasTakenFirstMove()){ // king can not have previously moved
+                if(rookLeft != null && !rookLeft.hasTakenFirstMove()){ // testing rook left move
+                    for(int i = rookLeft.getCurrentPosition().getColumn()+1; i < this.getCurrentPosition().getColumn() ; i++){ //looping throw the rank starting at the rook and until the king
+                        if(board.getMatrix()[homeRow][i].getPiece()==null && Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)){ // making sure each pair until the king is not under attack
+                            canCastleLeft = false;
+                        }
+                    }
+                }else{
+                    canCastleLeft = false;
                 }
-            } 
-        }
-
-        //Tests if shortside castle is still in castling position, and hasn't taken first move
-        if(castlePos2.isOccupied()){
-            if(castlePos2.getPiece().getClass() == Rook.class){
-                if(castlePos2.getPiece().hasTakenFirstMove() == false){
-                    pos2 = true;
+                if(rookRight != null && !rookRight.hasTakenFirstMove()){ //testing rook right move
+                    for(int i = rookRight.getCurrentPosition().getColumn()-1; i > this.getCurrentPosition().getColumn() ; i--){
+                        if(board.getMatrix()[homeRow][i].getPiece()==null && Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)){ // making sure each pair until the king is not under attack
+                            canCastleRight = false;
+                        }
+                    }
+                }else{
+                    canCastleRight = false;
                 }
-            } 
+            }else{
+                canCastleLeft = false; canCastleRight = false;
+            }
+        }else{
+            canCastleLeft = false; canCastleRight = false;
         }
-       
-       //if Rook's available to castle longside, test if spaces are empty between rook and king
-       //Note: ***This is where if king would pass through check needs to be checked for***
-       if (pos1){
-           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column - i)), MoveType.EmptyTileOnly)) && (i < 4); i++){
-               //If all squares are empty add last square to possible move set
-               if (i == 3){
-                   specialMoves.add(board.getTile(new Pair(row, column - i)).getPosition());
-               }
-           }
-       }
-       
-       //if Rook's available to castle shortside, test if spaces are empty between rook and king
-       //Note: ***This is where if king would pass through check needs to be checked for***
-       if (pos2){
-           for(int i = 1; (canMoveTo(board.getTile(new Pair(row, column + i)), MoveType.EmptyTileOnly)) && (i < 3); i++){
-               //If all squares are empty add last square to possible move set
-               if (i == 2){
-                   specialMoves.add(board.getTile(new Pair(row, column + i)).getPosition());
-               }
-           }
-       }
+        // based of test values, add castle move
+        if(canCastleLeft){
+            specialMoves.add(new Pair(homeRow, rookLeft.getCurrentPosition().getColumn()+1));
+        }
+        if(canCastleRight){
+            specialMoves.add(new Pair(homeRow, rookRight.getCurrentPosition().getColumn()-1));
+        }
+        
     
-       
         
-       //return special moves vector
-       return specialMoves;
+        return specialMoves;
     }
 
     @Override

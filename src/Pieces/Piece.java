@@ -51,7 +51,7 @@ public abstract class Piece {
      * @param p
      * @return
      */
-    public abstract Vector<Pair> specialMoves(Board board, Piece p);
+    public abstract Vector<Pair> specialMoves(Board board);
 
     /**
      * Get a list of possible moves this Piece can make.
@@ -59,6 +59,8 @@ public abstract class Piece {
      * @return A collection of Pairs representing the possible moves for this Piece.
      */
     public abstract Vector<Pair> getPossibleMoves(Board board);
+    
+    
 
     /**
      *

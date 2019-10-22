@@ -268,7 +268,7 @@ public class Queen  extends Piece{
         return moves;
     }
     @Override
-    public Vector<Pair> specialMoves(Board board, Piece p) {
+    public Vector<Pair> specialMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
         
         return moves;

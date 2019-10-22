@@ -58,7 +58,7 @@ public class Controller extends Application {
         Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
         Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
-        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("animehoes.fen"));
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("check.fen"));
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
@@ -151,11 +151,13 @@ public class Controller extends Application {
      */
     private void newTurn(){
         if(Check.pairUnderAttack(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
-            if(Check.kingCanBeSaved(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
+            if(!Check.kingCanBeSaved(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
                 System.out.println("=================== Current Player is in CHECKMATE =========================");
             }else{
                 System.out.println("=================== Current Player is in CHECK =========================");
             }
+        }else{
+            System.out.print("Player is not in check");
         }
     }
     

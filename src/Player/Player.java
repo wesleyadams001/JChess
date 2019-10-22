@@ -5,7 +5,8 @@
  */
 package Player;
 
-
+import Board.Board;
+import Board.Check;
 import Enums.ThemeColor;
 import Board.Pair;
 
@@ -14,7 +15,7 @@ import Board.Pair;
  * @author nehalpatel
  */
 public class Player {
-    private String name;
+    private final String name;
     private boolean isChecked;
     private final ThemeColor color;
     private Pair kingPair;
@@ -70,5 +71,29 @@ public class Player {
      */
     public void setLocationOfKing(Pair king){
         this.kingPair = king;
+    }
+
+    /**
+     * Determines if the player's King can be saved by an ally's move.
+     */
+    public boolean canKingBeSaved(Board board) {
+        return Check.kingCanBeSaved(board);
+    }
+
+    /**
+     * Determines if the Player's King is in the line of attack of any enemy Piece.
+     * @param board
+     * @return
+     */
+    public boolean isKingUnderAttack(Board board) {
+        Player enemy;
+
+        if (this.getColor() == ThemeColor.LightPiece) {
+            enemy = board.getDarkPlayer();
+        } else {
+            enemy = board.getLightPlayer();
+        }
+
+        return Check.pairUnderAttack(this.getLocationOfKing(), board, enemy);
     }
 }

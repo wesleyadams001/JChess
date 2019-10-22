@@ -6,12 +6,13 @@
 package Controller;
 
 import Board.*;
-import Enums.*;
+import Enums.MoveResult;
+import Enums.PieceType;
+import Enums.ThemeColor;
 import Images.Images;
 import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
-import java.util.HashSet;
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -59,7 +61,7 @@ public class Controller extends Application {
         Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
         Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
-        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("check.fen"));
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("checkmate.fen"));
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
@@ -78,7 +80,8 @@ public class Controller extends Application {
                 break;
             case Move:
                 // The player selected a new location to move the "transient" Piece to.
-                handleTurn(tile);
+                MoveResult moveResult = handleTurn(gameBoard.getTransientPiece(), tile);
+                didCommitMove(moveResult);
                 break;
             case Deselection:
                 // The player cancelled their selection.
@@ -116,51 +119,48 @@ public class Controller extends Application {
 
     /**
      * Handles a Tile move intent.
-     * @param clickedTile 
+     * @param origin The friendly Piece that the Player first clicked to initiate this move. Better known as the the "from"...
+     * @param destination The destination Tile.
      */
-    private void handleTurn(Tile clickedTile) {
-        /** Create a temp state of the gameBoard to validate the move, 
-         *  The friendly Piece that the player first clicked to initiate this move. Better known as the the "from" ...
-         *  The move is made on the temp board, then we test if the player's king is still or becomes in check
-         */
-        Board temp = Factory.cloneBoard(gameBoard);
-        temp.setCurrentPlayer(gameBoard.getCurrentPlayer() == gameBoard.getLightPlayer() ? temp.getLightPlayer() : temp.getDarkPlayer());
-        temp.setEnemyPlayer(gameBoard.getCurrentPlayer() == gameBoard.getLightPlayer() ? temp.getDarkPlayer() : temp.getLightPlayer());
-        Piece transientPiece = gameBoard.getSelectedPiece();
-        
-        temp.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
-        
-        if(!Check.pairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp, temp.getEnemyPlayer())){
+    private MoveResult handleTurn(Piece transientPiece, Tile destination) {
+        // Create a temp state of the gameBoard to validate the move, 
+        // The move is made on the temp board, then we test if the player's king is still or becomes in check.
+        Board simulatedBoard = gameBoard.simulatedWithMove(transientPiece, destination);
+        Player simulatedCurrentPlayer = simulatedBoard.getCurrentPlayer();
+
+        if (simulatedCurrentPlayer.isKingUnderAttack(simulatedBoard)) {
+            return MoveResult.InvalidCheck;
+        } else {
             // The players king is not in check, therefore it is a valid move, run instruction to make move
             // The turn itself happens here. We used clickedTile's position because it might not be occupied.
-            gameBoard.movePiece(transientPiece.getCurrentPosition(), clickedTile.getPosition());
+            gameBoard.movePiece(transientPiece.getCurrentPosition(), destination.getPosition());
+
             // special moves require more functionality
-            if(clickedTile.isSpecial()){
+            if (destination.isSpecial()) {
                 // see if its a special move of the king
-                if(transientPiece.getPieceType() == PieceType.King){ 
+                if (transientPiece.getPieceType() == PieceType.King) { 
                     // save the pair of the king and what should be the location of the rooks
                     // in order to get to this part of the code, the rooks have to be in the starting position, so its safe to hardcode
                     Pair king = gameBoard.getCurrentPlayer().getLocationOfKing();
-                    Pair rookLeft = new Pair(king.getRow(), king.getColumn()-1);
-                    Pair rookRight = new Pair(king.getRow(), king.getColumn()+1);
+                    Piece rookLeft = gameBoard.getPiece(new Pair(king.getRow(), king.getColumn()-1));
+                    Piece rookRight = gameBoard.getPiece(new Pair(king.getRow(), king.getColumn()+1));
+
                     // if the rook is to the left of the king, move the rook to the right of the king, vise versa
-                    if(gameBoard.getTile(rookLeft).isOccupied() && gameBoard.getTile(rookLeft).getPiece().getPieceType()==PieceType.Rook) { 
-                        gameBoard.movePiece(rookLeft, new Pair(king.getRow(), king.getColumn()+1));
-                    }else if(gameBoard.getTile(rookRight).isOccupied() && gameBoard.getTile(rookRight).getPiece().getPieceType()==PieceType.Rook){
-                        gameBoard.movePiece(rookRight, new Pair(king.getRow(), king.getColumn()-1));
-                    
+                    if (rookLeft != null && rookLeft.getPieceType() == PieceType.Rook) { 
+                        gameBoard.movePiece(rookLeft.getCurrentPosition(), new Pair(king.getRow(), king.getColumn()+1));
+                    } else if (rookRight != null && rookRight.getPieceType() == PieceType.Rook) {
+                        gameBoard.movePiece(rookRight.getCurrentPosition(), new Pair(king.getRow(), king.getColumn()-1));
                     }
                 }
             }
+
             gameBoard.switchPlayers(); 
-            newTurn();
-        }else{
-            System.out.println("=================== INVALID MOVE, you are putting yourself in check! =========================");
+
+            // Reset selection, highlights, etc.
+            gameViewer.resetForRender();
+
+            return determineMoveResult();
         }
-        
-        
-        // Reset selection, highlights, etc.
-        gameViewer.resetForRender();
     }
 
     /**
@@ -170,21 +170,47 @@ public class Controller extends Application {
         // The player cancelled their selection, so we should reset selection, highlights, etc.
         gameViewer.resetForRender();
     }
+
     /**
-     * Handles switching players and updating the ' check / mate ' state of the new player
+     * Determines the result of a move with heuristics.
+     * @return The move result.
      */
-    private void newTurn(){
-        if(Check.pairUnderAttack(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
-            if(!Check.kingCanBeSaved(gameBoard.getCurrentPlayer().getLocationOfKing(), gameBoard, gameBoard.getEnemyPlayer())){
-                System.out.println("=================== Current Player is in CHECKMATE =========================");
-            }else{
-                System.out.println("=================== Current Player is in CHECK =========================");
+    private MoveResult determineMoveResult() {
+        Player currentPlayer = gameBoard.getCurrentPlayer();
+
+        if (currentPlayer.isKingUnderAttack(gameBoard)) {
+            if (currentPlayer.canKingBeSaved(gameBoard)) {
+                return MoveResult.Check;
+            } else {
+                return MoveResult.Checkmate;
             }
         }else{
             System.out.print("Player is not in check");
         }
+
+        return MoveResult.Benign;
     }
-    
+
+    /**
+     * A post-move hook to update values after a move is made.
+     * @param moveResult The result of the move.
+     */
+    private void didCommitMove(MoveResult moveResult) {
+        switch (moveResult) {
+            case InvalidCheck:
+                System.out.println("=================== INVALID MOVE, you are putting yourself in check! =========================");
+                break;
+            case Check:
+                showMessageDialog(null, gameBoard.getCurrentPlayer().getName() + " is in check.");
+                break;
+            case Checkmate:
+                showMessageDialog(null, "Checkmate. " + gameBoard.getEnemyPlayer().getName() + " wins!");
+                break;
+            case Benign:
+                break;
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button();

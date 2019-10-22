@@ -169,10 +169,27 @@ public final class Board {
     }
 
     /**
+     * Search for and retrieve a Piece.
+     * @param position A pair of coordinates with which to search for a Piece.
+     * @return The desired Piece if found, else null.
+     */
+    public Piece getPiece(Pair position) {
+        if (isValidPair(position)) {
+            Tile tile = getTile(position);
+            
+            if (tile != null) {
+                return tile.getPiece();
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Get the Player's selected Piece.
      * @return The first Piece found with isSelected() being true, null otherwise.
      */
-    public Piece getSelectedPiece() {
+    public Piece getTransientPiece() {
         return this.selectedPiece;
     }
 
@@ -211,7 +228,7 @@ public final class Board {
      */
     private Boolean clickIsMove(Tile tile) {
         return ((tile.isHighlighted() || tile.isSpecial()) &&
-                this.getSelectedPiece() != null);
+                this.getTransientPiece() != null);
     }
 
     /**
@@ -276,11 +293,22 @@ public final class Board {
         // Move is finished.
         // =================
         
-        
-        //if king was moved, update king location tracker attribute of player class
+        // If King was moved, update King location tracker attribute of Player class.
         if (toTile.getPiece().getPieceType() == PieceType.King){
             getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }
+    }
+
+    /**
+     * Returns a copy of Board with the move applied.
+     * @param from The Piece to move.
+     * @param to The Tile to move the Piece to.
+     * @return The simulated Board.
+     */
+    public Board simulatedWithMove(Piece from, Tile to) {
+        Board temp = Factory.cloneBoard(this);
+        temp.movePiece(from.getCurrentPosition(), to.getPosition());
+        return temp;
     }
 
 }

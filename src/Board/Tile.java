@@ -17,7 +17,7 @@ public class Tile {
 
     private Piece piece;
     private boolean highlighted;
-    private Color color;
+    private final Color color;
     private final Pair position;
     private boolean special;
     

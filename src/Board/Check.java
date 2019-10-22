@@ -7,9 +7,6 @@ package Board;
 
 import java.util.Vector;
 import Player.Player;
-import Player.Viewer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -71,7 +68,8 @@ public class Check {
 //        return false;
 //    }
     
-    public static boolean kingCanBeSaved(Pair locKing, Board board, Player enemy){
+    public static boolean kingCanBeSaved(Board board){
+        Player enemy = board.getEnemyPlayer();
         Tile[][] matrix = board.getMatrix();
         for ( int i = 0; i < 8 ; i ++ ){
             for ( int j = 0; j < 8 ; j ++ ){
@@ -84,10 +82,7 @@ public class Check {
                         if false, king can be saved, else if true, keep going until false
                         */
                         Board temp = Factory.cloneBoard(board);
-                        temp.setCurrentPlayer(board.getCurrentPlayer() == board.getLightPlayer() ? temp.getLightPlayer() : temp.getDarkPlayer());
-                        temp.setEnemyPlayer(board.getCurrentPlayer() == board.getLightPlayer() ? temp.getDarkPlayer() : temp.getLightPlayer());
-                        
-                        temp.movePiece(matrix[i][j].getPosition(),allyMoves.get(k));
+                        temp.movePiece(matrix[i][j].getPosition(), allyMoves.get(k));
                         
                         //check to see after piece has been moved if king is still under attack
                         if(!pairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp, temp.getEnemyPlayer())){

@@ -9,6 +9,7 @@ import Board.*;
 import Enums.*;
 import Player.Player;
 import java.util.Vector;
+import java.util.stream.IntStream;
 
 /**
  * The King piece
@@ -21,20 +22,45 @@ public class King extends Piece{
     }
 
     /**
+     * Returns Tiles found between the Rook and the King.
+     */
+    private Tile[] getTilesLeadingTo(Piece rook, Board board) {
+        int start = rook.getCurrentPosition().getColumn();
+        int end = this.getCurrentPosition().getColumn();
+        
+        // We need to flip the values so end is larger. The range function won't work otherwise.
+        if (end - start < 0) {
+            int temp = start;
+            start = end;
+            end = temp;
+        }
+
+        // squares holds indexes of all the Tiles between the Rook and the King.
+        int[] squares = IntStream.range(start + 1, end).toArray();
+        Tile[] tiles = new Tile[squares.length];
+
+        for (int i = 0; i < squares.length; i++) {
+            tiles[i] = board.getTile(new Pair(rook.getCurrentPosition().getRow(), squares[i]));
+        }
+
+        return tiles;
+    }
+
+    /**
      * Determines if the Rook exists and hasn't moved yet.
      * @param rook The Rook.
      * @return
      */
-    private Boolean isRookEligibleForCastling(Piece rook) {
+    public Boolean isRookEligibleForCastling(Piece rook) {
         if (rook == null) {
             return false;
         }
 
-        if (rook.hasTakenFirstMove()) {
+        if (rook.getPieceType() != PieceType.Rook) {
             return false;
         }
 
-        if (rook.getPieceType() != PieceType.Rook) {
+        if (rook.hasTakenFirstMove()) {
             return false;
         }
 
@@ -47,8 +73,7 @@ public class King extends Piece{
      * @param board The game board.
      * @return
      */
-    private Boolean canRookCastle(Piece rook, Board board) {
-        Tile[] homeRow = board.getCurrentPlayer().getHomeRow(board);
+    private Boolean canCastleWithRook(Piece rook, Board board) {
         Player enemyPlayer = board.getEnemyPlayer();
 
         // The King cannot be in check, and it should not have moved already.
@@ -57,17 +82,9 @@ public class King extends Piece{
 
         // Validating King and Rook with heuristics.
         if (kingIsNotInCheck && kingHasNotMovedYet && isRookEligibleForCastling(rook)) {
-            int kingColumn = this.getCurrentPosition().getColumn();
-            int rookColumn = rook.getCurrentPosition().getColumn();
-
-            // The offset will let us work with King side and Queen side Rooks with a general solution.
-            int difference = kingColumn - rookColumn;
-            int offset = (difference > 0) ? 1 : -1;
-            int startingColumn = rookColumn + offset;
-
             // Making sure each Tile between the Rook and the King is not under attack.
-            for (int currentColumn = startingColumn; currentColumn < kingColumn; currentColumn = currentColumn + offset) {
-                if (homeRow[currentColumn].isOccupied() || enemyPlayer.canAttack(homeRow[currentColumn], board)) {
+            for (Tile tile : this.getTilesLeadingTo(rook, board)) {
+                if (tile.isOccupied() || enemyPlayer.canAttack(tile, board)) {
                     return false;
                 }
             }
@@ -90,11 +107,11 @@ public class King extends Piece{
         Piece left = homeRow[0].getPiece();
         Piece right = homeRow[7].getPiece();
 
-        if (canRookCastle(left, board)) {
+        if (canCastleWithRook(left, board)) {
             specialMoves.add(left.getCurrentPosition().offsettingColumn(1));
         }
 
-        if (canRookCastle(right, board)) {
+        if (canCastleWithRook(right, board)) {
             specialMoves.add(right.getCurrentPosition().offsettingColumn(-1));
         }
 

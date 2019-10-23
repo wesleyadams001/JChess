@@ -45,10 +45,9 @@ public abstract class Piece {
     }
 
     /**
-     * Returns the vector of pairs to which a piece can move to with its special move
-     * @param board
-     * @param p
-     * @return
+     * Returns the vector of pairs to which a piece can move to with its special move.
+     * @param board The game board.
+     * @return A collection of Pairs representing the possible special moves for this Piece.
      */
     public abstract Vector<Pair> specialMoves(Board board);
 
@@ -58,11 +57,9 @@ public abstract class Piece {
      * @return A collection of Pairs representing the possible moves for this Piece.
      */
     public abstract Vector<Pair> getPossibleMoves(Board board);
-    
-    
 
     /**
-     * Returns the player to which the piece belongs
+     * Returns the player to which the piece belongs.
      * @return
      */
     public Player getPlayer() {

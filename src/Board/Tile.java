@@ -71,7 +71,7 @@ public class Tile {
     }
 
     /**
-     * Check if the Tile is highlighted.
+     * Check if the Tile is a move for the currently selected Piece.
      * @return True if this Tile should be highlighted on the Board.
      */
     public boolean isHighlighted() {
@@ -85,13 +85,21 @@ public class Tile {
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
     }
-    
+
+    /**
+     * Check if the Tile is a special move for the currently selected Piece.
+     * @return
+     */
     public boolean isSpecial() {
         return special;
     }
-    
-    public void setSpecial(boolean s) {
-        this.special = s;
+
+    /**
+     * Marks the Tile as special.
+     * @param special
+     */
+    public void setSpecial(boolean special) {
+        this.special = special;
     }
 
     /**

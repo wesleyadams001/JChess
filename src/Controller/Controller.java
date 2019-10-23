@@ -10,6 +10,7 @@ import Enums.MoveResult;
 import Enums.PieceType;
 import Enums.ThemeColor;
 import Images.Images;
+import Pieces.King;
 import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
@@ -106,15 +107,15 @@ public class Controller extends Application {
 
         // Highlight all possible moves for the clicked Tile.
         Vector<Pair> possibleMoves = piece.getPossibleMoves(gameBoard);
-        Vector<Pair> special = piece.specialMoves(gameBoard);
-        special.forEach((pair) -> {
-            gameBoard.getTile(pair).setSpecial(true);
-        });
         possibleMoves.forEach((pair) -> {
             gameBoard.getTile(pair).setHighlighted(true);
         });
-        
-        
+
+        // Highlight all special moves for the clicked Tile.
+        Vector<Pair> specialMoves = piece.specialMoves(gameBoard);
+        specialMoves.forEach((pair) -> {
+            gameBoard.getTile(pair).setSpecial(true);
+        });
     }
 
     /**
@@ -126,40 +127,50 @@ public class Controller extends Application {
         // Create a temp state of the gameBoard to validate the move, 
         // The move is made on the temp board, then we test if the player's king is still or becomes in check.
         Board simulatedBoard = gameBoard.simulatedWithMove(transientPiece, destination);
-        Player simulatedCurrentPlayer = simulatedBoard.getCurrentPlayer();
 
-        if (simulatedCurrentPlayer.isKingUnderAttack(simulatedBoard)) {
+        // Prevent move from going through if Player needs a Check-escaping move.
+        if (simulatedBoard.getCurrentPlayer().isKingUnderAttack(simulatedBoard)) {
             return MoveResult.InvalidEscape;
         } else {
-            // The players king is not in check, therefore it is a valid move, run instruction to make move
-            // The turn itself happens here. We used clickedTile's position because it might not be occupied.
+            // The Player's King is not in check, therefore it is a valid move; run instruction to make move.
             gameBoard.movePiece(transientPiece.getCurrentPosition(), destination.getPosition());
 
-            // special moves require more functionality
-            if (destination.isSpecial()) {
-                // see if its a special move of the king
-                if (transientPiece.getPieceType() == PieceType.King) { 
-                    // save the pair of the king and what should be the location of the rooks
-                    // in order to get to this part of the code, the rooks have to be in the starting position, so its safe to hardcode
-                    Pair king = gameBoard.getCurrentPlayer().getLocationOfKing();
-                    Piece rookLeft = gameBoard.getPiece(new Pair(king.getRow(), king.getColumn()-1));
-                    Piece rookRight = gameBoard.getPiece(new Pair(king.getRow(), king.getColumn()+1));
+            // Special moves require more functionality.
+            this.handleSpecialMove(transientPiece, destination);
 
-                    // if the rook is to the left of the king, move the rook to the right of the king, vise versa
-                    if (rookLeft != null && rookLeft.getPieceType() == PieceType.Rook) { 
-                        gameBoard.movePiece(rookLeft.getCurrentPosition(), new Pair(king.getRow(), king.getColumn()+1));
-                    } else if (rookRight != null && rookRight.getPieceType() == PieceType.Rook) {
-                        gameBoard.movePiece(rookRight.getCurrentPosition(), new Pair(king.getRow(), king.getColumn()-1));
-                    }
-                }
-            }
-
+            // This signals the end of the turn.
             gameBoard.switchPlayers(); 
 
             // Reset selection, highlights, etc.
             gameViewer.resetForRender();
 
             return determineMoveResult();
+        }
+    }
+
+    /**
+     * Handles special moves.
+     * @param transientPiece The "from" Piece.
+     * @param destination The destination Tile.
+     */
+    private void handleSpecialMove(Piece transientPiece, Tile destination) {
+        if (destination.isSpecial()) {
+            // See if it's a special move of the King.
+            if (transientPiece.getPieceType() == PieceType.King) { 
+                King king = (King) transientPiece;
+                Pair kingLocation = king.getCurrentPosition();
+
+                // In order to get to this part of the code, the rooks have to be in the starting position, so it's safe to hardcode.
+                Piece rookLeft = gameBoard.getPiece(kingLocation.offsettingColumn(-1));
+                Piece rookRight = gameBoard.getPiece(kingLocation.offsettingColumn(1));
+
+                // If the Rook is to the left of the King, move the Rook to the right of the King; vise versa.
+                if (king.isRookEligibleForCastling(rookLeft)) {
+                    gameBoard.movePiece(rookLeft.getCurrentPosition(), kingLocation.offsettingColumn(1));
+                } else if (king.isRookEligibleForCastling(rookRight)) {
+                    gameBoard.movePiece(rookRight.getCurrentPosition(), kingLocation.offsettingColumn(-1));
+                }
+            }
         }
     }
 

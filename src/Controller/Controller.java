@@ -161,7 +161,7 @@ public class Controller extends Application {
                 Pair kingLocation = king.getCurrentPosition();
 
                 // In order to get to this part of the code, the rooks have to be in the starting position, so it's safe to hardcode.
-                Piece rookLeft = gameBoard.getPiece(kingLocation.offsettingColumn(-1));
+                Piece rookLeft = gameBoard.getPiece(kingLocation.offsettingColumn(-2));
                 Piece rookRight = gameBoard.getPiece(kingLocation.offsettingColumn(1));
 
                 // If the Rook is to the left of the King, move the Rook to the right of the King; vise versa.

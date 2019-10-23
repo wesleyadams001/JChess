@@ -108,7 +108,7 @@ public class King extends Piece{
         Piece right = homeRow[7].getPiece();
 
         if (canCastleWithRook(left, board)) {
-            specialMoves.add(left.getCurrentPosition().offsettingColumn(1));
+            specialMoves.add(left.getCurrentPosition().offsettingColumn(2));
         }
 
         if (canCastleWithRook(right, board)) {

@@ -9,6 +9,7 @@ import Board.Board;
 import Board.Check;
 import Enums.ThemeColor;
 import Board.Pair;
+import Board.Tile;
 
 /**
  * Class that contains the player logic
@@ -16,31 +17,16 @@ import Board.Pair;
  */
 public class Player {
     private final String name;
-    private boolean isChecked;
     private final ThemeColor color;
+    private final int homeRowIndex;
     private Pair kingPair;
     
     public Player(String name, ThemeColor color) {
         this.name = name;
         this.color = color;
+        this.homeRowIndex = (this.getColor() == ThemeColor.DarkPiece) ? 0 : 7;
     }
-    
-    /**
-     * Mark Player as "in check."
-     * @param check 
-     */
-    public void setIsChecked(boolean check){
-        this.isChecked = check;
-    }
-    
-    /**
-     * Determine whether Player is "in check."
-     * @return 
-     */
-    public boolean isChecked() {
-        return this.isChecked;
-    }
-    
+
     /**
      * Returns the Player's name.
      * @return 
@@ -61,7 +47,7 @@ public class Player {
      * Returns the location of Player's King.
      * @return 
      */
-    public Pair getLocationOfKing(){
+    public Pair getLocationOfKing() {
         return this.kingPair;
     }
     
@@ -74,7 +60,16 @@ public class Player {
     }
 
     /**
-     * Determines if the player's King can be saved by an ally's move.
+     * Returns an array of Tiles found in the Player's home row.
+     * @param board The game board.
+     * @return The array of home row Tiles.
+     */
+    public Tile[] getHomeRow(Board board) {
+        return board.getMatrix()[homeRowIndex];
+    }
+
+    /**
+     * Determines if the Player's King can be saved by an ally's move.
      */
     public boolean canKingBeSaved(Board board) {
         return Check.kingCanBeSaved(board);
@@ -95,5 +90,15 @@ public class Player {
         }
 
         return Check.pairUnderAttack(this.getLocationOfKing(), board, enemy);
+    }
+
+    /**
+     * Determines if the Player's Pieces' list of possible moves contain the given Tile.
+     * @param tile The Tile to search for.
+     * @param gameBoard The game board.
+     * @return
+     */
+    public boolean canAttack(Tile tile, Board gameBoard) {
+        return Check.pairUnderAttack(tile.getPosition(), gameBoard, this);
     }
 }

@@ -40,4 +40,20 @@ public class Pair {
         return this.columnIndex;
     }
 
+    /**
+     * Returns a copy of Pair with the row offsetted.
+     * aka. new Pair(getRow() + rowOffset, getColumn())
+     */
+    public Pair offsettingRow(int rowOffset) {
+        return new Pair(this.getRow() + rowOffset, this.getColumn());
+    }
+
+    /**
+     * Returns a copy of Pair with the column offsetted. (getColumn() + columnOffset)
+     * aka. new Pair(getRow(), getColumn() + columnOffset)
+     */
+    public Pair offsettingColumn(int columnOffset) {
+        return new Pair(this.getRow(), this.getColumn() + columnOffset);
+    }
+
 }

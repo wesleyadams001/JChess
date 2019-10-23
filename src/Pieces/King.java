@@ -19,66 +19,85 @@ public class King extends Piece{
     public King(Player owner) {
         super(owner, PieceType.King);
     }
-    
+
     /**
-     * Gets a vector pair containing 
-     * @return vector of Pair objects 
+     * Determines if the Rook exists and hasn't moved yet.
+     * @param rook The Rook.
+     * @return
      */
+    private Boolean isRookEligibleForCastling(Piece rook) {
+        if (rook == null) {
+            return false;
+        }
+
+        if (rook.hasTakenFirstMove()) {
+            return false;
+        }
+
+        if (rook.getPieceType() != PieceType.Rook) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Determines if the Rook can be used to castle.
+     * @param rook The Rook.
+     * @param board The game board.
+     * @return
+     */
+    private Boolean canRookCastle(Piece rook, Board board) {
+        Tile[] homeRow = board.getCurrentPlayer().getHomeRow(board);
+        Player enemyPlayer = board.getEnemyPlayer();
+
+        // The King cannot be in check, and it should not have moved already.
+        Boolean kingIsNotInCheck = !(Check.pairUnderAttack(this.getCurrentPosition(), board, enemyPlayer));
+        Boolean kingHasNotMovedYet = !(this.hasTakenFirstMove());
+
+        // Validating King and Rook with heuristics.
+        if (kingIsNotInCheck && kingHasNotMovedYet && isRookEligibleForCastling(rook)) {
+            int kingColumn = this.getCurrentPosition().getColumn();
+            int rookColumn = rook.getCurrentPosition().getColumn();
+
+            // The offset will let us work with King side and Queen side Rooks with a general solution.
+            int difference = kingColumn - rookColumn;
+            int offset = (difference > 0) ? 1 : -1;
+            int startingColumn = rookColumn + offset;
+
+            // Making sure each Tile between the Rook and the King is not under attack.
+            for (int currentColumn = startingColumn; currentColumn < kingColumn; currentColumn = currentColumn + offset) {
+                if (homeRow[currentColumn].isOccupied() || enemyPlayer.canAttack(homeRow[currentColumn], board)) {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+
+        // The Rook can castle.
+        return true;
+    }
+
     @Override
     public Vector<Pair> specialMoves(Board board) {
-        
-        // CASTLE.EXE 
-        
-        //set the rooks
-        int homeRow = board.getCurrentPlayer().getColor() == ThemeColor.DarkPiece ? 0 : 7;
-        Piece rookLeft = board.getMatrix()[homeRow][0].getPiece();
-        Piece rookRight = board.getMatrix()[homeRow][7].getPiece();
-        
-        boolean canCastleLeft = true;
-        boolean canCastleRight = true;
-        
         Vector<Pair> specialMoves = new Vector<>();
-        
-        Player enemy = board.getEnemyPlayer() == this.getPlayer() ? board.getCurrentPlayer() : board.getEnemyPlayer(); // used for pair under attack
-        
-        if(!Check.pairUnderAttack(this.getCurrentPosition(), board, enemy)){ // king can not be in check
-            if(!this.hasTakenFirstMove()){ // king can not have previously moved
-                if(rookLeft != null && !rookLeft.hasTakenFirstMove()){ // testing rook left move
-                    for(int i = rookLeft.getCurrentPosition().getColumn()+1; i < this.getCurrentPosition().getColumn() ; i++){ //looping throw the rank starting at the rook and until the king
-                        // making sure each pair until the king is not under attack
-                        if (board.getMatrix()[homeRow][i].getPiece()!=null || Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)) {
-                            canCastleLeft = false;
-                        }
-                    }
-                }else{
-                    canCastleLeft = false;
-                }
-                if(rookRight != null && !rookRight.hasTakenFirstMove()){ //testing rook right move
-                    for(int i = rookRight.getCurrentPosition().getColumn()-1; i > this.getCurrentPosition().getColumn() ; i--){
-                        // making sure each pair until the king is not under attack
-                        if (board.getMatrix()[homeRow][i].getPiece()!=null || Check.pairUnderAttack(board.getMatrix()[homeRow][i].getPosition(), board, enemy)) {
-                            canCastleRight = false;
-                        }
-                    }
-                }else{
-                    canCastleRight = false;
-                }
-            }else{
-                canCastleLeft = false; canCastleRight = false;
-            }
-        }else{
-            canCastleLeft = false; canCastleRight = false;
+
+        // Get home row for Player.
+        Tile[] homeRow = board.getCurrentPlayer().getHomeRow(board);
+
+        // Find Rooks.
+        Piece left = homeRow[0].getPiece();
+        Piece right = homeRow[7].getPiece();
+
+        if (canRookCastle(left, board)) {
+            specialMoves.add(left.getCurrentPosition().offsettingColumn(1));
         }
-        // based of test values, add castle move
-        if(canCastleLeft){
-            specialMoves.add(new Pair(homeRow, rookLeft.getCurrentPosition().getColumn()+1));
+
+        if (canRookCastle(right, board)) {
+            specialMoves.add(right.getCurrentPosition().offsettingColumn(-1));
         }
-        if(canCastleRight){
-            specialMoves.add(new Pair(homeRow, rookRight.getCurrentPosition().getColumn()-1));
-        }
-        
-    
-        
+
         return specialMoves;
     }
 
@@ -130,8 +149,5 @@ public class King extends Piece{
         //Return possible move set
         return moves;
     }
-
-
-
 
 }

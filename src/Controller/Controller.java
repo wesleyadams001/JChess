@@ -65,7 +65,7 @@ public class Controller extends Application {
         
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
-        gameViewer.setTileClickHandler(this::didClickTile); //()=>
+        gameViewer.setTileClickHandler(this::didClickTile);
     }
 
     /**
@@ -184,8 +184,6 @@ public class Controller extends Application {
             } else {
                 return MoveResult.Checkmate;
             }
-        }else{
-            System.out.print("Player is not in check");
         }
 
         return MoveResult.BetaMove;

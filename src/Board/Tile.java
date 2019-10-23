@@ -103,14 +103,6 @@ public class Tile {
     }
 
     /**
-     * Check if the Tile is part of the top or bottom row.
-     * @return True if this Tile is in either the topmost or bottommost rows.
-     */
-    public boolean isHomeRow() {        
-        return (this.position.getRow() == 0) || (this.position.getRow() == 7);
-    }
-    
-    /**
      * Retrieve the Tile's position.
      * @return A Pair representing the Tile's position in the Board.
      */

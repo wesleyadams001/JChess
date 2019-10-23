@@ -28,7 +28,7 @@ public class Check {
             for(int j = 0; j < 8; j++){
                 
                 //testing to make sure 1) tile has a piece and 2) its an enemy piece
-                if(matrix[i][j].getPiece()!=null && matrix[i][j].getPiece().getPlayer()==enemy){
+                if(matrix[i][j].isOccupied() && matrix[i][j].getPiece().getPlayer()==enemy){
                     
                     //create a vector of possible moves for enemy piece called moves
                     Vector<Pair> moves = matrix[i][j].getPiece().getPossibleMoves(board);

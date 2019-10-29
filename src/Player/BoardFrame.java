@@ -26,11 +26,11 @@ public class BoardFrame extends JFrame{
     private final JSplitPane splitPane;  
     private final JPanel leftPanel;       
     private final JPanel rightPanel;    
-    private final JScrollPane scrollPane; 
-    private final JTextArea textArea;     
-    private final JPanel inputPanel;      
-    private final JTextField textField;   
-    private final JButton button;         
+    //private final JScrollPane scrollPane; 
+    //private final JTextArea textArea;     
+    //private final JPanel inputPanel;      
+    //private final JTextField textField;   
+    //private final JButton button;         
     
     /**
      * The default constructor for the BoardFrame that takes a name for the Title of the frame and two content panels to display
@@ -54,17 +54,17 @@ public class BoardFrame extends JFrame{
 
         // input/output components
         // scrollable text area 
-        scrollPane = new JScrollPane(); 
+        //scrollPane = new JScrollPane(); 
         
         // text area that is inside the scrollPane
-        textArea = new JTextArea();      
+        //textArea = new JTextArea();      
 
         // the input components will be put in a separate panel
-        inputPanel = new JPanel();
+        //inputPanel = new JPanel();
         // first example text input field
-        textField = new JTextField();  
+        //textField = new JTextField();  
         // example submission button
-        button = new JButton("send"); 
+        //button = new JButton("send"); 
 
         // Default size of our window and its layout:
         setPreferredSize(new Dimension(100, 400));     
@@ -86,20 +86,20 @@ public class BoardFrame extends JFrame{
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS)); 
 
         //add the scrollPane to the rightPanel
-        rightPanel.add(scrollPane);                
+        //rightPanel.add(scrollPane);                
         //make the textArea scrollable
-        scrollPane.setViewportView(textArea);  
+        //scrollPane.setViewportView(textArea);  
         //add the inputPanel to the rightPanel, so it under the scrollPane / textArea
-        rightPanel.add(inputPanel);            
+        //rightPanel.add(inputPanel);            
 
         // maximum size of the inputPanel
-        inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 75)); 
+        //inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 75)); 
         //Sets the layout using a BoxLayout object
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS)); 
+        //inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS)); 
 
         //A Generic text field and button
-        inputPanel.add(textField);        
-        inputPanel.add(button);           
+        //inputPanel.add(textField);        
+        //inputPanel.add(button);           
 
         // Apply layouts and sizes before making visible
         pack();   

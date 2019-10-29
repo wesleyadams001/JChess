@@ -223,7 +223,7 @@ public class Viewer extends JPanel{
 
     private void setUpControlPanel(JPanel controlPanel) {
         JFileChooser fc = new JFileChooser();
-        controlPanel.add(fc);
+        //controlPanel.add(fc);
 
         JTextArea tarea = new JTextArea(10, 10);
 

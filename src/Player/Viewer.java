@@ -15,6 +15,11 @@ import javax.swing.*;
 import Controller.Controller;
 import javax.swing.border.LineBorder;
 import Player.EventMapping.TileDelegate;
+import java.awt.FlowLayout;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 
 // import java.awt.Container;
 
@@ -55,9 +60,9 @@ public class Viewer extends JPanel{
         // Display the board to the screen.
         setupFrame();
         
-        //get Names from players
-        //setupNames();
     }
+    
+    
 
     /**
      * Launches the Board window.
@@ -66,10 +71,10 @@ public class Viewer extends JPanel{
         int tileWidth = 90;
         int tileHeight = 90;
 
-        boardFrame = new JFrame("Doki Doki Chess Club");
-        //boardFrame.setLocation(0,0);
-
         JPanel boardPanel = new JPanel();
+        JPanel controlPanel = new JPanel();
+        setUpControlPanel(controlPanel);
+        
         boardPanel.setLayout(null);
 
         for (int i = 0; i < buttonMatrix.length; i++) {
@@ -96,13 +101,13 @@ public class Viewer extends JPanel{
                 buttonMatrix[i][j] = tileButton;
             }
         }
-
         updateButtons();
 
-        boardFrame.add(boardPanel);
-        boardFrame.setDefaultCloseOperation(3);
-        boardFrame.setSize(1000, 1000);
-        boardFrame.setVisible(true);
+        BoardFrame bf = new BoardFrame("Doki Doki Chess Club", boardPanel, controlPanel);
+        bf.setDefaultCloseOperation(3);
+        bf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        bf.setSize(1000, 1000);
+        bf.setVisible(true);
     }
 
     /**
@@ -214,5 +219,34 @@ public class Viewer extends JPanel{
         updateButtons();
         boardFrame.repaint();
         boardFrame.revalidate();
+    }
+
+    private void setUpControlPanel(JPanel controlPanel) {
+        JFileChooser fc = new JFileChooser();
+        controlPanel.add(fc);
+
+        JTextArea tarea = new JTextArea(10, 10);
+
+        JButton readButton = new JButton("OPEN FILE");
+        readButton.addActionListener(ev -> {
+          int returnVal = fc.showOpenDialog(controlPanel);
+          if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            try {
+              BufferedReader input = new BufferedReader(new InputStreamReader(
+                  new FileInputStream(file)));
+              tarea.read(input, "READING FILE :-)");
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          } else {
+            System.out.println("Operation is CANCELLED :(");
+          }
+        });
+
+        controlPanel.add(tarea, BorderLayout.CENTER);
+        controlPanel.add(readButton, BorderLayout.PAGE_END);
+
+        controlPanel.setVisible(true);
     }
 }

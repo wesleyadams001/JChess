@@ -26,8 +26,8 @@ public class BoardFrame extends JFrame{
     private final JSplitPane splitPane;  
     private final JPanel leftPanel;       
     private final JPanel rightPanel;    
-    //private final JScrollPane scrollPane; 
-    //private final JTextArea textArea;     
+//    private final JScrollPane scrollPane; 
+//    private final JTextArea textArea;     
     //private final JPanel inputPanel;      
     //private final JTextField textField;   
     //private final JButton button;         
@@ -52,20 +52,6 @@ public class BoardFrame extends JFrame{
         // our settings/control panel
         rightPanel = contentPanel;      
 
-        // input/output components
-        // scrollable text area 
-        //scrollPane = new JScrollPane(); 
-        
-        // text area that is inside the scrollPane
-        //textArea = new JTextArea();      
-
-        // the input components will be put in a separate panel
-        //inputPanel = new JPanel();
-        // first example text input field
-        //textField = new JTextField();  
-        // example submission button
-        //button = new JButton("send"); 
-
         // Default size of our window and its layout:
         setPreferredSize(new Dimension(100, 400));     
         // the contentPane is the container that holds all our components
@@ -79,27 +65,7 @@ public class BoardFrame extends JFrame{
         splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT); 
         splitPane.setDividerLocation(900);  
         splitPane.setTopComponent(leftPanel); 
-        splitPane.setBottomComponent(rightPanel);   
-
-        //  Add additional stuff here
-        // BoxLayout.Y_AXIS arranges the content Vertically
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS)); 
-
-        //add the scrollPane to the rightPanel
-        //rightPanel.add(scrollPane);                
-        //make the textArea scrollable
-        //scrollPane.setViewportView(textArea);  
-        //add the inputPanel to the rightPanel, so it under the scrollPane / textArea
-        //rightPanel.add(inputPanel);            
-
-        // maximum size of the inputPanel
-        //inputPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 75)); 
-        //Sets the layout using a BoxLayout object
-        //inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS)); 
-
-        //A Generic text field and button
-        //inputPanel.add(textField);        
-        //inputPanel.add(button);           
+        splitPane.setBottomComponent(rightPanel);             
 
         // Apply layouts and sizes before making visible
         pack();   

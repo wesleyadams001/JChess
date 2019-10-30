@@ -14,7 +14,7 @@ import Player.Player;
  *
  * @author nehalpatel
  */
-public final class Board {
+public class Board {
 
     /**
      * Represents the Player currently playing.

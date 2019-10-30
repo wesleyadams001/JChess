@@ -10,7 +10,9 @@ import Pieces.*;
 import Player.Player;
 import java.io.File;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -197,6 +199,20 @@ public class Factory {
             //if it cannot read from file, it will pass the default board state as a string-
             System.out.print(e.getMessage());
             return "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
+        }
+    }
+    
+    /**
+     * Saves a fen to a particular file location
+     * @param fen
+     * @param fileName
+     */
+    public static void saveFENToFile(String fen, String fileName){
+        File output = new File(fileName);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(output))){
+            bw.write(fen);
+        } catch (IOException e){
+            System.out.print(e.getMessage());
         }
     }
 }

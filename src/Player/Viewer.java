@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 // import java.awt.Container;
 
@@ -35,18 +36,8 @@ public class Viewer extends JPanel{
     private final Controller controller;
     private final Board board;
     private final JButton[][] buttonMatrix;
-    public JFrame boardFrame;
+    public BoardFrame boardFrame;
 
-    /*
-    private int xDimensions, yDimensions;
-    private static JFrame frame; // The frame on which the Board is displayed
-    private static JFrame info;
-    private String p1Name;
-    private String p2Name;
-    private int p1Score;
-    private int p2Score;
-    private Vector<Pair>moves;
-    */
     
     private TileDelegate tileClickHandler = null;
     
@@ -61,7 +52,6 @@ public class Viewer extends JPanel{
         setupFrame();
         
     }
-    
     
 
     /**
@@ -103,17 +93,17 @@ public class Viewer extends JPanel{
         }
         updateButtons();
 
-        BoardFrame bf = new BoardFrame("Doki Doki Chess Club", boardPanel, controlPanel);
-        bf.setDefaultCloseOperation(3);
-        bf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        bf.setSize(1000, 1000);
-        bf.setVisible(true);
+        this.boardFrame = new BoardFrame("Doki Doki Chess Club", boardPanel, controlPanel);
+        this.boardFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.boardFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.boardFrame.setSize(1000, 1000);
+        this.boardFrame.setVisible(true);
     }
 
     /**
      * Refreshes Tile display according to Board state.
      */
-    private void updateButtons() {
+    public void updateButtons() {
         for (Tile[] row : board.getMatrix()) {
             for (Tile tile : row) {
                 Pair tilePosition = tile.getPosition();
@@ -123,6 +113,7 @@ public class Viewer extends JPanel{
             }
         }
     }
+    
 
     /**
      * Re-paints Tiles according to selection, highlight, etc.
@@ -222,31 +213,28 @@ public class Viewer extends JPanel{
     }
 
     private void setUpControlPanel(JPanel controlPanel) {
-        JFileChooser fc = new JFileChooser();
-        //controlPanel.add(fc);
 
-        JTextArea tarea = new JTextArea(10, 10);
+        //Set layout
+        controlPanel.setLayout(new BorderLayout());
+        
+        // input/output components
+        // scrollable text area 
+        JScrollPane sPane = new JScrollPane(); 
+        
+        // text area that is inside the scrollPane
+        JTextArea textArea = new JTextArea();  
+        
+        //Add text area
+        controlPanel.add(sPane.add(textArea), BorderLayout.CENTER);
+        
+        ChessMenu menu = new ChessMenu(this.controller, this);
+        //set target text area
+        menu.setTa(textArea);
+        
+        controlPanel.add(menu, BorderLayout.NORTH);
 
-        JButton readButton = new JButton("OPEN FILE");
-        readButton.addActionListener(ev -> {
-          int returnVal = fc.showOpenDialog(controlPanel);
-          if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-            try {
-              BufferedReader input = new BufferedReader(new InputStreamReader(
-                  new FileInputStream(file)));
-              tarea.read(input, "READING FILE :-)");
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          } else {
-            System.out.println("Operation is CANCELLED :(");
-          }
-        });
-
-        controlPanel.add(tarea, BorderLayout.CENTER);
-        controlPanel.add(readButton, BorderLayout.PAGE_END);
-
+        
+        
         controlPanel.setVisible(true);
     }
 }

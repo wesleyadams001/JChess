@@ -14,6 +14,7 @@ import Pieces.King;
 import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
+import java.awt.event.WindowEvent;
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -68,6 +69,22 @@ public class Controller extends Application {
         gameViewer = new Viewer(this);
         gameViewer.setTileClickHandler(this::didClickTile);
     }
+    
+    private void startGame(String fen){
+        // TODO: Use text fields to set player names.
+        Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
+        Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
+        
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, fen);
+        this.gameViewer.boardFrame.setVisible(false);
+        this.gameViewer.boardFrame.dispose();
+        
+        // Finally, launch the new game viewer.
+        this.gameViewer = new Viewer(this);
+        //gameViewer.boardFrame.setVisible(true);
+        this.gameViewer.setTileClickHandler(this::didClickTile);
+        
+    }
 
     /**
      * Handles Tile click events.
@@ -93,6 +110,34 @@ public class Controller extends Application {
                 break;
         }
     }
+    
+    /**
+     * Accesses the Fen Factory
+     * @param game
+     * @return
+     */
+    public String CreateFen(Board game){
+        String fen = Factory.serializeBoard(gameBoard);
+        return fen;
+    }
+    
+    /**
+     * Starts the game with a loaded fen
+     * @param fileName
+     */
+    public void Load(String fileName){
+        startGame(Factory.readFENFromFile(fileName));
+    }
+    
+    /**
+     * Save a fen to a particular file
+     * @param fen
+     * @param filePath
+     */
+    public void Save(String fen, String filePath){
+        Factory.saveFENToFile(fen, filePath);
+    }
+    
 
     /**
      * Handles a Tile selection intent.

@@ -70,12 +70,18 @@ public class Controller extends Application {
         gameViewer.setTileClickHandler(this::didClickTile);
     }
     
+     /**
+     * Sets up the Board and launches the Viewer from a loaded fen
+     */
     private void startGame(String fen){
         // TODO: Use text fields to set player names.
         Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
         Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
         
+        //make the board from the fen
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, fen);
+        
+        //Dispose of old boardFrame
         this.gameViewer.boardFrame.setVisible(false);
         this.gameViewer.boardFrame.dispose();
         

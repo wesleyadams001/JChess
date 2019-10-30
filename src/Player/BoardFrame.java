@@ -26,11 +26,7 @@ public class BoardFrame extends JFrame{
     private final JSplitPane splitPane;  
     private final JPanel leftPanel;       
     private final JPanel rightPanel;    
-//    private final JScrollPane scrollPane; 
-//    private final JTextArea textArea;     
-    //private final JPanel inputPanel;      
-    //private final JTextField textField;   
-    //private final JButton button;         
+        
     
     /**
      * The default constructor for the BoardFrame that takes a name for the Title of the frame and two content panels to display
@@ -43,25 +39,29 @@ public class BoardFrame extends JFrame{
         //Set the name/Title of the frame
         this.setName(name);
         this.setTitle(name);
+        
         //Create the split pane to enable multiple components on the board
-        //so the user can manipulate the top and bottom components visibility
+        //so the user can manipulate the left and right components visibility
         splitPane = new JSplitPane();
 
         // our board
         leftPanel = boardPanel;
+        
         // our settings/control panel
         rightPanel = contentPanel;      
 
         // Default size of our window and its layout:
-        setPreferredSize(new Dimension(100, 400));     
-        // the contentPane is the container that holds all our components
+        setPreferredSize(new Dimension(100, 400));  
+        
+        //The contentPane is the container that holds all our components
         //GridLayout is like a grid with 1 column and 1 row
         getContentPane().setLayout(new GridLayout());  
-        // only add split pane, GridLayout fills whole window
+        
+        //Only add split pane, GridLayout fills whole window
         getContentPane().add(splitPane);
 
-        // Configures the split pane
-        // we want it to split the window horizontal
+        //Configures the split pane
+        //Split the window horizontal
         splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT); 
         splitPane.setDividerLocation(900);  
         splitPane.setTopComponent(leftPanel); 

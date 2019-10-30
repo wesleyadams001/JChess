@@ -31,28 +31,21 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 public class Viewer extends JPanel{
     
     public int mouseX, mouseY;//Mouse position
-    public boolean pause;//if game is paused
-    
+    public boolean pause;//if game is paused  
     private final Controller controller;
     private final Board board;
     private final JButton[][] buttonMatrix;
     public BoardFrame boardFrame;
-
-    
     private TileDelegate tileClickHandler = null;
     
     public Viewer(Controller c)
     {
-        controller = c;
-
-        board = this.controller.gameBoard;
-        buttonMatrix = new JButton[board.rowCount][board.columnCount];
-
+        this.controller = c;
+        this.board = this.controller.gameBoard;
+        this.buttonMatrix = new JButton[board.rowCount][board.columnCount];
         // Display the board to the screen.
-        setupFrame();
-        
-    }
-    
+        setupFrame();  
+    }    
 
     /**
      * Launches the Board window.
@@ -112,8 +105,7 @@ public class Viewer extends JPanel{
                 updateTileButtonEnabled(tile, tileButton);
             }
         }
-    }
-    
+    } 
 
     /**
      * Re-paints Tiles according to selection, highlight, etc.
@@ -212,6 +204,10 @@ public class Viewer extends JPanel{
         boardFrame.revalidate();
     }
 
+    /**
+     * Sets adds in and modifies the contents of the control panel that is placed on the board
+     * @param controlPanel 
+     */
     private void setUpControlPanel(JPanel controlPanel) {
 
         //Set layout
@@ -227,14 +223,16 @@ public class Viewer extends JPanel{
         //Add text area
         controlPanel.add(sPane.add(textArea), BorderLayout.CENTER);
         
+        //Create the menu
         ChessMenu menu = new ChessMenu(this.controller, this);
-        //set target text area
-        menu.setTa(textArea);
         
+        //set target text area
+        menu.setTextArea(textArea);
+        
+        //Add menu to the control panel
         controlPanel.add(menu, BorderLayout.NORTH);
 
-        
-        
+        //set the control panel to visible
         controlPanel.setVisible(true);
     }
 }

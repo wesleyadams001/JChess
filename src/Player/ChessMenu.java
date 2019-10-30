@@ -6,14 +6,6 @@
 package Player;
 
 import Controller.Controller;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -37,13 +29,22 @@ public class ChessMenu extends JMenuBar {
     private JButton open = new JButton("Open"), save = new JButton("Save");
     private JTextArea ta;
 
-    public JTextArea getTa() {
+    /**
+     * Gets the text area component
+     * @return 
+     */
+    public JTextArea getTextArea() {
         return ta;
     }
 
-    public void setTa(JTextArea ta) {
+    /**
+     * sets the text area component
+     * @param ta
+     */
+    public void setTextArea(JTextArea ta) {
         this.ta = ta;
     }
+    
     /**
      * The default constructor for the chess Menu Bar
      */
@@ -54,8 +55,7 @@ public class ChessMenu extends JMenuBar {
         this.add(menu);
         this.openItem = new JMenuItem("Open");
         this.openItem.addActionListener(e->{
-            
-            
+
             //show open dialog
             int rVal = fc.showOpenDialog(this.menu);
             if (rVal == JFileChooser.APPROVE_OPTION) {
@@ -106,8 +106,5 @@ public class ChessMenu extends JMenuBar {
         this.add(saveItem);
         
     }
-
-    
-    
 
 }

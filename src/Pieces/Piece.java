@@ -11,7 +11,7 @@ import Board.Tile;
 import Enums.MoveType;
 import Enums.PieceType;
 import Enums.ThemeColor;
-import Player.Player;
+import UserInterface.Player;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import static Images.Images.Icons;

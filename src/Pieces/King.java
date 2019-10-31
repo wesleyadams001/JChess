@@ -7,7 +7,7 @@ package Pieces;
 
 import Board.*;
 import Enums.*;
-import Player.Player;
+import UserInterface.Player;
 import java.util.Vector;
 import java.util.stream.IntStream;
 

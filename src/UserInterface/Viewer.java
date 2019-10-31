@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Player;
+package UserInterface;
 
 import Board.Board;
 import Board.Pair;
@@ -14,7 +14,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import Controller.Controller;
 import javax.swing.border.LineBorder;
-import Player.EventMapping.TileDelegate;
+import UserInterface.EventMapping.TileDelegate;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import Controller.Constants;
 

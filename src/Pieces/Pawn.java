@@ -11,7 +11,7 @@ import Board.Pair;
 import Enums.ThemeColor;
 import Enums.MoveType;
 import Enums.PieceType;
-import Player.Player;
+import UserInterface.Player;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Vector;

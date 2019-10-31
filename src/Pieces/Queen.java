@@ -10,7 +10,7 @@ import Board.Pair;
 import Board.Tile;
 import Enums.MoveType;
 import Enums.PieceType;
-import Player.Player;
+import UserInterface.Player;
 import java.util.Vector;
 
 /**

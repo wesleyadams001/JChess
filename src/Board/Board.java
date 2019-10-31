@@ -8,7 +8,7 @@ package Board;
 import Enums.ClickType;
 import Enums.PieceType;
 import Pieces.Piece;
-import Player.Player;
+import UserInterface.Player;
 import Controller.Constants;
 
 /**

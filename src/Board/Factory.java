@@ -7,7 +7,7 @@ package Board;
 
 import Enums.ThemeColor;
 import Pieces.*;
-import Player.Player;
+import UserInterface.Player;
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

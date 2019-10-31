@@ -11,7 +11,7 @@ import Board.Tile;
 import Enums.MoveType;
 import Enums.PieceType;
 import java.util.Vector;
-import Player.Player;
+import UserInterface.Player;
 
 /**
  * The Class that holds the available move generation logic for the knight

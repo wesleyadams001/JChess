@@ -6,7 +6,7 @@
 package Board;
 
 import java.util.Vector;
-import Player.Player;
+import UserInterface.Player;
 import Controller.Constants;
 
 /**

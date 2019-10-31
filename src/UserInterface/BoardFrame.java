@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Player;
+package UserInterface;
 
 import static Controller.Constants.DIVIDER_LOCATION;
 import static Controller.Constants.LARGE_DIMENSION;

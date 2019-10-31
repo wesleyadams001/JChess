@@ -116,16 +116,16 @@ public class Viewer extends JPanel{
             tileButton.setBorderPainted(true);
             tileButton.setBorder(new LineBorder(tile.getColor(), 5));
             tileButton.setBackground(ThemeColor.Friendly.getColor());
-        } else if (tile.isHighlighted()) {
-            // Highlight possible moves.
-            tileButton.setBorderPainted(true);
-            tileButton.setBorder(new LineBorder(tile.getColor(), 5));
-            tileButton.setBackground(tile.isOccupied() ? ThemeColor.Enemy.getColor() : ThemeColor.Friendly.getColor());
         } else if (tile.isSpecial()) {
             // Highligh special moves.
             tileButton.setBorderPainted(true);
             tileButton.setBorder(new LineBorder(tile.getColor(), 5));
             tileButton.setBackground(ThemeColor.Special.getColor());
+        } else if (tile.isHighlighted()) {
+            // Highlight possible moves.
+            tileButton.setBorderPainted(true);
+            tileButton.setBorder(new LineBorder(tile.getColor(), 5));
+            tileButton.setBackground(tile.isOccupied() ? ThemeColor.Enemy.getColor() : ThemeColor.Friendly.getColor());
         }
     }
 

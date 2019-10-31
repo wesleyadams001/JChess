@@ -10,7 +10,7 @@ import Enums.MoveResult;
 import Enums.PieceType;
 import Enums.ThemeColor;
 import Images.Images;
-import Pieces.King;
+import Pieces.*;
 import Pieces.Piece;
 import Player.Player;
 import Player.Viewer;
@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
 import Controller.Constants;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Wesley
@@ -214,13 +215,57 @@ public class Controller extends Application {
                 // In order to get to this part of the code, the rooks have to be in the starting position, so it's safe to hardcode.
                 Piece rookLeft = gameBoard.getPiece(kingLocation.offsettingColumn(-2));
                 Piece rookRight = gameBoard.getPiece(kingLocation.offsettingColumn(1));
-
+                
                 // If the Rook is to the left of the King, move the Rook to the right of the King; vise versa.
                 if (king.isRookEligibleForCastling(rookLeft)) {
                     gameBoard.movePiece(rookLeft.getCurrentPosition(), kingLocation.offsettingColumn(1));
                 } else if (king.isRookEligibleForCastling(rookRight)) {
                     gameBoard.movePiece(rookRight.getCurrentPosition(), kingLocation.offsettingColumn(-1));
                 }
+                
+            }
+            else if(transientPiece.getPieceType() == PieceType.Pawn ){
+                Piece promotedPiece = null;
+                
+                //code for promotion...
+                Object[] options = {"Rook",
+                    "Knight",
+                    "Bishop",
+                    "Queen",};
+                
+                int n = JOptionPane.showOptionDialog(null, null,
+                "Select piece to promote pawn to:",
+                JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+                
+                gameBoard.getTile(transientPiece.getCurrentPosition()).removePiece();
+                
+                //promote based on returned int
+                switch(n){
+                   case 0:
+                        promotedPiece = new Rook(gameBoard.getCurrentPlayer());
+                   break;
+                   
+                   case 1:
+                        promotedPiece = new Knight(gameBoard.getCurrentPlayer());
+                   break;
+                   
+                   case 2:
+                        promotedPiece = new Bishop(gameBoard.getCurrentPlayer());
+                   break;
+                   
+                   case 3:
+                        promotedPiece = new Queen(gameBoard.getCurrentPlayer());
+                   break;
+                        
+                }
+                
+                //set the promoted piece
+                destination.setPiece(promotedPiece);
+                
             }
         }
     }

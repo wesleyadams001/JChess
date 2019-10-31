@@ -60,7 +60,12 @@ public class Pawn extends Piece {
     @Override
     public Vector<Pair> specialMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
+        for(Pair temp : getPossibleMoves(board)){
         
+            if (temp.getRow() == board.getEnemyPlayer().getHomeRow()){
+                moves.add(temp);
+            }
+        }
         return moves;
     }
     

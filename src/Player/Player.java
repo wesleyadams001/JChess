@@ -10,6 +10,7 @@ import Board.Check;
 import Enums.ThemeColor;
 import Board.Pair;
 import Board.Tile;
+import Controller.Constants;
 
 /**
  * Class that contains the player logic
@@ -24,7 +25,7 @@ public class Player {
     public Player(String name, ThemeColor color) {
         this.name = name;
         this.color = color;
-        this.homeRowIndex = (this.getColor() == ThemeColor.DarkPiece) ? 0 : 7;
+        this.homeRowIndex = (this.getColor() == ThemeColor.DarkPiece) ? Constants.HOME_ROW_DARK : Constants.HOME_ROW_LIGHT;
     }
 
     /**
@@ -66,6 +67,13 @@ public class Player {
      */
     public Tile[] getHomeRow(Board board) {
         return board.getMatrix()[homeRowIndex];
+    }
+    /**
+     * Get the home row rank
+     * @return 
+     */
+    public int getHomeRow() {
+        return this.homeRowIndex;
     }
 
     /**

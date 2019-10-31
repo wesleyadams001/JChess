@@ -163,6 +163,7 @@ public class Queen  extends Piece{
         //Fill all vector diagonals around quenn until outside matrix bounds
         for(int i = 1; i < 8; i++){
             if((row - i) >= -1 && (column - i) >= -1){
+                
                 upLeftDiagonal.add(board.getTile(new Pair(row - i, column - i)));
             }
             if((row - i) >= -1 && (column + i) <=8){
@@ -177,7 +178,7 @@ public class Queen  extends Piece{
         }
         
         //Add possible in upLeftDiagonal
-        for(int i = 0; canMoveTo(upLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+        for(int i = 0; i < upLeftDiagonal.size() && canMoveTo(upLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(upLeftDiagonal.get(i).isOccupied()){
                 Player temp1 = upLeftDiagonal.get(i).getPiece().getPlayer();
@@ -199,7 +200,7 @@ public class Queen  extends Piece{
         canMove = true;
         
         //Add possible moves in upRightDiagonal
-        for(int i = 0; canMoveTo(upRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+        for(int i = 0; i < upRightDiagonal.size() && canMoveTo(upRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(upRightDiagonal.get(i).isOccupied()){
                 Player temp1 = upRightDiagonal.get(i).getPiece().getPlayer();
@@ -221,7 +222,7 @@ public class Queen  extends Piece{
         canMove = true;
         
         //Add possible moves in downLeftDiagonal
-        for(int i = 0; canMoveTo(downLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+        for(int i = 0; i < downLeftDiagonal.size() && canMove && canMoveTo(downLeftDiagonal.get(i), MoveType.EmptyOrEnemyPiece); i++){
             //test if tile is occupied
             if(downLeftDiagonal.get(i).isOccupied()){
                 Player temp1 = downLeftDiagonal.get(i).getPiece().getPlayer();
@@ -243,7 +244,7 @@ public class Queen  extends Piece{
         canMove = true;
         
         //Add possible moves in downRightDiagonal
-        for(int i = 0; canMoveTo(downRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
+        for(int i = 0; i < downRightDiagonal.size() && canMoveTo(downRightDiagonal.get(i), MoveType.EmptyOrEnemyPiece) && canMove; i++){
             //test if tile is occupied
             if(downRightDiagonal.get(i).isOccupied()){
                 Player temp1 = downRightDiagonal.get(i).getPiece().getPlayer();

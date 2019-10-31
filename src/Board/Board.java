@@ -12,7 +12,7 @@ import Player.Player;
 import Controller.Constants;
 
 /**
- *
+ * The base chess board class
  * @author nehalpatel
  */
 public class Board {

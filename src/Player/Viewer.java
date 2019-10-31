@@ -15,14 +15,8 @@ import javax.swing.*;
 import Controller.Controller;
 import javax.swing.border.LineBorder;
 import Player.EventMapping.TileDelegate;
-import java.awt.FlowLayout;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
-
-// import java.awt.Container;
+import Controller.Constants;
 
 /**
  * Provides the viewing capabilities for the application
@@ -51,8 +45,8 @@ public class Viewer extends JPanel{
      * Launches the Board window.
      */
     private void setupFrame() {
-        int tileWidth = 90;
-        int tileHeight = 90;
+        int tileWidth = Constants.TILE_DIMENSION;
+        int tileHeight = Constants.TILE_DIMENSION;
 
         JPanel boardPanel = new JPanel();
         JPanel controlPanel = new JPanel();

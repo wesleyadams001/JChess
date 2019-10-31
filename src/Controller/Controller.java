@@ -23,7 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
-
+import Controller.Constants;
 /**
  *
  * @author Wesley
@@ -60,8 +60,8 @@ public class Controller extends Application {
      */
     private void startGame() {
         // TODO: Use text fields to set player names.
-        Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
-        Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
+        Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
+        Player darkPlayer = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
         
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
         
@@ -75,8 +75,8 @@ public class Controller extends Application {
      */
     private void startGame(String fen){
         // TODO: Use text fields to set player names.
-        Player lightPlayer = new Player("Light", ThemeColor.LightPiece);
-        Player darkPlayer = new Player("Dark", ThemeColor.DarkPiece);
+        Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
+        Player darkPlayer = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
         
         //make the board from the fen
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, fen);

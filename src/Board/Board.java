@@ -9,6 +9,7 @@ import Enums.ClickType;
 import Enums.PieceType;
 import Pieces.Piece;
 import Player.Player;
+import Controller.Constants;
 
 /**
  *
@@ -39,12 +40,12 @@ public class Board {
     /**
      * The number of rows for this Board.
      */
-    public final int rowCount = 8;
+    public final int rowCount = Constants.ROW_COUNT;
 
     /**
      * The number of columns for this Board.
      */
-    public final int columnCount = 8;
+    public final int columnCount = Constants.COLUMN_COUNT;
 
     /**
      * Holds all the Pieces.

@@ -5,6 +5,9 @@
  */
 package Player;
 
+import static Controller.Constants.DIVIDER_LOCATION;
+import static Controller.Constants.LARGE_DIMENSION;
+import static Controller.Constants.SMALL_DIMENSION;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
@@ -51,7 +54,7 @@ public class BoardFrame extends JFrame{
         rightPanel = contentPanel;      
 
         // Default size of our window and its layout:
-        setPreferredSize(new Dimension(100, 400));  
+        setPreferredSize(new Dimension(SMALL_DIMENSION, LARGE_DIMENSION));  
         
         //The contentPane is the container that holds all our components
         //GridLayout is like a grid with 1 column and 1 row
@@ -63,7 +66,7 @@ public class BoardFrame extends JFrame{
         //Configures the split pane
         //Split the window horizontal
         splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT); 
-        splitPane.setDividerLocation(900);  
+        splitPane.setDividerLocation(DIVIDER_LOCATION);  
         splitPane.setTopComponent(leftPanel); 
         splitPane.setBottomComponent(rightPanel);             
 

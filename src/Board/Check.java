@@ -7,6 +7,7 @@ package Board;
 
 import java.util.Vector;
 import Player.Player;
+import Controller.Constants;
 
 /**
  * Class that accounts for Check functionality
@@ -24,8 +25,8 @@ public class Check {
     public static boolean pairUnderAttack(Pair test, Board board, Player enemy){
         
         Tile[][] matrix = board.getMatrix();
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for(int i = 0; i < Constants.ROW_COUNT; i++){
+            for(int j = 0; j < Constants.COLUMN_COUNT; j++){
                 
                 //testing to make sure 1) tile has a piece and 2) its an enemy piece
                 if(matrix[i][j].isOccupied() && matrix[i][j].getPiece().getPlayer()==enemy){
@@ -56,8 +57,8 @@ public class Check {
     public static boolean kingCanBeSaved(Board board){
         Player enemy = board.getEnemyPlayer();
         Tile[][] matrix = board.getMatrix();
-        for ( int i = 0; i < 8 ; i ++ ){
-            for ( int j = 0; j < 8 ; j ++ ){
+        for ( int i = 0; i < Constants.ROW_COUNT ; i ++ ){
+            for ( int j = 0; j < Constants.COLUMN_COUNT ; j ++ ){
                 if (  matrix[i][j].isOccupied() && matrix[i][j].getPiece().getPlayer()!=enemy ){
                     Vector<Pair> allyMoves = matrix[i][j].getPiece().getPossibleMoves(board);
                     for ( int k = 0 ; k < allyMoves.size() ; k ++ ){

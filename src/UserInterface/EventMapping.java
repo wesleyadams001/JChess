@@ -12,8 +12,14 @@ import Board.Tile;
  * @author nehalpatel
  */
 public class EventMapping {
+    
     public interface TileDelegate 
     {
         public void didClick(Tile tile);
+    }
+    
+    public interface StartDelegate
+    {
+        public void didStart(String fileName);
     }
 }

@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
 import Controller.Constants;
+import UserInterface.StartMenu;
 import javax.swing.JOptionPane;
 /**
  *
@@ -41,13 +42,27 @@ public class Controller extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         Controller gameController = new Controller();
-
-        // It's important to load the images before the Pieces are initiated.
-        gameController.loadImages();
-        gameController.startGame();
+        gameController.launchSplashScreen();
+    }
+    
+    public void didStartGame(String fileName){
+        this.loadImages();
+        if(fileName != null){
+            this.startGame(fileName);
+        }
+        else{
+            this.startGame();
+        }
+ 
     }
 
+    public void launchSplashScreen(){
+        StartMenu sm = new StartMenu();
+        sm.setVisible(true);
+        sm.setStartClickHandler(this::didStartGame);
+    }
     /**
      * Read Piece images into memory.
      */
@@ -60,6 +75,9 @@ public class Controller extends Application {
      * Sets up the Board and launches the Viewer.
      */
     private void startGame() {
+        
+        StartMenu Open = new StartMenu();
+        Open.setVisible(true);
         // TODO: Use text fields to set player names.
         Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
         Player darkPlayer = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
@@ -83,9 +101,10 @@ public class Controller extends Application {
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, fen);
         
         //Dispose of old boardFrame
+        if(this.gameViewer != null){
         this.gameViewer.boardFrame.setVisible(false);
         this.gameViewer.boardFrame.dispose();
-        
+        }
         // Finally, launch the new game viewer.
         this.gameViewer = new Viewer(this);
         //gameViewer.boardFrame.setVisible(true);

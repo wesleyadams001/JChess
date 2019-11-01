@@ -15,6 +15,10 @@ public final class Constants {
     private Constants() {
             
     }
+    
+    public static final String PLAYER_ONE_KEY = "1";
+    public static final String PLAYER_TWO_KEY = "2";
+    public static final String THEME_KEY = "3";
     public static final int HOME_ROW_DARK = 0;
     public static final int HOME_ROW_LIGHT =7;
     public static final String DARK_PLAYER = "Dark";

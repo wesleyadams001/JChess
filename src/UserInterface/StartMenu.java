@@ -17,7 +17,7 @@ import UserInterface.EventMapping.StartDelegate;
  */
 public class StartMenu extends javax.swing.JFrame {
 
-    private boolean dokiTheme;
+    private static boolean dokiTheme;
     private StartDelegate startClickHandler = null;
     /**
      * Creates new form StartMenu
@@ -221,6 +221,10 @@ public class StartMenu extends javax.swing.JFrame {
             }
         });
         
+    }
+    
+    public static boolean getTheme(){
+        return dokiTheme;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
 import Controller.Constants;
+import Enums.ThemeType;
 import UserInterface.StartMenu;
 import javax.swing.JOptionPane;
 /**
@@ -34,6 +35,7 @@ public class Controller extends Application {
 
     Viewer gameViewer; // For user interaction
     public Board gameBoard;
+    private ThemeType Theme;
 
     Controller() { }
 
@@ -67,8 +69,9 @@ public class Controller extends Application {
      * Read Piece images into memory.
      */
     private void loadImages() {
+        this.Theme = StartMenu.getTheme() ? ThemeType.Doki : ThemeType.Normal;
         Images pieceAssets = new Images();
-        pieceAssets.loadImages();
+        pieceAssets.loadImages(Theme);
     }
 
     /**

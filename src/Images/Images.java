@@ -47,13 +47,13 @@ public class Images {
             case Normal:    //Do nothing and keep default file paths for images
                 break;
             case Doki:      //Reassign file paths to Doki Theme images
-                whitePawnPath = "src/Images/White_pawn.png";
+                whitePawnPath = "src/Images/KirbyWhitePawn.png";
                 whiteRookPath = "src/Images/DokiWhiteRook.png";
                 whiteKnightPath = "src/Images/DokiWhiteKnight.png";
                 whiteBishopPath = "src/Images/DokiWhiteBishop.png";
                 whiteQueenPath = "src/Images/DokiWhiteQueen.png";
                 whiteKingPath = "src/Images/DokiWhiteKing.png";
-                blackPawnPath = "src/Images/Black_pawn.png";
+                blackPawnPath = "src/Images/KirbyDarkPawn.png";
                 blackRookPath = "src/Images/DokiDarkRook.png";
                 blackKnightPath = "src/Images/DokiDarkKnight.png";
                 blackBishopPath = "src/Images/DokiDarkBishop.png";

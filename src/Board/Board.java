@@ -10,13 +10,20 @@ import Enums.PieceType;
 import Pieces.Piece;
 import UserInterface.Player;
 import Controller.Constants;
+import Controller.Observer;
+import Controller.Subject;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The base chess board class
  * @author nehalpatel
  */
-public class Board {
+public class Board implements Subject{
 
+    private String currentFen;
+    
+    private ArrayList<Observer> observerList;
     /**
      * Represents the Player currently playing.
      */
@@ -68,7 +75,7 @@ public class Board {
 
         this.lightPlayer = one;
         this.darkPlayer = two;
-
+        this.observerList =new ArrayList<Observer>(); 
         this.matrix = new Tile[rowCount][columnCount];
 
         // Populate matrix with empty Tiles.
@@ -78,6 +85,7 @@ public class Board {
                 this.matrix[rowIndex][columnIndex] = tile;
             }
         }
+        this.currentFen = Factory.serializeBoard(this);
     }
 
     /**
@@ -118,6 +126,16 @@ public class Board {
      */
     public Player getLightPlayer() {
         return lightPlayer;
+    }
+    
+    /**
+     * Generates a fen from the current gameboard
+     * @return
+     */
+    public String createFen(){
+        String fen = Factory.serializeBoard(this);
+        this.currentFen = fen;
+        return fen;
     }
 
     /**
@@ -293,7 +311,8 @@ public class Board {
         // =================
         // Move is finished.
         // =================
-        
+        createFen();
+        notifyObservers();
         // If King was moved, update King location tracker attribute of Player class.
         if (toTile.getPiece().getPieceType() == PieceType.King){
             getCurrentPlayer().setLocationOfKing(toTile.getPosition());
@@ -310,6 +329,26 @@ public class Board {
         Board temp = Factory.cloneBoard(this);
         temp.movePiece(from.getCurrentPosition(), to.getPosition());
         return temp;
+    }
+
+    @Override
+    public void registerObserver(Observer o) {
+        observerList.add(o);
+    }
+
+    @Override
+    public void unregisterObserver(Observer o) {
+        observerList.remove(observerList.indexOf(o));
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (Iterator<Observer> it = 
+              observerList.iterator(); it.hasNext();) 
+        { 
+            Observer o = it.next(); 
+            o.update(currentFen); 
+        } 
     }
 
 }

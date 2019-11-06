@@ -90,6 +90,7 @@ public class Controller extends Application {
         // Finally, launch the game viewer.
         gameViewer = new Viewer(this);
         gameViewer.setTileClickHandler(this::didClickTile);
+        this.gameBoard.registerObserver(this.gameViewer);
     }
     
      /**
@@ -106,13 +107,14 @@ public class Controller extends Application {
         //Dispose of old boardFrame
         if(this.gameViewer != null){
         this.gameViewer.boardFrame.setVisible(false);
+        //this.gameBoard.unregisterObserver(this.gameViewer);
         this.gameViewer.boardFrame.dispose();
         }
         // Finally, launch the new game viewer.
         this.gameViewer = new Viewer(this);
         //gameViewer.boardFrame.setVisible(true);
         this.gameViewer.setTileClickHandler(this::didClickTile);
-        
+        this.gameBoard.registerObserver(this.gameViewer);
     }
 
     /**
@@ -146,7 +148,7 @@ public class Controller extends Application {
      * @return
      */
     public String CreateFen(Board game){
-        String fen = Factory.serializeBoard(gameBoard);
+        String fen = this.gameBoard.createFen();
         return fen;
     }
     

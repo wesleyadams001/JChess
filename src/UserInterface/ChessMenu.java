@@ -52,7 +52,7 @@ public class ChessMenu extends JMenuBar {
         this.controller = c;
         this.fc = new JFileChooser();
         this.menu = new JMenu("File");
-        this.add(menu);
+        
         this.openItem = new JMenuItem("Open");
         this.openItem.addActionListener(e->{
 
@@ -74,7 +74,7 @@ public class ChessMenu extends JMenuBar {
             
         
         });
-        this.add(openItem);
+        this.menu.add(openItem);
         
         this.saveItem = new JMenuItem("Save");
         this.saveItem.addActionListener(e->{
@@ -103,8 +103,8 @@ public class ChessMenu extends JMenuBar {
             }
 
         });
-        this.add(saveItem);
-        
+        this.menu.add(saveItem);
+        this.add(menu);
     }
 
 }

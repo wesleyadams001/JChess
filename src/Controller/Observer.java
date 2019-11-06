@@ -16,6 +16,5 @@ public interface Observer {
     /**
      * Updates classes 
      */
-    public void update(int runs, int wickets, 
-                      float overs); 
+    public void update(String currentFen); 
 }

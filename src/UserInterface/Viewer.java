@@ -17,12 +17,13 @@ import javax.swing.border.LineBorder;
 import UserInterface.EventMapping.TileDelegate;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import Controller.Constants;
+import Controller.Observer;
 
 /**
  * Provides the viewing capabilities for the application
  * @author Wesley
  */
-public class Viewer extends JPanel{
+public class Viewer extends JPanel implements Observer{
     
     public int mouseX, mouseY;//Mouse position
     public boolean pause;//if game is paused  
@@ -31,6 +32,8 @@ public class Viewer extends JPanel{
     private final JButton[][] buttonMatrix;
     public BoardFrame boardFrame;
     private TileDelegate tileClickHandler = null;
+    private JPanel controlPanel;
+    private JTextArea textArea;
     
     public Viewer(Controller c)
     {
@@ -49,7 +52,7 @@ public class Viewer extends JPanel{
         int tileHeight = Constants.TILE_DIMENSION;
 
         JPanel boardPanel = new JPanel();
-        JPanel controlPanel = new JPanel();
+        this.controlPanel = new JPanel();
         setUpControlPanel(controlPanel);
         
         boardPanel.setLayout(null);
@@ -212,7 +215,7 @@ public class Viewer extends JPanel{
         JScrollPane sPane = new JScrollPane(); 
         
         // text area that is inside the scrollPane
-        JTextArea textArea = new JTextArea();  
+        this.textArea = new JTextArea();  
         
         //Add text area
         controlPanel.add(sPane.add(textArea), BorderLayout.CENTER);
@@ -228,5 +231,17 @@ public class Viewer extends JPanel{
 
         //set the control panel to visible
         controlPanel.setVisible(true);
+    }
+
+    @Override
+    public void update(String currentFen) {
+        String value = this.textArea.getText();
+        if(value.length()>1){
+            this.textArea.append("\n"+currentFen);
+        }
+        else{
+            this.textArea.append(currentFen);
+        }
+
     }
 }

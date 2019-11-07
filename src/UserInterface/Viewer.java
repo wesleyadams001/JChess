@@ -31,15 +31,16 @@ public class Viewer extends JPanel implements Observer{
     private final Board board;
     private final JButton[][] buttonMatrix;
     public BoardFrame boardFrame;
-    private TileDelegate tileClickHandler = null;
+    private TileDelegate tileClickHandler;
     private JPanel controlPanel;
     private JTextArea textArea;
     
-    public Viewer(Controller c)
+    public Viewer(Controller c, TileDelegate tileClickHandler)
     {
         this.controller = c;
         this.board = this.controller.gameBoard;
         this.buttonMatrix = new JButton[board.rowCount][board.columnCount];
+        this.tileClickHandler = tileClickHandler;
         // Display the board to the screen.
         setupFrame();  
     }    
@@ -172,14 +173,6 @@ public class Viewer extends JPanel implements Observer{
                 }
             }
         }
-    }
-    
-    /**
-     * Maps the Controller's click handler to the Tiles.
-     * @param handler 
-     */
-    public void setTileClickHandler(TileDelegate handler) {
-        this.tileClickHandler = handler;
     }
 
     /**

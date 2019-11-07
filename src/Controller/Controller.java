@@ -61,9 +61,8 @@ public class Controller extends Application {
     }
 
     public void launchSplashScreen(){
-        StartMenu sm = new StartMenu();
+        StartMenu sm = new StartMenu(this::didStartGame);
         sm.setVisible(true);
-        sm.setStartClickHandler(this::didStartGame);
     }
     /**
      * Read Piece images into memory.
@@ -79,7 +78,7 @@ public class Controller extends Application {
      */
     private void startGame() {
         
-        StartMenu Open = new StartMenu();
+        StartMenu Open = new StartMenu(this::didStartGame);
         Open.setVisible(true);
         // TODO: Use text fields to set player names.
         Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
@@ -88,8 +87,7 @@ public class Controller extends Application {
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
         
         // Finally, launch the game viewer.
-        gameViewer = new Viewer(this);
-        gameViewer.setTileClickHandler(this::didClickTile);
+        gameViewer = new Viewer(this, this::didClickTile);
         this.gameBoard.registerObserver(this.gameViewer);
     }
     
@@ -111,9 +109,8 @@ public class Controller extends Application {
         this.gameViewer.boardFrame.dispose();
         }
         // Finally, launch the new game viewer.
-        this.gameViewer = new Viewer(this);
+        this.gameViewer = new Viewer(this, this::didClickTile);
         //gameViewer.boardFrame.setVisible(true);
-        this.gameViewer.setTileClickHandler(this::didClickTile);
         this.gameBoard.registerObserver(this.gameViewer);
     }
 

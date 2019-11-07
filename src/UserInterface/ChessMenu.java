@@ -24,6 +24,7 @@ public class ChessMenu extends JMenuBar {
     private final JMenu menu;
     private final JMenuItem openItem;
     private final JMenuItem saveItem;
+    private final JMenuItem saveHistItem;
     private final JFileChooser fc;
     private JTextField filename = new JTextField(), dir = new JTextField();
     private JButton open = new JButton("Open"), save = new JButton("Save");
@@ -104,6 +105,30 @@ public class ChessMenu extends JMenuBar {
 
         });
         this.menu.add(saveItem);
+        
+        this.saveHistItem = new JMenuItem("Save Move History");
+        this.saveHistItem.addActionListener(e->{
+            //Open save dialog
+            int rVal = fc.showSaveDialog(menu);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
+              filename.setText(fc.getSelectedFile().getName());
+              dir.setText(fc.getCurrentDirectory().toString());
+              
+              //Get the history from text area
+              String history = this.ta.getText();
+              
+              //setup the file path
+              String path = this.dir.getText() +"\\"+ this.filename.getText();
+
+              //call control save function
+              this.controller.Save(history, path);
+            }
+            if (rVal == JFileChooser.CANCEL_OPTION) {
+              filename.setText("You pressed cancel");
+              dir.setText("");
+            }
+        });
+        this.menu.add(saveHistItem);
         this.add(menu);
     }
 

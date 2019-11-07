@@ -87,7 +87,7 @@ public class ChessMenu extends JMenuBar {
               dir.setText(fc.getCurrentDirectory().toString());
               
               //create fen
-              String fen = this.controller.CreateFen(this.controller.gameBoard);
+              String fen = this.controller.CreateFen();
               
               //append the fen to the text area
               this.ta.append(fen + "\n");

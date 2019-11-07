@@ -144,7 +144,7 @@ public class Controller extends Application {
      * @param game
      * @return
      */
-    public String CreateFen(Board game){
+    public String CreateFen(){
         String fen = this.gameBoard.createFen();
         return fen;
     }

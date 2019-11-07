@@ -56,7 +56,7 @@ public class Viewer extends JPanel implements Observer{
         this.controlPanel = new JPanel();
         setUpControlPanel(controlPanel);
         
-        boardPanel.setLayout(null);
+        boardPanel.setLayout(new GridLayout(8,8));
 
         for (int i = 0; i < buttonMatrix.length; i++) {
             for (int j = 0; j < buttonMatrix[i].length; j++) {

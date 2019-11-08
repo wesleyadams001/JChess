@@ -20,6 +20,22 @@ public class King extends Piece{
     public King(Player owner) {
         super(owner, PieceType.King);
     }
+    
+    public Boolean canCastleQueenSide(Board board) {
+        // Get home row for Player and find left Rook.
+        Tile[] homeRow = getPlayer().getHomeRow(board);
+        Piece queenSideRook = homeRow[0].getPiece();
+        
+        return canCastleWithRook(queenSideRook, board);
+    }
+    
+    public Boolean canCastleKingSide(Board board) {
+        // Get home row for Player and find right Rook.
+        Tile[] homeRow = getPlayer().getHomeRow(board);
+        Piece kingSideRook = homeRow[7].getPiece();
+        
+        return canCastleWithRook(kingSideRook, board);
+    }
 
     /**
      * Returns Tiles found between the Rook and the King.
@@ -104,15 +120,15 @@ public class King extends Piece{
         Tile[] homeRow = getPlayer().getHomeRow(board);
 
         // Find Rooks.
-        Piece left = homeRow[0].getPiece();
-        Piece right = homeRow[7].getPiece();
+        Piece queenSideRook = homeRow[0].getPiece();
+        Piece kingSideRook = homeRow[7].getPiece();
 
-        if (canCastleWithRook(left, board)) {
-            specialMoves.add(left.getCurrentPosition().offsettingColumn(2));
+        if (canCastleWithRook(queenSideRook, board)) {
+            specialMoves.add(queenSideRook.getCurrentPosition().offsettingColumn(2));
         }
 
-        if (canCastleWithRook(right, board)) {
-            specialMoves.add(right.getCurrentPosition().offsettingColumn(-1));
+        if (canCastleWithRook(kingSideRook, board)) {
+            specialMoves.add(kingSideRook.getCurrentPosition().offsettingColumn(-1));
         }
 
         return specialMoves;

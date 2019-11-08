@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import Controller.Constants;
+import java.util.StringJoiner;
 
 /**
  * Factory to create new board instances
@@ -115,8 +116,15 @@ public class Factory {
      * @param gameBoard
      * @return 
      */
-    public static String serializeBoard(final Board gameBoard) { 
-        return generatePiecePlacement(gameBoard.getMatrix()) + determineActiveColor(gameBoard);
+    public static String serializeBoard(final Board gameBoard) {
+        StringJoiner joiner = new StringJoiner(" ");
+        
+        joiner
+            .add(generatePiecePlacement(gameBoard.getMatrix()))
+            .add(determineActiveColor(gameBoard))
+            .add(generateCastlingAvailability(gameBoard));
+        
+        return joiner.toString();
     }
 
     /**
@@ -174,7 +182,7 @@ public class Factory {
             }
         }
         
-        return piecePlacement+" ";
+        return piecePlacement;
     }
     
     /**
@@ -182,8 +190,36 @@ public class Factory {
      * @param gameBoard
      * @return 
      */
-    private static char determineActiveColor(final Board gameBoard) {
-        return gameBoard.getCurrentPlayer().getColor().getAbbr().charAt(0);
+    private static String determineActiveColor(final Board gameBoard) {
+        return gameBoard.getCurrentPlayer().getColor().getAbbr();
+    }
+    
+    /**
+     * Creates the castling availability part of the FEN.
+     * @param gameBoard
+     * @return 
+     */
+    private static String generateCastlingAvailability(final Board gameBoard) {
+        String castlingAvailability = "";
+        
+        Pair lightKingLocation = gameBoard.getLightPlayer().getLocationOfKing();
+        Pair darkKingLocation = gameBoard.getDarkPlayer().getLocationOfKing();
+        
+        if (lightKingLocation != null) {
+            Tile lightKingTile = gameBoard.getTile(lightKingLocation);
+            King lightKing = (King) lightKingTile.getPiece();
+            castlingAvailability += lightKing.canCastleKingSide(gameBoard) ? "K" : "";
+            castlingAvailability += lightKing.canCastleQueenSide(gameBoard) ? "Q" : "";
+        }
+        
+        if (darkKingLocation != null) {
+            Tile darkKingTile = gameBoard.getTile(darkKingLocation);
+            King darkKing = (King) darkKingTile.getPiece();
+            castlingAvailability += darkKing.canCastleKingSide(gameBoard) ? "k" : "";
+            castlingAvailability += darkKing.canCastleQueenSide(gameBoard) ? "q" : "";
+        }
+        
+        return "".equals(castlingAvailability) ? "-" : castlingAvailability;
     }
     
     /**

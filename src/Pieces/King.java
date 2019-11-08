@@ -74,7 +74,7 @@ public class King extends Piece{
      * @return
      */
     private Boolean canCastleWithRook(Piece rook, Board board) {
-        Player enemyPlayer = board.getEnemyPlayer();
+        Player enemyPlayer = getPlayer() == board.getLightPlayer() ? board.getDarkPlayer() : board.getLightPlayer();
 
         // The King cannot be in check, and it should not have moved already.
         Boolean kingIsNotInCheck = !(Check.pairUnderAttack(this.getCurrentPosition(), board, enemyPlayer));
@@ -101,7 +101,7 @@ public class King extends Piece{
         Vector<Pair> specialMoves = new Vector<>();
 
         // Get home row for Player.
-        Tile[] homeRow = board.getCurrentPlayer().getHomeRow(board);
+        Tile[] homeRow = getPlayer().getHomeRow(board);
 
         // Find Rooks.
         Piece left = homeRow[0].getPiece();

@@ -112,12 +112,12 @@ public class King extends Piece{
         Tile[] homeRow = getPlayer().getHomeRow(board);
 
         if (canCastleQueenSide(board)) {
-            Piece queenSideRook = homeRow[0].getPiece();
+            Piece queenSideRook = homeRow[Constants.ROOK_COLUMN_QUEENSIDE].getPiece();
             specialMoves.add(queenSideRook.getCurrentPosition().offsettingColumn(2));
         }
         
         if (canCastleKingSide(board)) {
-            Piece kingSideRook = homeRow[7].getPiece();
+            Piece kingSideRook = homeRow[Constants.ROOK_COLUMN_KINGSIDE].getPiece();
             specialMoves.add(kingSideRook.getCurrentPosition().offsettingColumn(-1));
         }
 

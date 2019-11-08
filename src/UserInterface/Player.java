@@ -16,7 +16,7 @@ import Controller.Constants;
  * Class that contains the player logic
  * @author nehalpatel
  */
-public class Player {
+public final class Player {
     private final String name;
     private final ThemeColor color;
     private final int homeRowIndex;
@@ -78,6 +78,8 @@ public class Player {
 
     /**
      * Determines if the Player's King can be saved by an ally's move.
+     * @param board
+     * @return 
      */
     public boolean canKingBeSaved(Board board) {
         return Check.kingCanBeSaved(board);

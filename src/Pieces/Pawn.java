@@ -15,6 +15,8 @@ import UserInterface.Player;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The Class that implements the move generation logic for the pawn
@@ -59,14 +61,22 @@ public class Pawn extends Piece {
 
     @Override
     public Vector<Pair> specialMoves(Board board) {
-        Vector<Pair> moves = new Vector<>();
-        for(Pair temp : getPossibleMoves(board)){
+        Stream<Pair> pawnPromotionMoves = getPossibleMoves(board).stream().filter(
+            // We're only interested in moves which would take the Pawn to the enemy's first rank.
+            position -> position.getRow() == board.getEnemyPlayer().getHomeRow()
+        );
         
-            if (temp.getRow() == board.getEnemyPlayer().getHomeRow()){
-                moves.add(temp);
-            }
-        }
-        return moves;
+        return pawnPromotionMoves.collect(Collectors.toCollection(Vector::new));
+    }
+
+    /**
+     * Determines if the Pawn can advance two squares. Only possible for the Pawn's first move.
+     * @param board A chess Board.
+     * @return A Boolean indicating whether the Pawn can move up two squares.
+     */
+    private Boolean canAdvanceTwoTiles(Board board) {
+        int pawnInitialRow = board.getLightPlayer() == board.getCurrentPlayer() ? 6 : 1;
+        return getCurrentPosition().getRow() == pawnInitialRow;
     }
     
     private Pair evaluatePair(Move move) {
@@ -81,15 +91,15 @@ public class Pawn extends Piece {
     public Vector<Pair> getPossibleMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
         
-        boolean canMoveOnce = false;
+        boolean canAdvanceOneTile = false;
         
         Tile oneAbove = board.getTile(evaluatePair(Move.Up));
         if (canMoveTo(oneAbove, MoveType.EmptyTileOnly)) {
             moves.add(oneAbove.getPosition());
-            canMoveOnce = true;
+            canAdvanceOneTile = true;
         }
         
-        if (canMoveOnce && !this.hasTakenFirstMove()) {
+        if (canAdvanceOneTile && canAdvanceTwoTiles(board)) {
             Tile twoAbove = board.getTile(evaluatePair(Move.UpTwice));
             if (canMoveTo(twoAbove, MoveType.EmptyTileOnly)) {
                 moves.add(twoAbove.getPosition());

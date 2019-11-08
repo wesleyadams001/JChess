@@ -75,7 +75,7 @@ public class Board implements Subject{
 
         this.lightPlayer = one;
         this.darkPlayer = two;
-        this.observerList =new ArrayList<Observer>(); 
+        this.observerList =new ArrayList<>(); 
         this.matrix = new Tile[rowCount][columnCount];
 
         // Populate matrix with empty Tiles.

@@ -19,13 +19,15 @@ import Controller.Constants;
 public final class Player {
     private final String name;
     private final ThemeColor color;
-    private final int homeRowIndex;
+    private final int homeRow;
+    private final int pawnRow;
     private Pair kingPair;
     
     public Player(String name, ThemeColor color) {
         this.name = name;
         this.color = color;
-        this.homeRowIndex = (this.getColor() == ThemeColor.DarkPiece) ? Constants.HOME_ROW_DARK : Constants.HOME_ROW_LIGHT;
+        this.homeRow = this.getColor() == ThemeColor.DarkPiece ? Constants.HOME_ROW_DARK : Constants.HOME_ROW_LIGHT;
+        this.pawnRow = this.getColor() == ThemeColor.DarkPiece ? Constants.PAWN_ROW_DARK : Constants.PAWN_ROW_LIGHT;
     }
 
     /**
@@ -66,14 +68,23 @@ public final class Player {
      * @return The array of home row Tiles.
      */
     public Tile[] getHomeRow(Board board) {
-        return board.getMatrix()[homeRowIndex];
+        return board.getMatrix()[homeRow];
     }
+    
     /**
      * Get the home row rank
      * @return 
      */
     public int getHomeRow() {
-        return this.homeRowIndex;
+        return this.homeRow;
+    }
+    
+    /**
+     * Get the Pawn row rank.
+     * @return Player's Pawn row index.
+     */
+    public int getPawnRow() {
+        return this.pawnRow;
     }
 
     /**

@@ -74,9 +74,8 @@ public class Pawn extends Piece {
      * @param board A chess Board.
      * @return A Boolean indicating whether the Pawn can move up two squares.
      */
-    private Boolean canAdvanceTwoTiles(Board board) {
-        int pawnInitialRow = board.getLightPlayer() == board.getCurrentPlayer() ? 6 : 1;
-        return getCurrentPosition().getRow() == pawnInitialRow;
+    private Boolean canAdvanceTwoTiles() {
+        return getCurrentPosition().getRow() == getPlayer().getPawnRow();
     }
     
     private Pair evaluatePair(Move move) {
@@ -99,7 +98,7 @@ public class Pawn extends Piece {
             canAdvanceOneTile = true;
         }
         
-        if (canAdvanceOneTile && canAdvanceTwoTiles(board)) {
+        if (canAdvanceOneTile && canAdvanceTwoTiles()) {
             Tile twoAbove = board.getTile(evaluatePair(Move.UpTwice));
             if (canMoveTo(twoAbove, MoveType.EmptyTileOnly)) {
                 moves.add(twoAbove.getPosition());

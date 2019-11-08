@@ -6,10 +6,10 @@
 package Pieces;
 
 import Board.*;
+import Controller.Constants;
 import Enums.*;
 import UserInterface.Player;
 import java.util.Vector;
-import java.util.stream.IntStream;
 
 /**
  * The King piece
@@ -21,45 +21,70 @@ public class King extends Piece{
         super(owner, PieceType.King);
     }
     
+    private Boolean isEligibleToCastleWith(Piece rook, Board board) {
+        Player enemyPlayer = getPlayer() == board.getLightPlayer() ? board.getDarkPlayer() : board.getLightPlayer();
+        
+        // The King cannot be in check, and it should not have moved already.
+        Boolean kingIsNotInCheck = !(Check.pairUnderAttack(this.getCurrentPosition(), board, enemyPlayer));
+        Boolean kingHasNotMovedYet = !(this.hasTakenFirstMove());
+
+        // Validating King and Rook with heuristics.
+        return kingIsNotInCheck && kingHasNotMovedYet && isRookEligibleForCastling(rook);
+    }
+    
     public Boolean canCastleQueenSide(Board board) {
         // Get home row for Player and find left Rook.
         Tile[] homeRow = getPlayer().getHomeRow(board);
-        Piece queenSideRook = homeRow[0].getPiece();
+        Piece queenSideRook = homeRow[Constants.ROOK_COLUMN_QUEENSIDE].getPiece();
+        Player enemyPlayer = getPlayer() == board.getLightPlayer() ? board.getDarkPlayer() : board.getLightPlayer();
+
+        // Validating King and Rook with heuristics.
+        if (isEligibleToCastleWith(queenSideRook, board)) {
+            int pathStart = Constants.ROOK_COLUMN_QUEENSIDE + 1;
+            int pathEnd = getCurrentPosition().getColumn();
+            int rookSafetyException = pathStart;
+
+            for (int position = pathStart; position < pathEnd; position++) {
+                // Making sure each Tile between the Rook and the King is not under attack.
+                Tile tile = board.getTile(new Pair(queenSideRook.getCurrentPosition().getRow(), position));
+                if (tile.isOccupied()) {
+                    return false;
+                } else if (position != rookSafetyException && enemyPlayer.canAttack(tile, board)) {
+                    // We have an extra Tile on the long side castle. We should ignore it,
+                    // because when castling, it doesn't matter if the Rook's path is under attack.
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
         
-        return canCastleWithRook(queenSideRook, board);
+        return true;
     }
     
     public Boolean canCastleKingSide(Board board) {
         // Get home row for Player and find right Rook.
         Tile[] homeRow = getPlayer().getHomeRow(board);
-        Piece kingSideRook = homeRow[7].getPiece();
-        
-        return canCastleWithRook(kingSideRook, board);
-    }
+        Piece kingSideRook = homeRow[Constants.ROOK_COLUMN_KINGSIDE].getPiece();
+        Player enemyPlayer = getPlayer() == board.getLightPlayer() ? board.getDarkPlayer() : board.getLightPlayer();
 
-    /**
-     * Returns Tiles found between the Rook and the King.
-     */
-    private Tile[] getTilesLeadingTo(Piece rook, Board board) {
-        int start = rook.getCurrentPosition().getColumn();
-        int end = this.getCurrentPosition().getColumn();
-        
-        // We need to flip the values so end is larger. The range function won't work otherwise.
-        if (end - start < 0) {
-            int temp = start;
-            start = end;
-            end = temp;
+        // Validating King and Rook with heuristics.
+        if (isEligibleToCastleWith(kingSideRook, board)) {
+            int pathStart = getCurrentPosition().getColumn() + 1;
+            int pathEnd = Constants.ROOK_COLUMN_KINGSIDE;
+
+            for (int position = pathStart; position < pathEnd; position++) {
+                // Making sure each Tile between the Rook and the King is not under attack.
+                Tile tile = board.getTile(new Pair(kingSideRook.getCurrentPosition().getRow(), position));
+                if (tile.isOccupied() || enemyPlayer.canAttack(tile, board)) {
+                    return false;
+                }
+            }
+        } else {
+            return false;
         }
-
-        // squares holds indexes of all the Tiles between the Rook and the King.
-        int[] squares = IntStream.range(start + 1, end).toArray();
-        Tile[] tiles = new Tile[squares.length];
-
-        for (int i = 0; i < squares.length; i++) {
-            tiles[i] = board.getTile(new Pair(rook.getCurrentPosition().getRow(), squares[i]));
-        }
-
-        return tiles;
+        
+        return true;
     }
 
     /**
@@ -76,40 +101,7 @@ public class King extends Piece{
             return false;
         }
 
-        if (rook.hasTakenFirstMove()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Determines if the Rook can be used to castle.
-     * @param rook The Rook.
-     * @param board The game board.
-     * @return
-     */
-    private Boolean canCastleWithRook(Piece rook, Board board) {
-        Player enemyPlayer = getPlayer() == board.getLightPlayer() ? board.getDarkPlayer() : board.getLightPlayer();
-
-        // The King cannot be in check, and it should not have moved already.
-        Boolean kingIsNotInCheck = !(Check.pairUnderAttack(this.getCurrentPosition(), board, enemyPlayer));
-        Boolean kingHasNotMovedYet = !(this.hasTakenFirstMove());
-
-        // Validating King and Rook with heuristics.
-        if (kingIsNotInCheck && kingHasNotMovedYet && isRookEligibleForCastling(rook)) {
-            // Making sure each Tile between the Rook and the King is not under attack.
-            for (Tile tile : this.getTilesLeadingTo(rook, board)) {
-                if (tile.isOccupied() || enemyPlayer.canAttack(tile, board)) {
-                    return false;
-                }
-            }
-        } else {
-            return false;
-        }
-
-        // The Rook can castle.
-        return true;
+        return !rook.hasTakenFirstMove();
     }
 
     @Override
@@ -119,15 +111,13 @@ public class King extends Piece{
         // Get home row for Player.
         Tile[] homeRow = getPlayer().getHomeRow(board);
 
-        // Find Rooks.
-        Piece queenSideRook = homeRow[0].getPiece();
-        Piece kingSideRook = homeRow[7].getPiece();
-
-        if (canCastleWithRook(queenSideRook, board)) {
+        if (canCastleQueenSide(board)) {
+            Piece queenSideRook = homeRow[0].getPiece();
             specialMoves.add(queenSideRook.getCurrentPosition().offsettingColumn(2));
         }
-
-        if (canCastleWithRook(kingSideRook, board)) {
+        
+        if (canCastleKingSide(board)) {
+            Piece kingSideRook = homeRow[7].getPiece();
             specialMoves.add(kingSideRook.getCurrentPosition().offsettingColumn(-1));
         }
 

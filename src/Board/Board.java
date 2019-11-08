@@ -311,12 +311,14 @@ public class Board implements Subject{
         // =================
         // Move is finished.
         // =================
-        createFen();
-        notifyObservers();
+        
         // If King was moved, update King location tracker attribute of Player class.
         if (toTile.getPiece().getPieceType() == PieceType.King){
             getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }
+        
+        createFen();
+        notifyObservers();
     }
 
     /**

@@ -23,6 +23,8 @@ public final class Constants {
     public static final int PAWN_ROW_DARK = 1;
     public static final int HOME_ROW_LIGHT = 7;
     public static final int PAWN_ROW_LIGHT = 6;
+    public static final int ROOK_COLUMN_QUEENSIDE = 0;
+    public static final int ROOK_COLUMN_KINGSIDE = 7;
     public static final String DARK_PLAYER = "Dark";
     public static final String LIGHT_PLAYER = "Light";
     public static final int ROW_COUNT = 8;

@@ -185,7 +185,7 @@ public class Controller extends Application {
 
         // Highlight all special moves for the clicked Tile.
         Vector<Pair> specialMoves = piece.specialMoves(gameBoard);
-        specialMoves.forEach((pair) -> {
+        specialMoves.forEach((Pair pair) -> {
             gameBoard.getTile(pair).setSpecial(true);
         });
     }

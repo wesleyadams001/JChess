@@ -30,18 +30,12 @@ public class Queen  extends Piece{
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
-        Vector<Pair> lanes = this.getLaneMoves(board);
-        Vector<Pair> diagonals = this.getDiagonalMoves(board);
-        
-        //Add lanes to moves
-        for(int i = 0; i < lanes.size(); i++){
-            moves.add(lanes.get(i));
-        }
-        
-        //Add diagonals to moves
-        for(int i = 0; i < diagonals.size(); i++){
-            moves.add(diagonals.get(i));
-        }
+
+        // Add horizontal and vertical moves.
+        moves.addAll(this.getLaneMoves(board));
+
+        // Add diagonal moves.
+        moves.addAll(this.getDiagonalMoves(board));
         
         //Return move set
         return moves;

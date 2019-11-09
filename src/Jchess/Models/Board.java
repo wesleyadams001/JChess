@@ -18,7 +18,7 @@ import java.util.Vector;
  * The base chess board class
  * @author nehalpatel
  */
-public class Board implements Subject{
+public class Board implements Subject {
 
     /*
     * A strin to hold the current FEN for the board
@@ -81,7 +81,7 @@ public class Board implements Subject{
 
         this.lightPlayer = one;
         this.darkPlayer = two;
-        this.observerList =new ArrayList<Observer>(); 
+        this.observerList = new ArrayList<>(); 
         this.matrix = new Tile[rowCount][columnCount];
 
         // Populate matrix with empty Tiles.

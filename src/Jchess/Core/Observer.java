@@ -15,6 +15,7 @@ public interface Observer {
     
     /**
      * Updates classes 
+     * @param currentFen
      */
     public void update(String currentFen); 
 }

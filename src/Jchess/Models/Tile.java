@@ -21,7 +21,7 @@ public class Tile {
     private boolean special;
     
     /**
-     * Default constructor for Tile
+     * Maintains reference to Piece. The Board object combines these into a 2D array to represent the 8x8 Chess grid.
      * @param position The Pair representing the Tile's place on the Board.
      */
     public Tile(Pair position) {

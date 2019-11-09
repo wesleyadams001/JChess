@@ -44,7 +44,6 @@ public class Controller extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
         Controller gameController = new Controller();
         gameController.launchSplashScreen();
     }
@@ -140,7 +139,6 @@ public class Controller extends Application {
     
     /**
      * Accesses the Fen Factory
-     * @param game
      * @return
      */
     public String CreateFen(){

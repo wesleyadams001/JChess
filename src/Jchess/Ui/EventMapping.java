@@ -9,7 +9,7 @@ import Jchess.Enums.ThemeType;
 import Jchess.Models.Tile;
 
 /**
- * Represents a Viewer->Controller event mapping.
+ * Represents a Viewer ➜ Controller event mapping.
  * @author nehalpatel
  */
 public class EventMapping {

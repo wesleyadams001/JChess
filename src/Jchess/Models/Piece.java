@@ -183,7 +183,6 @@ public abstract class Piece {
         Vector<Tile> laneLeft = new Vector<>();     //Store all tiles to the left of the castle in the same row
         Vector<Tile> laneRight = new Vector<>();    //Store all tiles to the right of the castle in the same row
         
-        Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
         final int row = position.getRow();          //Initialize variable to hold row position
         final int column = position.getColumn();    //Initialize variable to hold column position
         boolean canMove = true;                     //Boolean to test if an enemy piece is in a path
@@ -294,7 +293,6 @@ public abstract class Piece {
                 moves.add(laneRight.get(i).getPosition());
             }
         }
-        canMove = true;
 
         //Return moves
         return moves;
@@ -312,7 +310,6 @@ public abstract class Piece {
         Vector<Tile> downLeftDiagonal = new Vector<>();     //Store all tiles down and to the left in a diagonal line
         Vector<Tile> downRightDiagonal = new Vector<>();    //Store all tiles down and to the right in a diagonal line
         
-        Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
         final int row = position.getRow();          //Initialize variable to hold row position
         final int column = position.getColumn();    //Initialize variable to hold column position
         
@@ -421,7 +418,6 @@ public abstract class Piece {
                 moves.add(downRightDiagonal.get(i).getPosition());
             } 
         }
-        canMove = true;
 
         //Return moves
         return moves;

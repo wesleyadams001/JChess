@@ -242,50 +242,41 @@ public class Controller extends Application {
                 } else if (king.isRookEligibleForCastling(rookRight)) {
                     gameBoard.movePiece(rookRight.getCurrentPosition(), kingLocation.offsettingColumn(-1));
                 }
+            } else if (transientPiece.getPieceType() == PieceType.Pawn) {
+                // Handle Pawn promotion.
+                PieceType[] options = {
+                    PieceType.Rook,
+                    PieceType.Knight,
+                    PieceType.Bishop,
+                    PieceType.Queen,
+                };
                 
-            }
-            else if(transientPiece.getPieceType() == PieceType.Pawn ){
+                int n = JOptionPane.showOptionDialog(
+                    null,
+                    null,
+                    "Select piece to promote pawn to:",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+                );
+                
+                PieceType playerChoice = options[n];
                 Piece promotedPiece = null;
                 
-                //code for promotion...
-                Object[] options = {"Rook",
-                    "Knight",
-                    "Bishop",
-                    "Queen",};
-                
-                int n = JOptionPane.showOptionDialog(null, null,
-                "Select piece to promote pawn to:",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
-                
-                gameBoard.getTile(transientPiece.getCurrentPosition()).removePiece();
-                
-                //promote based on returned int
-                switch(n){
-                   case 0:
-                        promotedPiece = new Rook(gameBoard.getCurrentPlayer());
-                   break;
-                   
-                   case 1:
-                        promotedPiece = new Knight(gameBoard.getCurrentPlayer());
-                   break;
-                   
-                   case 2:
-                        promotedPiece = new Bishop(gameBoard.getCurrentPlayer());
-                   break;
-                   
-                   case 3:
-                        promotedPiece = new Queen(gameBoard.getCurrentPlayer());
-                   break;
-                        
+                // Promote based on selected Piece.
+                switch(playerChoice) {
+                case Rook: promotedPiece = new Rook(gameBoard.getCurrentPlayer()); break;
+                case Knight: promotedPiece = new Knight(gameBoard.getCurrentPlayer()); break;
+                case Bishop: promotedPiece = new Bishop(gameBoard.getCurrentPlayer()); break;
+                case Queen: promotedPiece = new Queen(gameBoard.getCurrentPlayer()); break;
+                default: break;
                 }
                 
-                //set the promoted piece
+                // Set the promoted Piece.
+                gameBoard.getTile(transientPiece.getCurrentPosition()).removePiece();
                 destination.setPiece(promotedPiece);
-                
             }
         }
     }

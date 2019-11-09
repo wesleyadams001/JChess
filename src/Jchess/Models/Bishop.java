@@ -32,7 +32,7 @@ public class Bishop extends Piece{
 
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
-        return getDiagonals(board);
+        return getDiagonalMoves(board);
     }
 
 }

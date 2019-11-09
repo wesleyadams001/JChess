@@ -5,7 +5,6 @@
  */
 package Jchess.Models;
 
-import Jchess.Models.*;
 import Jchess.Models.Board;
 import Jchess.Models.Tile;
 import Jchess.Models.Pair;

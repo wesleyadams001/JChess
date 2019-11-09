@@ -6,14 +6,12 @@
 package Jchess.Models;
 
 import Jchess.Core.Constants;
-import Jchess.Models.*;
 import Jchess.Enums.MoveType;
 import Jchess.Enums.PieceType;
 import Jchess.Models.Tile;
 import Jchess.Models.Pair;
 import Jchess.Models.Board;
 import java.util.Vector;
-import java.util.stream.IntStream;
 
 /**
  * The King piece

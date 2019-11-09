@@ -5,7 +5,6 @@
  */
 package Jchess.Models;
 
-import Jchess.Models.*;
 import Jchess.Enums.ThemeColor;
 import java.io.File;
 import java.io.BufferedReader;

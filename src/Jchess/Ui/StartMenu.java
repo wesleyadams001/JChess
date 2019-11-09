@@ -5,10 +5,9 @@
  */
 package Jchess.Ui;
 
-import javafx.application.*;
 import Jchess.Models.UserPreferences;
 import Jchess.Core.Constants;
-import Jchess.Core.Controller;
+import Jchess.Enums.ThemeType;
 import Jchess.Models.Factory;
 import Jchess.Ui.EventMapping.StartDelegate;
 /**
@@ -17,7 +16,7 @@ import Jchess.Ui.EventMapping.StartDelegate;
  */
 public class StartMenu extends javax.swing.JFrame {
 
-    private static boolean dokiTheme;
+    private boolean dokiTheme;
     private StartDelegate startClickHandler = null;
     /**
      * Creates new form StartMenu
@@ -42,13 +41,6 @@ public class StartMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
-        buttonGroup4 = new javax.swing.ButtonGroup();
-        buttonGroup5 = new javax.swing.ButtonGroup();
-        buttonGroup6 = new javax.swing.ButtonGroup();
-        buttonGroup7 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtPlayer1Name = new javax.swing.JTextField();
         txtPlayer2Name = new javax.swing.JTextField();
@@ -158,12 +150,14 @@ public class StartMenu extends javax.swing.JFrame {
         String nameOfPlayerOne = txtPlayer1Name.getText();
         String nameOfPlayerTwo = txtPlayer2Name.getText();
         dokiTheme = rbDoki.isSelected();
+        ThemeType theme = dokiTheme ? ThemeType.Doki : ThemeType.Normal;
         
         UserPreferences.setValue(Constants.PLAYER_TWO_KEY, nameOfPlayerTwo);
         UserPreferences.setValue(Constants.PLAYER_ONE_KEY, nameOfPlayerOne);
-        
-        UserPreferences.setValue(Constants.THEME_KEY, dokiTheme==true ? "doki" : "normal");
-        this.startClickHandler.didStart(Factory.readFENFromFile("starter.fen"));
+        UserPreferences.setValue(Constants.THEME_KEY, theme.getName());
+
+        this.startClickHandler.didStart(Factory.readFENFromFile("starter.fen"), theme);
+
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnStartActionPerformed
@@ -184,19 +178,12 @@ public class StartMenu extends javax.swing.JFrame {
        this.rbDoki.setSelected(true);
     }//GEN-LAST:event_rbDokiActionPerformed
 
-    public static boolean getTheme(){
+    public boolean getTheme() {
         return dokiTheme;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStart;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.ButtonGroup buttonGroup4;
-    private javax.swing.ButtonGroup buttonGroup5;
-    private javax.swing.ButtonGroup buttonGroup6;
-    private javax.swing.ButtonGroup buttonGroup7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton rbDoki;

@@ -7,7 +7,6 @@ package Jchess.Models;
 
 import Jchess.Enums.ClickType;
 import Jchess.Enums.PieceType;
-import Jchess.Models.*;
 import Jchess.Core.Constants;
 import Jchess.Core.Observer;
 import Jchess.Core.Subject;

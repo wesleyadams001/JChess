@@ -7,9 +7,20 @@ package Jchess.Enums;
 
 /**
  * Represents the images that will be loaded
+ * 
  * @author Jonathan Joiner
  */
 public enum ThemeType {
-    Normal,
-    Doki
+    Normal("normal"),
+    Doki("doki");
+
+    private final String name;
+
+    private ThemeType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

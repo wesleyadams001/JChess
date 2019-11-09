@@ -6,7 +6,6 @@
 package Jchess.Models;
 
 import Jchess.Enums.ThemeColor;
-import Jchess.Models.*;
 import java.awt.Color;
 
 /**

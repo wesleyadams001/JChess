@@ -5,7 +5,6 @@
  */
 package Jchess.Models;
 
-import Jchess.Models.*;
 import Jchess.Enums.MoveType;
 import Jchess.Enums.PieceType;
 import java.util.Vector;

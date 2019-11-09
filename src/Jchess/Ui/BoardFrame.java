@@ -10,14 +10,9 @@ import static Jchess.Core.Constants.LARGE_DIMENSION;
 import static Jchess.Core.Constants.SMALL_DIMENSION;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 /**
  * Extends the BoardFrame to allow for a split view of the chess board

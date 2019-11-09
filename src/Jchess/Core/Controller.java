@@ -16,7 +16,6 @@ import Jchess.Enums.ThemeColor;
 import Jchess.Images.Images;
 import Jchess.Models.Player;
 import Jchess.Ui.Viewer;
-import java.awt.event.WindowEvent;
 import java.util.Vector;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -37,7 +36,6 @@ public class Controller extends Application {
 
     Viewer gameViewer; // For user interaction
     public Board gameBoard;
-    private ThemeType Theme;
 
     Controller() { }
 
@@ -51,28 +49,27 @@ public class Controller extends Application {
         gameController.launchSplashScreen();
     }
     
-    public void didStartGame(String fileName){
-        this.loadImages();
-        if(fileName != null){
+    public void didStartGame(String fileName, ThemeType theme){
+        this.loadImages(theme);
+        
+        if (fileName != null) {
             this.startGame(fileName);
-        }
-        else{
+        } else {
             this.startGame();
         }
- 
     }
 
     public void launchSplashScreen(){
         StartMenu sm = new StartMenu(this::didStartGame);
         sm.setVisible(true);
     }
+
     /**
      * Read Piece images into memory.
      */
-    private void loadImages() {
-        this.Theme = StartMenu.getTheme() ? ThemeType.Doki : ThemeType.Normal;
+    private void loadImages(ThemeType theme) {
         Images pieceAssets = new Images();
-        pieceAssets.loadImages(Theme);
+        pieceAssets.loadImages(theme);
     }
 
     /**

@@ -5,6 +5,7 @@
  */
 package Jchess.Ui;
 
+import Jchess.Enums.ThemeType;
 import Jchess.Models.Tile;
 
 /**
@@ -20,6 +21,6 @@ public class EventMapping {
     
     public interface StartDelegate
     {
-        public void didStart(String fileName);
+        public void didStart(String fileName, ThemeType theme);
     }
 }

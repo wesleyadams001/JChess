@@ -20,7 +20,7 @@ public class Knight extends Piece{
     }
     
      @Override
-    public Vector<Pair> specialMoves(Board board) {
+    public Vector<Pair> getSpecialMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
         
         return moves;

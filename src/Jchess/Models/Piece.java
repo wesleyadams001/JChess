@@ -45,7 +45,7 @@ public abstract class Piece {
      * @param board The game board.
      * @return A collection of Pairs representing the possible special moves for this Piece.
      */
-    public abstract Vector<Pair> specialMoves(Board board);
+    public abstract Vector<Pair> getSpecialMoves(Board board);
 
     /**
      * Get a list of possible moves this Piece can make.

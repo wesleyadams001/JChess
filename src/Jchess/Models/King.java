@@ -107,7 +107,7 @@ public class King extends Piece{
     }
 
     @Override
-    public Vector<Pair> specialMoves(Board board) {
+    public Vector<Pair> getSpecialMoves(Board board) {
         Vector<Pair> specialMoves = new Vector<>();
 
         // Get home row for Player.

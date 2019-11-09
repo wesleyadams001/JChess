@@ -59,7 +59,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Vector<Pair> specialMoves(Board board) {
+    public Vector<Pair> getSpecialMoves(Board board) {
         Stream<Pair> pawnPromotionMoves = getPossibleMoves(board).stream().filter(
             // We're only interested in moves which would take the Pawn to the enemy's first rank.
             position -> position.getRow() == board.getEnemyPlayer().getHomeRow()

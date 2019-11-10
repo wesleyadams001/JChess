@@ -56,4 +56,20 @@ public class Pair {
         return new Pair(this.getRow(), this.getColumn() + columnOffset);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        // Self check.
+        if (this == o) return true;
+
+        // Null check.
+        if (o == null) return false;
+
+        // Type check and cast.
+        if (getClass() != o.getClass()) return false;
+
+        // Field comparison.
+        Pair rhs = (Pair) o;
+        return getRow() == rhs.getRow() && getColumn() == rhs.getColumn();
+    }
+
 }

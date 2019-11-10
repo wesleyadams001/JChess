@@ -62,6 +62,10 @@ public abstract class Piece {
         return player;
     }
 
+    public Boolean isOwnedBy(Player player) {
+        return getPlayer() == player;
+    }
+
     /**
      * returns the current position of the piece
      * @return

@@ -8,9 +8,6 @@ package Jchess.Models;
 import Jchess.Core.Constants;
 import Jchess.Enums.MoveType;
 import Jchess.Enums.PieceType;
-import Jchess.Models.Tile;
-import Jchess.Models.Pair;
-import Jchess.Models.Board;
 import java.util.Vector;
 
 /**
@@ -27,7 +24,7 @@ public class King extends Piece{
         Player enemyPlayer = getPlayer() == board.getLightPlayer() ? board.getDarkPlayer() : board.getLightPlayer();
         
         // The King cannot be in check, and it should not have moved already.
-        Boolean kingIsNotInCheck = !(board.pairUnderAttack(this.getCurrentPosition(), enemyPlayer));
+        Boolean kingIsNotInCheck = !(board.isPairUnderAttack(this.getCurrentPosition(), enemyPlayer));
         Boolean kingHasNotMovedYet = !(this.hasTakenFirstMove());
 
         // Validating King and Rook with heuristics.

@@ -96,21 +96,21 @@ public final class Player {
     public boolean canKingBeSaved(Board board) {
         Player enemy = board.getEnemyPlayer();
         Tile[][] matrix = board.getMatrix();
-        for ( int i = 0; i < Constants.ROW_COUNT ; i ++ ){
-            for ( int j = 0; j < Constants.COLUMN_COUNT ; j ++ ){
+        for ( int i = 0; i < board.rowCount ; i ++ ){
+            for ( int j = 0; j < board.columnCount ; j ++ ){
                 if (  matrix[i][j].isOccupied() && matrix[i][j].getPiece().getPlayer()!=enemy ){
                     Vector<Pair> allyMoves = matrix[i][j].getPiece().getPossibleMoves(board);
                     for ( int k = 0 ; k < allyMoves.size() ; k ++ ){
                         /*
                         move ally piece to pair @ allyMoves.get(k)
-                        pass king location to pairUnderAttack(), see if it returns false
+                        pass king location to isPairUnderAttack(), see if it returns false
                         if false, king can be saved, else if true, keep going until false
                         */
                         Board temp = Factory.cloneBoard(board);
                         temp.movePiece(matrix[i][j].getPosition(), allyMoves.get(k));
                         
                         //check to see after piece has been moved if king is still under attack
-                        if(!temp.pairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp.getEnemyPlayer())){
+                        if(!temp.isPairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp.getEnemyPlayer())){
                             return true;
                         }
                         //if we get here that means king is not saved for that possible move and we need to reset the temp board back             
@@ -135,7 +135,7 @@ public final class Player {
             enemy = board.getLightPlayer();
         }
 
-        return board.pairUnderAttack(this.getLocationOfKing(), enemy);
+        return board.isPairUnderAttack(this.getLocationOfKing(), enemy);
     }
 
     /**
@@ -145,6 +145,6 @@ public final class Player {
      * @return
      */
     public boolean canAttack(Tile tile, Board gameBoard) {
-        return gameBoard.pairUnderAttack(tile.getPosition(), this);
+        return gameBoard.isPairUnderAttack(tile.getPosition(), this);
     }
 }

@@ -11,8 +11,10 @@ import Jchess.Core.Constants;
 import Jchess.Core.Observer;
 import Jchess.Core.Subject;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.stream.Stream;
 
 /**
  * The base chess board class
@@ -28,7 +30,7 @@ public class Board implements Subject {
     /**
      * Represents an array list of observer objects
      */
-    private ArrayList<Observer> observerList;
+    private final ArrayList<Observer> observerList;
     
     /**
      * Represents the Player currently playing.
@@ -285,7 +287,11 @@ public class Board implements Subject {
         return ClickType.Other;
     }
 
-    public Tile[][] getMatrix(){
+    /**
+     * Returns the 2D array which holds all the Pieces.
+     * @return
+     */
+    public Tile[][] getMatrix() {
         return this.matrix;
     }
 
@@ -327,31 +333,27 @@ public class Board implements Subject {
         notifyObservers();
     }
     
-    public boolean pairUnderAttack(Pair test, Player enemy){
+    /**
+     * Determines if a Pair can be attacked by a given Player.
+     * @param targetPosition A Pair to test.
+     * @param enemy The Player to simulate attacks with.
+     * @return
+     */
+    public boolean isPairUnderAttack(Pair targetPosition, Player enemy) {
+        // Create a collection of possible moves the enemy's Pieces can make.
+        Stream<Pair> possibleMovesForEnemy = Arrays
+                .stream(getMatrix())
+                // Get all the Tiles into one "array".
+                .flatMap(Arrays::stream)
+                // Only keep Tiles that 1) have a Piece 2) that's owned by enemy.
+                .filter(tile -> tile.isOccupied() && tile.getPiece().isOwnedBy(enemy))
+                // Create a vector of possible moves for each enemy Piece.
+                .map(tile -> tile.getPiece().getPossibleMoves(this))
+                // Combine possible moves for all enemy Pieces in this row into one "array".
+                .flatMap(Collection::stream);
         
-        Tile[][] matrix = this.getMatrix();
-        for(int i = 0; i < Constants.ROW_COUNT; i++){
-            for(int j = 0; j < Constants.COLUMN_COUNT; j++){
-                
-                //testing to make sure 1) tile has a piece and 2) its an enemy piece
-                if(matrix[i][j].isOccupied() && matrix[i][j].getPiece().getPlayer()==enemy){
-                    
-                    //create a vector of possible moves for enemy piece called moves
-                    Vector<Pair> moves = matrix[i][j].getPiece().getPossibleMoves(this);
-                    
-                    //loop through the possibles moves until we find the pair
-                    for(int k = 0; k < moves.size(); k++){
-                        
-                        // if ( the possible move pair is == to pair passed ) THEN true, that pair is under attack
-                        if(moves.get(k).getRow() == test.getRow() && moves.get(k).getColumn() == test.getColumn()){
-                            return true;
-                        }
-                    }   
-                }
-            }
-        }
-        //else, pair not in possible moves, not under attack
-        return false;
+        // Resolves to true if any of the possible enemy moves == targetPosition.
+        return possibleMovesForEnemy.anyMatch(possibleDestination -> possibleDestination == targetPosition);
     }
 
     /**
@@ -379,11 +381,11 @@ public class Board implements Subject {
     @Override
     public void notifyObservers() {
         for (Iterator<Observer> it = 
-              observerList.iterator(); it.hasNext();) 
-        { 
+            observerList.iterator(); it.hasNext();) 
+        {
             Observer o = it.next(); 
             o.update(currentFen); 
-        } 
+        }
     }
 
 }

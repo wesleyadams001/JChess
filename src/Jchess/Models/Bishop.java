@@ -9,7 +9,7 @@ import Jchess.Enums.PieceType;
 import java.util.Vector;
 
 /**
- * Class that holds the available moves for a bishop
+ * Class that holds the available moves for a Bishop.
  * @author jonathanjoiner
  */
 public class Bishop extends Piece{
@@ -24,7 +24,7 @@ public class Bishop extends Piece{
     
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
-        return new Vector();
+        return new Vector<>();
     }
 
     @Override

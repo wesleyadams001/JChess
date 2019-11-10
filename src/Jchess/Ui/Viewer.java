@@ -139,7 +139,7 @@ public class Viewer extends JPanel implements Observer{
      * @param tileButton 
      */
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
-        if (tile.isOccupied() && tile.getPiece().getPlayer() == board.getCurrentPlayer()) {
+        if (tile.isOccupied() && tile.getPiece().isOwnedBy(board.getCurrentPlayer())) {
             // This Tile is in the current player's possession. 
             tileButton.setEnabled(true);
         } else if (tile.isHighlighted()) {

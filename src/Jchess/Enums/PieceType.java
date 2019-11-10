@@ -13,11 +13,35 @@ package Jchess.Enums;
  * 
  */
 public enum PieceType {
+
+    /**
+     * Piece is a King.
+     */
     King('K','k'),
+
+    /**
+     * Piece is a Queen.
+     */
     Queen('Q','q'),
+
+    /**
+     * Piece is a Bishop.
+     */
     Bishop('B','b'),
+
+    /**
+     * Piece is a Knight.
+     */
     Knight('N','n'),
+
+    /**
+     * Piece is a Rook.
+     */
     Rook('R','r'),
+
+    /**
+     * Piece is a Pawn.
+     */
     Pawn('P','p');
 
     private final char light;

@@ -10,8 +10,25 @@ package Jchess.Enums;
  * @author nehalpatel
  */
 public enum MoveResult {
+
+    /**
+     * Move was prevented because Player needs a Check-escaping move.
+     */
     InvalidEscape,
+
+    /**
+     * Player is in check.
+     */
     Check,
+
+    /**
+     * A Checkmate happened.
+     */
     Checkmate,
-    BetaMove
+
+    /**
+     * Nothing fundamentally changed.
+     */
+    BetaMove,
+
 }

@@ -44,19 +44,19 @@ public class Controller extends Application {
      */
     public static void main(String[] args) {
         Controller gameController = new Controller();
-        gameController.launchSplashScreen();
+        gameController.launchStartMenu();
     }
 
     /**
      * Launches pregame window which prompts for player name and theme preference.
      */
-    public void launchSplashScreen() {
+    public void launchStartMenu() {
         StartMenu sm = new StartMenu(this::didStartGame);
         sm.setVisible(true);
     }
     
     /**
-     * Handle the Start button event from the splash screen.
+     * Handle the Start button event from the StartMenu.
      * @param FEN The FEN to load.
      * @param theme The user's theme preference.
      */
@@ -64,7 +64,7 @@ public class Controller extends Application {
         StartMenu Open = new StartMenu(this::didStartGame);
         Open.setVisible(true);
 
-        // Load icons into memory. Used by Viewer to represent Pieces.
+        // Load images into memory. Used by Viewer to represent Pieces.
         Images.loadImages(theme);
 
         // Use default FEN in case of an error.

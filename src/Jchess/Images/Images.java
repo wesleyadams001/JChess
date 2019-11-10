@@ -26,6 +26,9 @@ public class Images {
      */
     private Images() { }
 
+    /**
+     * Holds the Piece images.
+     */
     public static HashMap<PieceType, HashMap<ThemeColor, ImageIcon>> Icons = new HashMap<>();
 
     /**
@@ -33,8 +36,8 @@ public class Images {
      * @param Theme The Piece theme to load.
      */
     public static void loadImages(ThemeType Theme) {
-        //Declare strings for the file paths to each Piece Icon
-        //Set as default icon file path
+        // Declare strings for the file paths to each Piece Icon.
+        // Set as default icon file path.
         String whitePawnPath = "src/Jchess/Images/White_pawn.png"; 
         String whiteRookPath = "src/Jchess/Images/White_castle.png";
         String whiteKnightPath = "src/Jchess/Images/White_horse.png";
@@ -47,7 +50,6 @@ public class Images {
         String blackBishopPath = "src/Jchess/Images/Black_bishop.png";
         String blackQueenPath = "src/Jchess/Images/Black_queen.png";
         String blackKingPath = "src/Jchess/Images/Black_king.png";
-        
         
         switch(Theme){
             case Normal:    //Do nothing and keep default file paths for images
@@ -70,7 +72,7 @@ public class Images {
                 break;      //If something goes wrong keep default file paths
         }
         
-        //Initialize the hashmap used for image icons
+        // Initialize the hashmap used for image icons.
         try {
             HashMap<ThemeColor, ImageIcon> pawnIcons = new HashMap<>();
             pawnIcons.put(ThemeColor.LightPiece, new ImageIcon(ImageIO.read(new File(whitePawnPath))));

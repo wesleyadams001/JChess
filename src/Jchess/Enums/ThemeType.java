@@ -11,7 +11,15 @@ package Jchess.Enums;
  * @author Jonathan Joiner
  */
 public enum ThemeType {
+
+    /**
+     * The default Chess theme.
+     */
     Normal("normal"),
+
+    /**
+     * The special Anime theme.
+     */
     Doki("doki");
 
     private final String name;
@@ -20,6 +28,10 @@ public enum ThemeType {
         this.name = name;
     }
 
+    /**
+     * Returns a String representation of this theme. 
+     * @return
+     */
     public String getName() {
         return name;
     }

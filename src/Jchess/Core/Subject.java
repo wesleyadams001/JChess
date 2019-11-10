@@ -12,7 +12,22 @@ package Jchess.Core;
  * @author Wesley
  */
 public interface Subject {
+
+    /**
+     * Adds observer to "to-notify" list.
+     * @param o
+     */
     public void registerObserver(Observer o); 
+
+    /**
+     * Removes observer from "to-notify" list.
+     * @param o
+     */
     public void unregisterObserver(Observer o);
+
+    /**
+     * Notifies observers in "to-notify" list.
+     */
     public void notifyObservers(); 
+
 }

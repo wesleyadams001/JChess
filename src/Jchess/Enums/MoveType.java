@@ -10,7 +10,20 @@ package Jchess.Enums;
  * @author Wesley
  */
 public enum MoveType {
+
+    /**
+     * Piece can only move to an empty Tile.
+     */
     EmptyTileOnly,
+
+    /**
+     * Piece can only move to a Tile occupied by enemy.
+     */
     EnemyPieceOnly,
+
+    /**
+     * Piece can move to either an empty Tile or a Tile occupied by enemy.
+     */
     EmptyOrEnemyPiece,
+
 }

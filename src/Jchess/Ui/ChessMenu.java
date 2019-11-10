@@ -6,7 +6,6 @@
 package Jchess.Ui;
 
 import Jchess.Core.Controller;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,7 +26,6 @@ public class ChessMenu extends JMenuBar {
     private final JMenuItem saveHistItem;
     private final JFileChooser fc;
     private JTextField filename = new JTextField(), dir = new JTextField();
-    private JButton open = new JButton("Open"), save = new JButton("Save");
     private JTextArea ta;
 
     /**

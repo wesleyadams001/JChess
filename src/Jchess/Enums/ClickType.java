@@ -10,8 +10,25 @@ package Jchess.Enums;
  * @author nehalpatel
  */
 public enum ClickType {
+
+    /**
+     * User has selected a Piece to move.
+     */
     Selection,
+
+    /**
+     * User wants to move a Piece to a new Tile.
+     */
     Move,
+
+    /**
+     * User no longer has a Piece selected.
+     */
     Deselection,
-    Other
+
+    /**
+     * Nothing at this point. If you run into this, something bizarre happened.
+     */
+    Other,
+
 }

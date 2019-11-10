@@ -10,6 +10,7 @@ import Jchess.Core.Constants;
 import Jchess.Enums.ThemeType;
 import Jchess.Models.Factory;
 import Jchess.Ui.EventMapping.StartDelegate;
+
 /**
  * The Doki Chess start menu
  * @author Wesley
@@ -17,11 +18,13 @@ import Jchess.Ui.EventMapping.StartDelegate;
 public class StartMenu extends javax.swing.JFrame {
 
     private boolean dokiTheme;
-    private StartDelegate startClickHandler = null;
+    private final StartDelegate startClickHandler;
+    
     /**
-     * Creates new form StartMenu
+     * Creates new form StartMenu.
+     * @param startHandler
      */
-    public StartMenu(StartDelegate handler) {
+    public StartMenu(StartDelegate startHandler) {
         initComponents();
         
         this.txtPlayer1Name.setText(UserPreferences.getValue(Constants.PLAYER_ONE_KEY, "Sith Rochowiak"));
@@ -29,7 +32,7 @@ public class StartMenu extends javax.swing.JFrame {
         
         this.dokiTheme = false;
         this.rbThemeNormal.setSelected(true);
-        this.startClickHandler = handler;
+        this.startClickHandler = startHandler;
     }
 
     /**

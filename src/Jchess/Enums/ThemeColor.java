@@ -14,12 +14,40 @@ import java.awt.*;
  * @author Wesley
  */
 public enum ThemeColor {
+
+    /**
+     * Used to represent a Piece owned by the light Player.
+     */
     LightPiece("w", 1, Color.WHITE),
+
+    /**
+     * Used to represent a Piece owned by the dark Player.
+     */
     DarkPiece("b", 2, Color.BLACK),
+
+    /**
+     * Used to paint a light Tile.
+     */
     LightTile("lb", 3, new Color(222, 184, 135)),
+
+    /**
+     * Used to paint a dark Tile.
+     */
     DarkTile("db", 4, new Color(139, 69, 19)),
+
+    /**
+     * Used to represent the selected Piece or a possible move to an empty Tile.
+     */
     Friendly("bl", 5, new Color(52, 152, 219)),
+
+    /**
+     * Used to represent a possible move to a Tile occupied by enemy.
+     */
     Enemy("r", 6, new Color(231, 76, 60)),
+
+    /**
+     * Used to represent a special move.
+     */
     Special("g", 7, new Color(5, 255, 30));
 
     private final int num;

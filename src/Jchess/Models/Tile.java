@@ -42,8 +42,6 @@ public class Tile {
      * @param newPiece
      */
     public void setPiece(Piece newPiece) {
-        // TODO: handle case where a Piece is already on this Tile.
-
         if (newPiece != null) {
             newPiece.setCurrentPosition(position);
         }

@@ -21,6 +21,6 @@ public class EventMapping {
     
     public interface StartDelegate
     {
-        public void didStart(String fen, ThemeType theme);
+        public void didStart(String FEN, ThemeType theme);
     }
 }

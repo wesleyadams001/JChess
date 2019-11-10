@@ -30,7 +30,11 @@ import javax.swing.JOptionPane;
 public class Controller extends Application {
 
     Viewer gameViewer;
-    Board gameBoard;
+
+    /**
+     * The active game Board instance.
+     */
+    public Board gameBoard;
 
     Controller() { }
 
@@ -53,59 +57,50 @@ public class Controller extends Application {
     
     /**
      * Handle the Start button event from the splash screen.
-     * @param fen The FEN to load.
+     * @param FEN The FEN to load.
      * @param theme The user's theme preference.
      */
-    public void didStartGame(String fen, ThemeType theme) {
-        // Load icons into memory. Used by Viewer to represent Pieces.
-        Images.loadImages(theme);
-        
-        if (fen != null) {
-            this.startGame(fen);
-        } else {
-            this.startGame();
-        }
-    }
-
-    /**
-     * Sets up the Board and launches the Viewer.
-     */
-    private void startGame() {
-        
+    public void didStartGame(String FEN, ThemeType theme) {
         StartMenu Open = new StartMenu(this::didStartGame);
         Open.setVisible(true);
-        // TODO: Use text fields to set player names.
-        Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
-        Player darkPlayer = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
-        
-        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, Factory.readFENFromFile("starter.fen"));
-        
-        // Finally, launch the game viewer.
-        gameViewer = new Viewer(this, this::didClickTile);
-        this.gameBoard.registerObserver(this.gameViewer);
+
+        // Load icons into memory. Used by Viewer to represent Pieces.
+        Images.loadImages(theme);
+
+        // Use default FEN in case of an error.
+        if (FEN == null || FEN.trim().isEmpty()) {
+            FEN = Factory.readFENFromFile("starter.fen");
+        }
+
+        this.startGame(FEN);
     }
     
-     /**
-     * Sets up the Board and launches the Viewer from a loaded fen
+    /**
+     * Sets up the Board and launches the Viewer from a loaded FEN.
      */
-    private void startGame(String fen) {
-        // TODO: Use text fields to set player names.
-        Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
-        Player darkPlayer = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
+    private void startGame(String FEN) {
+        Player lightPlayer = new Player(
+            UserPreferences.getValue(Constants.PLAYER_ONE_KEY, Constants.LIGHT_PLAYER),
+            ThemeColor.LightPiece
+        );
+
+        Player darkPlayer = new Player(
+            UserPreferences.getValue(Constants.PLAYER_TWO_KEY, Constants.DARK_PLAYER),
+            ThemeColor.DarkPiece
+        );
+
+        // Make the board from the FEN.
+        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, FEN);
         
-        //make the board from the fen
-        gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, fen);
-        
-        //Dispose of old boardFrame
-        if(this.gameViewer != null){
-        this.gameViewer.boardFrame.setVisible(false);
-        //this.gameBoard.unregisterObserver(this.gameViewer);
-        this.gameViewer.boardFrame.dispose();
+        // Dispose of old boardFrame.
+        if (gameViewer != null) {
+            gameViewer.boardFrame.setVisible(false);
+            gameViewer.boardFrame.dispose();
         }
+
         // Finally, launch the new game viewer.
-        this.gameViewer = new Viewer(this, this::didClickTile);
-        //gameViewer.boardFrame.setVisible(true);
-        this.gameBoard.registerObserver(this.gameViewer);
+        gameViewer = new Viewer(this, this::didClickTile);
+        gameBoard.registerObserver(this.gameViewer);
     }
 
     /**

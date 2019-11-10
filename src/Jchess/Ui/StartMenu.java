@@ -163,19 +163,17 @@ public class StartMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStartActionPerformed
 
     private void rbThemeNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbThemeNormalActionPerformed
-        // TODO add your handling code here:
-       if(this.rbDoki.isSelected()){
-           this.rbDoki.setSelected(false);
-       }
-       this.rbThemeNormal.setSelected(true);
+        if (this.rbDoki.isSelected()) {
+            this.rbDoki.setSelected(false);
+        }
+        this.rbThemeNormal.setSelected(true);
     }//GEN-LAST:event_rbThemeNormalActionPerformed
 
     private void rbDokiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDokiActionPerformed
-        // TODO add your handling code here:
-         if(this.rbThemeNormal.isSelected()){
-           this.rbThemeNormal.setSelected(false);
-       }
-       this.rbDoki.setSelected(true);
+        if (this.rbThemeNormal.isSelected()) {
+            this.rbThemeNormal.setSelected(false);
+        }
+        this.rbDoki.setSelected(true);
     }//GEN-LAST:event_rbDokiActionPerformed
 
     public boolean getTheme() {

@@ -18,13 +18,8 @@ import Jchess.Models.Player;
 import Jchess.Ui.Viewer;
 import java.util.Vector;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
-import Jchess.Core.Constants;
 import Jchess.Enums.ThemeType;
 import Jchess.Ui.StartMenu;
 import javax.swing.JOptionPane;
@@ -34,8 +29,8 @@ import javax.swing.JOptionPane;
  */
 public class Controller extends Application {
 
-    Viewer gameViewer; // For user interaction
-    public Board gameBoard;
+    Viewer gameViewer;
+    Board gameBoard;
 
     Controller() { }
 
@@ -47,28 +42,29 @@ public class Controller extends Application {
         Controller gameController = new Controller();
         gameController.launchSplashScreen();
     }
-    
-    public void didStartGame(String fileName, ThemeType theme){
-        this.loadImages(theme);
-        
-        if (fileName != null) {
-            this.startGame(fileName);
-        } else {
-            this.startGame();
-        }
-    }
 
-    public void launchSplashScreen(){
+    /**
+     * Launches pregame window which prompts for player name and theme preference.
+     */
+    public void launchSplashScreen() {
         StartMenu sm = new StartMenu(this::didStartGame);
         sm.setVisible(true);
     }
-
+    
     /**
-     * Read Piece images into memory.
+     * Handle the Start button event from the splash screen.
+     * @param fen The FEN to load.
+     * @param theme The user's theme preference.
      */
-    private void loadImages(ThemeType theme) {
-        Images pieceAssets = new Images();
-        pieceAssets.loadImages(theme);
+    public void didStartGame(String fen, ThemeType theme) {
+        // Load icons into memory. Used by Viewer to represent Pieces.
+        Images.loadImages(theme);
+        
+        if (fen != null) {
+            this.startGame(fen);
+        } else {
+            this.startGame();
+        }
     }
 
     /**
@@ -92,7 +88,7 @@ public class Controller extends Application {
      /**
      * Sets up the Board and launches the Viewer from a loaded fen
      */
-    private void startGame(String fen){
+    private void startGame(String fen) {
         // TODO: Use text fields to set player names.
         Player lightPlayer = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
         Player darkPlayer = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
@@ -325,22 +321,11 @@ public class Controller extends Application {
         }
     }
 
+    /**
+     * Unused method for compliance with Application interface.
+     * @param primaryStage
+     */
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+    public void start(Stage primaryStage) { }
     
 }

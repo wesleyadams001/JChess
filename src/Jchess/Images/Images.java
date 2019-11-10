@@ -21,12 +21,18 @@ import javax.swing.ImageIcon;
  */
 public class Images {
 
+    /**
+     * Prevent instantiation.
+     */
+    private Images() { }
+
     public static HashMap<PieceType, HashMap<ThemeColor, ImageIcon>> Icons = new HashMap<>();
 
     /**
-     * Initialize all the image mappings for the chess Pieces.
+     * Read Piece images into memory.
+     * @param Theme The Piece theme to load.
      */
-    public void loadImages(ThemeType Theme) {
+    public static void loadImages(ThemeType Theme) {
         //Declare strings for the file paths to each Piece Icon
         //Set as default icon file path
         String whitePawnPath = "src/Jchess/Images/White_pawn.png"; 

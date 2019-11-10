@@ -91,6 +91,7 @@ public class Board implements Subject {
                 this.matrix[rowIndex][columnIndex] = tile;
             }
         }
+
         this.currentFen = Factory.serializeBoard(this);
     }
 

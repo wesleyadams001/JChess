@@ -24,6 +24,11 @@ public final class Player {
     private final int pawnRow;
     private Pair kingPair;
     
+    /**
+     * A Player.
+     * @param name The Player's name.
+     * @param color The Player's color, which is either Light or Dark.
+     */
     public Player(String name, ThemeColor color) {
         this.name = name;
         this.color = color;

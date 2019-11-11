@@ -329,6 +329,7 @@ public class Board implements Subject {
         if (toTile.getPiece().getPieceType() == PieceType.King){
             getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }
+        
         createFen();
         notifyObservers();
     }

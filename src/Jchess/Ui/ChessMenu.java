@@ -6,6 +6,7 @@
 package Jchess.Ui;
 
 import Jchess.Core.Controller;
+import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -64,7 +65,7 @@ public class ChessMenu extends JMenuBar {
               dir.setText(fc.getCurrentDirectory().toString());
               
               //Build out file path and call load
-              this.controller.loadFromFile(this.dir.getText()+"\\"+this.filename.getText());
+              this.controller.loadFromFile(this.dir.getText() + File.separator + this.filename.getText());
               
             }
             if (rVal == JFileChooser.CANCEL_OPTION) {
@@ -93,7 +94,7 @@ public class ChessMenu extends JMenuBar {
               this.ta.append(fen + "\n");
               
               //setup the file path
-              String path = this.dir.getText() +"\\"+ this.filename.getText();
+              String path = this.dir.getText() + File.separator + this.filename.getText();
 
               //call control save function
               this.controller.saveToFile(fen, path);

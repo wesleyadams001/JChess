@@ -14,13 +14,30 @@ import Jchess.Models.Tile;
  */
 public class EventMapping {
     
+    /**
+     * Overrides Tile click handlers.
+     */
     public interface TileDelegate 
     {
+
+        /**
+         * Handles Tile click event.
+         * @param tile
+         */
         public void didClick(Tile tile);
     }
     
+    /**
+     * Overrides Start click handler.
+     */
     public interface StartDelegate
     {
+
+        /**
+         * Handles Start button click event.
+         * @param FEN
+         * @param theme
+         */
         public void didStart(String FEN, ThemeType theme);
     }
 }

@@ -5,8 +5,6 @@
  */
 package Jchess.Models;
 
-import Jchess.Models.Board;
-import Jchess.Models.Pair;
 import Jchess.Enums.PieceType;
 import java.util.Vector;
 
@@ -16,15 +14,17 @@ import java.util.Vector;
  */
 public class Rook extends Piece {
 
+    /**
+     * A Rook Piece.
+     * @param owner The Rook's owner.
+     */
     public Rook(Player owner) {
         super(owner, PieceType.Rook);
     }
 
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
-        Vector<Pair> moves = new Vector<>();
-        
-        return moves;
+        return new Vector<>();
     }
 
     @Override

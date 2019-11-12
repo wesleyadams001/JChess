@@ -135,10 +135,10 @@ public class Board implements Subject {
     }
     
     /**
-     * Generates a fen from the current gameboard
+     * Generates a FEN from the current gameBoard.
      * @return
      */
-    public String createFen(){
+    public String createFEN() {
         String fen = Factory.serializeBoard(this);
         this.currentFen = fen;
         return fen;
@@ -323,7 +323,7 @@ public class Board implements Subject {
             getCurrentPlayer().setLocationOfKing(toTile.getPosition());
         }
         
-        createFen();
+        createFEN();
         notifyObservers();
     }
     

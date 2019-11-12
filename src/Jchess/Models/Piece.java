@@ -25,9 +25,22 @@ public abstract class Piece {
     private boolean hasTakenFirstMove;
     
     private final char letter;
+
+    /**
+     * An image which represents the Piece on the board.
+     */
     protected final ImageIcon image;
+
+    /**
+     * Represents the type of the Piece.
+     */
     protected final PieceType shortHand;
 
+    /**
+     * A Piece.
+     * @param owner The Piece's owner.
+     * @param type The type of Piece.
+     */
     public Piece(Player owner, PieceType type) {
         player = owner;
         shortHand = type;
@@ -62,6 +75,11 @@ public abstract class Piece {
         return player;
     }
 
+    /**
+     * Determines if the Piece is owned by a given Player.
+     * @param player
+     * @return
+     */
     public Boolean isOwnedBy(Player player) {
         return getPlayer() == player;
     }

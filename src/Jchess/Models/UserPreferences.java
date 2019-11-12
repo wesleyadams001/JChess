@@ -15,9 +15,7 @@ public class UserPreferences {
     /**
      * The default constructor of the user preferences to restrict instantiation
      */
-    private UserPreferences(){
-       
-    }
+    private UserPreferences() { }
     
     /**
      * Set a value in the java user preferences

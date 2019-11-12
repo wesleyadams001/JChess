@@ -25,30 +25,34 @@ import Jchess.Core.Observer;
  */
 public class Viewer extends JPanel implements Observer{
     
-    public int mouseX, mouseY;//Mouse position
-    public boolean pause;//if game is paused  
     private final Controller controller;
     private final Board board;
     private final JButton[][] buttonMatrix;
-    public BoardFrame boardFrame;
-    private TileDelegate tileClickHandler;
+    private final TileDelegate tileClickHandler;
+    private BoardFrame boardFrame;
     private JPanel controlPanel;
     private JTextArea textArea;
     
+    /**
+     * Displays the game to the User.
+     * @param c
+     * @param tileClickHandler
+     */
     public Viewer(Controller c, TileDelegate tileClickHandler)
     {
         this.controller = c;
         this.board = this.controller.gameBoard;
         this.buttonMatrix = new JButton[board.rowCount][board.columnCount];
         this.tileClickHandler = tileClickHandler;
+        
         // Display the board to the screen.
-        setupFrame();  
+        makeWindow();  
     }    
 
     /**
      * Launches the Board window.
      */
-    private void setupFrame() {
+    private void makeWindow() {
         int tileWidth = Constants.TILE_DIMENSION;
         int tileHeight = Constants.TILE_DIMENSION;
 
@@ -173,6 +177,14 @@ public class Viewer extends JPanel implements Observer{
                 }
             }
         }
+    }
+
+    /**
+     * Hides the Board window, then disposes it.
+     */
+    public void destroyWindow() {
+        boardFrame.setVisible(false);
+        boardFrame.dispose();
     }
 
     /**

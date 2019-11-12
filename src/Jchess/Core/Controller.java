@@ -94,8 +94,7 @@ public class Controller extends Application {
         
         // Dispose of old boardFrame.
         if (gameViewer != null) {
-            gameViewer.boardFrame.setVisible(false);
-            gameViewer.boardFrame.dispose();
+            gameViewer.destroyWindow();
         }
 
         // Finally, launch the new game viewer.
@@ -132,16 +131,15 @@ public class Controller extends Application {
      * Accesses the Fen Factory
      * @return
      */
-    public String CreateFen(){
-        String fen = this.gameBoard.createFen();
-        return fen;
+    public String createFEN() {
+        return gameBoard.createFEN();
     }
     
     /**
      * Starts the game with a loaded fen
      * @param fileName
      */
-    public void Load(String fileName){
+    public void loadFromFile(String fileName) {
         startGame(Factory.readFENFromFile(fileName));
     }
     
@@ -150,7 +148,7 @@ public class Controller extends Application {
      * @param fen
      * @param filePath
      */
-    public void Save(String fen, String filePath){
+    public void saveToFile(String fen, String filePath) {
         Factory.saveFENToFile(fen, filePath);
     }
     

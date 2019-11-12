@@ -46,6 +46,8 @@ public class ChessMenu extends JMenuBar {
     
     /**
      * The default constructor for the chess Menu Bar
+     * @param c
+     * @param v
      */
     public ChessMenu(Controller c, Viewer v){
         this.controller = c;
@@ -62,7 +64,7 @@ public class ChessMenu extends JMenuBar {
               dir.setText(fc.getCurrentDirectory().toString());
               
               //Build out file path and call load
-              this.controller.Load(this.dir.getText()+"\\"+this.filename.getText());
+              this.controller.loadFromFile(this.dir.getText()+"\\"+this.filename.getText());
               
             }
             if (rVal == JFileChooser.CANCEL_OPTION) {
@@ -85,7 +87,7 @@ public class ChessMenu extends JMenuBar {
               dir.setText(fc.getCurrentDirectory().toString());
               
               //create fen
-              String fen = this.controller.CreateFen();
+              String fen = this.controller.createFEN();
               
               //append the fen to the text area
               this.ta.append(fen + "\n");
@@ -94,7 +96,7 @@ public class ChessMenu extends JMenuBar {
               String path = this.dir.getText() +"\\"+ this.filename.getText();
 
               //call control save function
-              this.controller.Save(fen, path);
+              this.controller.saveToFile(fen, path);
             }
             if (rVal == JFileChooser.CANCEL_OPTION) {
               filename.setText("You pressed cancel");
@@ -119,7 +121,7 @@ public class ChessMenu extends JMenuBar {
               String path = this.dir.getText() +"\\"+ this.filename.getText();
 
               //call control save function
-              this.controller.Save(history, path);
+              this.controller.saveToFile(history, path);
             }
             if (rVal == JFileChooser.CANCEL_OPTION) {
               filename.setText("You pressed cancel");

@@ -16,6 +16,10 @@ import java.util.Vector;
  */
 public class King extends Piece{
 
+    /**
+     * A King Piece.
+     * @param owner The King's owner.
+     */
     public King(Player owner) {
         super(owner, PieceType.King);
     }
@@ -31,6 +35,11 @@ public class King extends Piece{
         return kingIsNotInCheck && kingHasNotMovedYet && isRookEligibleForCastling(rook);
     }
     
+    /**
+     * Determines if the Queen-side Rook can be castled with.
+     * @param board
+     * @return
+     */
     public Boolean canCastleQueenSide(Board board) {
         // Get home row for Player and find left Rook.
         Tile[] homeRow = getPlayer().getHomeRow(board);
@@ -61,6 +70,11 @@ public class King extends Piece{
         return true;
     }
     
+    /**
+     * Determines if the King-side Rook can be castled with.
+     * @param board
+     * @return
+     */
     public Boolean canCastleKingSide(Board board) {
         // Get home row for Player and find right Rook.
         Tile[] homeRow = getPlayer().getHomeRow(board);

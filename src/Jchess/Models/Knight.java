@@ -15,6 +15,10 @@ import java.util.Vector;
  */
 public class Knight extends Piece{
     
+    /**
+     * A Knight Piece.
+     * @param owner The Knight's owner.
+     */
     public Knight(Player owner){
         super(owner, PieceType.Knight);
     }

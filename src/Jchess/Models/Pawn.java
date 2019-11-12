@@ -5,9 +5,6 @@
  */
 package Jchess.Models;
 
-import Jchess.Models.Board;
-import Jchess.Models.Tile;
-import Jchess.Models.Pair;
 import Jchess.Enums.ThemeColor;
 import Jchess.Enums.MoveType;
 import Jchess.Enums.PieceType;
@@ -30,6 +27,10 @@ public class Pawn extends Piece {
     private final Map<Move, Integer> rowOffset;
     private final Map<Move, Integer> columnOffset;
 
+    /**
+     * A Pawn Piece.
+     * @param owner The Pawn's owner.
+     */
     public Pawn(Player owner) {
         super(owner, PieceType.Pawn);
 

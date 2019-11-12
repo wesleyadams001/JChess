@@ -41,8 +41,9 @@ public class Pair {
     }
 
     /**
-     * Returns a copy of Pair with the row offsetted.
-     * aka. new Pair(getRow() + rowOffset, getColumn())
+     * Returns a copy of Pair with the row offsetted. aka new Pair(getRow() + rowOffset, getColumn())
+     * @param rowOffset
+     * @return 
      */
     public Pair offsettingRow(int rowOffset) {
         return new Pair(this.getRow() + rowOffset, this.getColumn());
@@ -50,26 +51,12 @@ public class Pair {
 
     /**
      * Returns a copy of Pair with the column offsetted. (getColumn() + columnOffset)
-     * aka. new Pair(getRow(), getColumn() + columnOffset)
+ aka.new Pair(getRow(), getColumn() + columnOffset)
+     * @param columnOffset
+     * @return 
      */
     public Pair offsettingColumn(int columnOffset) {
         return new Pair(this.getRow(), this.getColumn() + columnOffset);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        // Self check.
-        if (this == o) return true;
-
-        // Null check.
-        if (o == null) return false;
-
-        // Type check and cast.
-        if (getClass() != o.getClass()) return false;
-
-        // Field comparison.
-        Pair rhs = (Pair) o;
-        return getRow() == rhs.getRow() && getColumn() == rhs.getColumn();
     }
 
 }

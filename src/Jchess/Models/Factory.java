@@ -21,7 +21,10 @@ import java.util.StringJoiner;
  */
 public class Factory {
     
-    public Factory() { }
+    /**
+     * Prevent instantiation.
+     */
+    private Factory() { }
     
     /**
      * Makes a new Board instance.

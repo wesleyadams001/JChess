@@ -149,12 +149,12 @@ public final class Player {
      * Determines if a given move by an allied Piece can take the Player's King out of Check.
      * @param board
      * @param alliedPiece
-     * @param destination
+     * @param newDestination
      * @return 
      */
-    private boolean canMoveSaveKing(Board board, Piece alliedPiece, Pair destination) {
+    private boolean canMoveSaveKing(Board board, Piece alliedPiece, Pair newDestination) {
         // Move allied Piece to destination Pair.
-        Board simulatedBoard = board.simulatedWithMove(alliedPiece, board.getTile(destination));
+        Board simulatedBoard = board.simulatedWithMove(alliedPiece, board.getTile(newDestination));
         // If false, King can be saved.
         return !simulatedBoard.getCurrentPlayer().isKingUnderAttack(simulatedBoard);
     }

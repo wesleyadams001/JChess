@@ -179,10 +179,6 @@ public class StartMenu extends javax.swing.JFrame {
         this.rbDoki.setSelected(true);
     }//GEN-LAST:event_rbDokiActionPerformed
 
-    public boolean getTheme() {
-        return dokiTheme;
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel1;

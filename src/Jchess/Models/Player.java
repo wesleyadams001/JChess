@@ -155,11 +155,8 @@ public final class Player {
     private boolean canMoveSaveKing(Board board, Piece alliedPiece, Pair destination) {
         // Move allied Piece to destination Pair.
         Board simulatedBoard = board.simulatedWithMove(alliedPiece, board.getTile(destination));
-
-        // Pass King location to isPairUnderAttack(). If false, King can be saved.
-        Pair kingLocation = simulatedBoard.getCurrentPlayer().getLocationOfKing();
-        Player opponent = simulatedBoard.getEnemyPlayer();
-        return !simulatedBoard.isPairUnderAttack(kingLocation, opponent);
+        // If false, King can be saved.
+        return !simulatedBoard.getCurrentPlayer().isKingUnderAttack(simulatedBoard);
     }
 
     /**

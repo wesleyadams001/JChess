@@ -35,8 +35,8 @@ public class Viewer extends JPanel implements Observer{
     
     /**
      * Displays the game to the User.
-     * @param c
-     * @param tileClickHandler
+     * @param c The controller.
+     * @param tileClickHandler The handler for Tile click events.
      */
     public Viewer(Controller c, TileDelegate tileClickHandler)
     {

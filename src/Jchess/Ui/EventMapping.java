@@ -22,7 +22,7 @@ public class EventMapping {
 
         /**
          * Handles Tile click event.
-         * @param tile
+         * @param tile The Tile that was clicked.
          */
         public void didClick(Tile tile);
     }
@@ -35,8 +35,8 @@ public class EventMapping {
 
         /**
          * Handles Start button click event.
-         * @param FEN
-         * @param theme
+         * @param FEN The FEN that was loaded.
+         * @param theme The theme that was selected.
          */
         public void didStart(String FEN, ThemeType theme);
     }

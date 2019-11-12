@@ -15,7 +15,7 @@ public interface Observer {
     
     /**
      * Updates classes 
-     * @param currentFen
+     * @param currentFEN The current FEN representation of the Board.
      */
-    public void update(String currentFen); 
+    public void update(String currentFEN); 
 }

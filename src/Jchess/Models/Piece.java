@@ -62,14 +62,14 @@ public abstract class Piece {
 
     /**
      * Get a list of possible moves this Piece can make.
-     * @param board
+     * @param board The Board on which the Piece exists.
      * @return A collection of Pairs representing the possible moves for this Piece.
      */
     public abstract Vector<Pair> getPossibleMoves(Board board);
 
     /**
      * Returns the player to which the piece belongs.
-     * @return
+     * @return The Piece's owner.
      */
     public Player getPlayer() {
         return player;
@@ -77,48 +77,48 @@ public abstract class Piece {
 
     /**
      * Determines if the Piece is owned by a given Player.
-     * @param player
-     * @return
+     * @param player The Player to check ownership with.
+     * @return True, if player owns the Piece.
      */
     public Boolean isOwnedBy(Player player) {
         return getPlayer() == player;
     }
 
     /**
-     * returns the current position of the piece
-     * @return
+     * Returns the current position of the Piece.
+     * @return The Piece's position on the Board.
      */
     public Pair getCurrentPosition() {
         return position;
     }
 
     /**
-     * sets the current position of a piece
-     * @param position
+     * Sets the current position of a Piece.
+     * @param position The Piece's position on the Board.
      */
     public void setCurrentPosition(Pair position) {
         this.position = position;
     }
     
     /**
-     * Gets the image associated with the piece
-     * @return
+     * Gets the image associated with the Piece.
+     * @return The Piece's image asset.
      */
     public ImageIcon getImage() {
         return image;
     }
 
     /**
-     * Boolean to indicate piece is selected
-     * @return
+     * Boolean to indicate Piece is selected.
+     * @return True, if Piece is selected.
      */
     public boolean isSelected() {
         return selected;
     }
 
     /**
-     * Sets the selected piece
-     * @param selected
+     * Sets the selected piece.
+     * @param selected Whether the Piece is selected.
      */
     public void setSelected(boolean selected) {
         this.selected = selected;
@@ -126,16 +126,16 @@ public abstract class Piece {
 
 
     /**
-     * indicates if the piece has taken its first move
-     * @return
+     * Indicates if the piece has taken its first move.
+     * @return True, if the Piece has moved before.
      */
     public boolean hasTakenFirstMove() {
         return hasTakenFirstMove;
     }
 
     /**
-     * sets if the piece has taken its first move
-     * @param hasTakenFirstMove
+     * Sets if the piece has taken its first move.
+     * @param hasTakenFirstMove Whether the Piece has moved.
      */
     public void setHasTakenFirstMove(boolean hasTakenFirstMove) {
         this.hasTakenFirstMove = hasTakenFirstMove;
@@ -145,7 +145,7 @@ public abstract class Piece {
     /**
      * Check whether a move to a Tile is technically legal.(Only ensures that the Tile is not occupied by a friendly Piece.)
      * @param tile The Tile which you'd like to move this Piece to.
-     * @param type
+     * @param type The type of Move.
      * @return True if Tile is empty or holds an enemy Piece, false otherwise.
      */
     public boolean canMoveTo(Tile tile, MoveType type) {
@@ -178,7 +178,7 @@ public abstract class Piece {
 
     /**
      * Gets the letter associated with the piece
-     * @return 
+     * @return A character that represents the Piece.
      */
     public char getLetter() {
         return this.letter;
@@ -193,9 +193,9 @@ public abstract class Piece {
     }
 
     /**
-     * Get a list of possible horizontal and vertical moves.
-     * @param board
-     * @return 
+     * Get all possible horizontal and vertical moves.
+     * @param board The Board on which the Piece exists.
+     * @return A vector of possible horizontal and vertical moves.
      */
     public Vector<Pair> getLaneMoves(Board board){
         Vector<Pair> moves = new Vector<>();        //Store all possible moves to return
@@ -320,9 +320,9 @@ public abstract class Piece {
     }
 
     /**
-     * Get a list of possible diagonal moves.
-     * @param board
-     * @return
+     * Get all possible diagonal moves.
+     * @param board The Board on which the Piece exists.
+     * @return A vector of possible diagonal moves.
      */
     public Vector<Pair> getDiagonalMoves(Board board){
         Vector<Pair> moves = new Vector<>();                //Store all possible moves to return

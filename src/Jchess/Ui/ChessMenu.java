@@ -29,16 +29,16 @@ public class ChessMenu extends JMenuBar {
     private JTextArea ta;
 
     /**
-     * Gets the text area component
-     * @return 
+     * Gets the text area component.
+     * @return The text area.
      */
     public JTextArea getTextArea() {
         return ta;
     }
 
     /**
-     * sets the text area component
-     * @param ta
+     * Sets the text area component.
+     * @param ta The text area.
      */
     public void setTextArea(JTextArea ta) {
         this.ta = ta;
@@ -46,8 +46,8 @@ public class ChessMenu extends JMenuBar {
     
     /**
      * The default constructor for the chess Menu Bar
-     * @param c
-     * @param v
+     * @param c The active Controller.
+     * @param v The active Viewer.
      */
     public ChessMenu(Controller c, Viewer v){
         this.controller = c;

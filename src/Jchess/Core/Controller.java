@@ -104,7 +104,7 @@ public class Controller extends Application {
 
     /**
      * Handles Tile click events.
-     * @param tile 
+     * @param tile The Tile that was clicked.
      */
     public void didClickTile(Tile tile)  {
         switch (gameBoard.determineClickIntent(tile)) {
@@ -128,28 +128,28 @@ public class Controller extends Application {
     }
     
     /**
-     * Accesses the Fen Factory
-     * @return
+     * Get a FEN representation of the active Board.
+     * @return The FEN.
      */
     public String createFEN() {
         return gameBoard.createFEN();
     }
     
     /**
-     * Starts the game with a loaded fen
-     * @param fileName
+     * Starts the game with a loaded FEN.
+     * @param fileName The file path to load the FEN from.
      */
     public void loadFromFile(String fileName) {
         startGame(Factory.readFENFromFile(fileName));
     }
     
     /**
-     * Save a fen to a particular file
-     * @param fen
-     * @param filePath
+     * Save a FEN to a particular file
+     * @param FEN The FEN representation.
+     * @param filePath The file path to save the FEN to.
      */
-    public void saveToFile(String fen, String filePath) {
-        Factory.saveFENToFile(fen, filePath);
+    public void saveToFile(String FEN, String filePath) {
+        Factory.saveFENToFile(FEN, filePath);
     }
     
 
@@ -316,7 +316,7 @@ public class Controller extends Application {
 
     /**
      * Unused method for compliance with Application interface.
-     * @param primaryStage
+     * @param primaryStage Doesn't matter.
      */
     @Override
     public void start(Stage primaryStage) { }

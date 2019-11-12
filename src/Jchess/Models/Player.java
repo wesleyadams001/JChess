@@ -5,14 +5,12 @@
  */
 package Jchess.Models;
 
-import Jchess.Models.Board;
-import Jchess.Models.Factory;
 import Jchess.Enums.ThemeColor;
-import Jchess.Models.Pair;
-import Jchess.Models.Tile;
 import Jchess.Core.Constants;
-import java.util.Vector;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Stream;
 /**
  * Class that contains the player logic
  * @author nehalpatel
@@ -94,36 +92,74 @@ public final class Player {
     }
 
     /**
+     * Get all the Player's Pieces.
+     * @param board
+     * @return 
+     */
+    public Stream<Piece> getPieces(Board board) {
+        return Arrays
+            .stream(board.getMatrix())
+            // Get all the Tiles into one "array".
+            .flatMap(Arrays::stream)
+            // Only keep Tiles that 1) have a Piece 2) that's owned by the Player.
+            .filter(tile -> tile.isOccupied() && tile.getPiece().isOwnedBy(this))
+            // For every Tile, replace with inner Piece.
+            .map(tile -> tile.getPiece());
+    }
+
+    /**
+     * Get a list of all possible moves the Player's Pieces can make.
+     * @param board
+     * @return 
+     */
+    public Stream<Pair> getPossibleMoves(Board board) {
+        return getPieces(board)
+            // For every Piece, replace with vector of its possible moves.
+            .map(piece -> piece.getPossibleMoves(board))
+            // Combine possible moves for all enemy Pieces in this row into one "array".
+            .flatMap(Collection::stream);
+    }
+
+    /**
      * Determines if the Player's King can be saved by an ally's move.
      * @param board
      * @return 
      */
     public boolean canKingBeSaved(Board board) {
-        Player enemy = board.getEnemyPlayer();
-        Tile[][] matrix = board.getMatrix();
-        for ( int i = 0; i < board.rowCount ; i ++ ){
-            for ( int j = 0; j < board.columnCount ; j ++ ){
-                if (  matrix[i][j].isOccupied() && matrix[i][j].getPiece().getPlayer()!=enemy ){
-                    Vector<Pair> allyMoves = matrix[i][j].getPiece().getPossibleMoves(board);
-                    for ( int k = 0 ; k < allyMoves.size() ; k ++ ){
-                        /*
-                        move ally piece to pair @ allyMoves.get(k)
-                        pass king location to isPairUnderAttack(), see if it returns false
-                        if false, king can be saved, else if true, keep going until false
-                        */
-                        Board temp = Factory.cloneBoard(board);
-                        temp.movePiece(matrix[i][j].getPosition(), allyMoves.get(k));
-                        
-                        //check to see after piece has been moved if king is still under attack
-                        if(!temp.isPairUnderAttack(temp.getCurrentPlayer().getLocationOfKing(), temp.getEnemyPlayer())){
-                            return true;
-                        }
-                        //if we get here that means king is not saved for that possible move and we need to reset the temp board back             
-                    }    
-                }
-            }
-        }
-        return false;
+        // Create a collection of all the Player's Pieces.
+        Stream<Piece> allPieces = getPieces(board);
+        // Resolves to true if any of the Player's Pieces can save the King.
+        return allPieces.anyMatch(piece -> canPieceSaveKing(board, piece));
+    }
+
+    /**
+     * Determines if a given allied Piece can make a move that would take the Player's King out of Check.
+     * @param board
+     * @param alliedPiece
+     * @return 
+     */
+    private boolean canPieceSaveKing(Board board, Piece alliedPiece) {
+        // Create a collection of possible moves the Piece can make.
+        Stream<Pair> allMoves = alliedPiece.getPossibleMoves(board).stream();
+        // Resolves to true if any of the Piece's possible moves can save the King.
+        return allMoves.anyMatch(desination -> canMoveSaveKing(board, alliedPiece, desination));
+    }
+
+    /**
+     * Determines if a given move by an allied Piece can take the Player's King out of Check.
+     * @param board
+     * @param alliedPiece
+     * @param destination
+     * @return 
+     */
+    private boolean canMoveSaveKing(Board board, Piece alliedPiece, Pair destination) {
+        // Move allied Piece to destination Pair.
+        Board simulatedBoard = board.simulatedWithMove(alliedPiece, board.getTile(destination));
+
+        // Pass King location to isPairUnderAttack(). If false, King can be saved.
+        Pair kingLocation = simulatedBoard.getCurrentPlayer().getLocationOfKing();
+        Player opponent = simulatedBoard.getEnemyPlayer();
+        return !simulatedBoard.isPairUnderAttack(kingLocation, opponent);
     }
 
     /**

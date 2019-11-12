@@ -11,9 +11,6 @@ import Jchess.Core.Constants;
 import Jchess.Core.Observer;
 import Jchess.Core.Subject;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.stream.Stream;
 
 /**
@@ -176,11 +173,7 @@ public class Board implements Subject {
             return false;
         }
 
-        if ((rowIndex > rowCount - 1) || (columnIndex > columnCount - 1)) {
-            return false;
-        }
-
-        return true;
+        return !((rowIndex > rowCount - 1) || (columnIndex > columnCount - 1));
     }
 
     /**
@@ -337,24 +330,14 @@ public class Board implements Subject {
     /**
      * Determines if a Pair can be attacked by a given Player.
      * @param targetPosition A Pair to test.
-     * @param enemy The Player to simulate attacks with.
+     * @param opponentPlayer The Player to simulate attacks with.
      * @return
      */
-    public boolean isPairUnderAttack(Pair targetPosition, Player enemy) {
-        // Create a collection of possible moves the enemy's Pieces can make.
-        Stream<Pair> possibleMovesForEnemy = Arrays
-                .stream(getMatrix())
-                // Get all the Tiles into one "array".
-                .flatMap(Arrays::stream)
-                // Only keep Tiles that 1) have a Piece 2) that's owned by enemy.
-                .filter(tile -> tile.isOccupied() && tile.getPiece().isOwnedBy(enemy))
-                // Create a vector of possible moves for each enemy Piece.
-                .map(tile -> tile.getPiece().getPossibleMoves(this))
-                // Combine possible moves for all enemy Pieces in this row into one "array".
-                .flatMap(Collection::stream);
-        
-        // Resolves to true if any of the possible enemy moves == targetPosition.
-        return possibleMovesForEnemy.anyMatch(possibleDestination -> possibleDestination == targetPosition);
+    public boolean isPairUnderAttack(Pair targetPosition, Player opponentPlayer) {
+        // Create a collection of all the opponent's possible moves.
+        Stream<Pair> opponentMoves = opponentPlayer.getPossibleMoves(this);
+        // Resolves to true if any of the opponent's possible moves == targetPosition.
+        return opponentMoves.anyMatch(possibleDestination -> possibleDestination == targetPosition);
     }
 
     /**
@@ -381,12 +364,9 @@ public class Board implements Subject {
 
     @Override
     public void notifyObservers() {
-        for (Iterator<Observer> it = 
-            observerList.iterator(); it.hasNext();) 
-        {
-            Observer o = it.next(); 
-            o.update(currentFen); 
-        }
+        observerList.forEach((o) -> {
+            o.update(currentFen);
+        });
     }
 
 }

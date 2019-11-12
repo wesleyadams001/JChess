@@ -29,9 +29,11 @@ public class StartMenu extends javax.swing.JFrame {
         
         this.txtPlayer1Name.setText(UserPreferences.getValue(Constants.PLAYER_ONE_KEY, "Sith Rochowiak"));
         this.txtPlayer2Name.setText(UserPreferences.getValue(Constants.PLAYER_TWO_KEY, "Father Coleman"));
-        
-        this.dokiTheme = false;
-        this.rbThemeNormal.setSelected(true);
+
+        dokiTheme = "doki".equals(UserPreferences.getValue(Constants.THEME_KEY, "normal"));
+        this.rbDoki.setSelected(dokiTheme);
+        this.rbThemeNormal.setSelected(!dokiTheme);
+
         this.startClickHandler = startHandler;
     }
 
@@ -152,7 +154,6 @@ public class StartMenu extends javax.swing.JFrame {
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         String nameOfPlayerOne = txtPlayer1Name.getText();
         String nameOfPlayerTwo = txtPlayer2Name.getText();
-        dokiTheme = rbDoki.isSelected();
         ThemeType theme = dokiTheme ? ThemeType.Doki : ThemeType.Normal;
         
         UserPreferences.setValue(Constants.PLAYER_TWO_KEY, nameOfPlayerTwo);
@@ -170,6 +171,7 @@ public class StartMenu extends javax.swing.JFrame {
             this.rbDoki.setSelected(false);
         }
         this.rbThemeNormal.setSelected(true);
+        dokiTheme = false;
     }//GEN-LAST:event_rbThemeNormalActionPerformed
 
     private void rbDokiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDokiActionPerformed
@@ -177,6 +179,7 @@ public class StartMenu extends javax.swing.JFrame {
             this.rbThemeNormal.setSelected(false);
         }
         this.rbDoki.setSelected(true);
+        dokiTheme = true;
     }//GEN-LAST:event_rbDokiActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

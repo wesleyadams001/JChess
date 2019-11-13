@@ -12,7 +12,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import Jchess.Core.Constants;
 import java.util.StringJoiner;
 
 /**
@@ -135,10 +134,17 @@ public class Factory {
      */
     public static Board cloneBoard(final Board gameBoard) {
         String FEN = serializeBoard(gameBoard);
-        
-        Player newLight = new Player(Constants.LIGHT_PLAYER, ThemeColor.LightPiece);
-        Player newDark = new Player(Constants.DARK_PLAYER, ThemeColor.DarkPiece);
-        
+
+        Player newLight = new Player(
+            UserPreferences.getLightPlayerName(),
+            ThemeColor.LightPiece
+        );
+
+        Player newDark = new Player(
+            UserPreferences.getDarkPlayerName(),
+            ThemeColor.DarkPiece
+        );
+
         return makeBoard(newLight, newDark, FEN);
     }
 

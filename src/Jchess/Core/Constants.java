@@ -17,19 +17,34 @@ public final class Constants {
     private Constants() { }
     
     /**
-     * The preference key used to refer to Player 1's name.
+     * The preference key used to refer to the light Player's name.
      */
-    public static final String PLAYER_ONE_KEY = "1";
+    public static final String LIGHT_PLAYER_KEY = "1";
 
     /**
-     * The preference key used to refer to Player 2's name.
+     * The preference key used to refer to the dark Player's name.
      */
-    public static final String PLAYER_TWO_KEY = "2";
+    public static final String DARK_PLAYER_KEY = "2";
 
     /**
      * The preference key used to refer to user's theme preference.
      */
     public static final String THEME_KEY = "3";
+
+    /**
+     * The internal identifier for the Normal theme.
+     */
+    public static final String NORMAL_THEME = "normal";
+
+    /**
+     * The internal identifier for the Doki Doki theme.
+     */
+    public static final String DOKI_THEME = "doki";
+
+    /**
+     * The internal identifier for the default theme.
+     */
+    public static final String DEFAULT_THEME = NORMAL_THEME;
 
     /**
      * The index for the dark player's King row.
@@ -64,12 +79,12 @@ public final class Constants {
     /**
      * The default name used for the dark Player.
      */
-    public static final String DARK_PLAYER = "Dark";
+    public static final String DEFAULT_DARK_PLAYER_NAME = "Father Coleman";
 
     /**
      * The default name used for the light Player.
      */
-    public static final String LIGHT_PLAYER = "Light";
+    public static final String DEFAULT_LIGHT_PLAYER_NAME = "Sith Rochowiak";
 
     /**
      * The count of rows on the Board.

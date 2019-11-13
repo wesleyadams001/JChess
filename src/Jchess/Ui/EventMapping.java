@@ -5,7 +5,6 @@
  */
 package Jchess.Ui;
 
-import Jchess.Enums.ThemeType;
 import Jchess.Models.Tile;
 
 /**
@@ -36,8 +35,7 @@ public class EventMapping {
         /**
          * Handles Start button click event.
          * @param FEN The FEN that was loaded.
-         * @param theme The theme that was selected.
          */
-        public void didStart(String FEN, ThemeType theme);
+        public void didStart(String FEN);
     }
 }

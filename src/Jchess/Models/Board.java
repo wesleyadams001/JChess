@@ -70,15 +70,15 @@ public class Board implements Subject {
     private Piece selectedPiece;
 
     /**
-     * @param one   First player for the game.
-     * @param two   Second player for the game.
+     * @param light   Light Player for the game.
+     * @param dark    Dark Player for the game.
      */
-    public Board(Player one, Player two) {
-        this.currentPlayer = one;
-        this.enemyPlayer = two;
+    public Board(Player light, Player dark) {
+        this.currentPlayer = light;
+        this.enemyPlayer = dark;
 
-        this.lightPlayer = one;
-        this.darkPlayer = two;
+        this.lightPlayer = light;
+        this.darkPlayer = dark;
         this.observerList = new ArrayList<>(); 
         this.matrix = new Tile[rowCount][columnCount];
 

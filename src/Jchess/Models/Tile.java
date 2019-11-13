@@ -39,7 +39,7 @@ public class Tile {
 
     /**
      * Place a Piece on this Tile.
-     * @param newPiece
+     * @param newPiece The Piece to put on the Tile.
      */
     public void setPiece(Piece newPiece) {
         if (newPiece != null) {
@@ -50,8 +50,8 @@ public class Tile {
     }
 
     /**
-     * Removes the piece
-     * @return
+     * Removes the piece.
+     * @return The removed Piece.
      */
     public Piece removePiece() {
         Piece removedPiece = this.piece;
@@ -77,7 +77,7 @@ public class Tile {
 
     /**
      * Marks the Tile as highlighted.
-     * @param highlighted
+     * @param highlighted Whether the Tile should be highlighted.
      */
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
@@ -85,7 +85,7 @@ public class Tile {
 
     /**
      * Check if the Tile is a special move for the currently selected Piece.
-     * @return
+     * @return True, if the Tile is special.
      */
     public boolean isSpecial() {
         return special;
@@ -93,7 +93,7 @@ public class Tile {
 
     /**
      * Marks the Tile as special.
-     * @param special
+     * @param special Whether the Tile is special.
      */
     public void setSpecial(boolean special) {
         this.special = special;
@@ -101,7 +101,7 @@ public class Tile {
 
     /**
      * Returns the Tile's color on the Board.
-     * @return
+     * @return The Tile's color.
      */
     public Color getColor() {
         return color;

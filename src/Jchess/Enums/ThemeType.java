@@ -5,6 +5,8 @@
  */
 package Jchess.Enums;
 
+import Jchess.Core.Constants;
+
 /**
  * Represents the images that will be loaded.
  * @author Jonathan Joiner
@@ -14,12 +16,12 @@ public enum ThemeType {
     /**
      * The default Chess theme.
      */
-    Normal("normal"),
+    Normal(Constants.NORMAL_THEME),
 
     /**
      * The special Anime theme.
      */
-    Doki("doki");
+    Doki(Constants.DOKI_THEME);
 
     private final String name;
 

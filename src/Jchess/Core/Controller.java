@@ -20,7 +20,6 @@ import java.util.Vector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
-import Jchess.Enums.ThemeType;
 import Jchess.Ui.StartMenu;
 import javax.swing.JOptionPane;
 /**
@@ -58,14 +57,13 @@ public class Controller extends Application {
     /**
      * Handle the Start button event from the StartMenu.
      * @param FEN The FEN to load.
-     * @param theme The user's theme preference.
      */
-    public void didStartGame(String FEN, ThemeType theme) {
+    public void didStartGame(String FEN) {
         StartMenu Open = new StartMenu(this::didStartGame);
         Open.setVisible(true);
 
         // Load images into memory. Used by Viewer to represent Pieces.
-        Images.loadImages(theme);
+        Images.loadImages(UserPreferences.getTheme());
 
         // Use default FEN in case of an error.
         if (FEN == null || FEN.trim().isEmpty()) {
@@ -80,18 +78,18 @@ public class Controller extends Application {
      */
     private void startGame(String FEN) {
         Player lightPlayer = new Player(
-            UserPreferences.getValue(Constants.PLAYER_ONE_KEY, Constants.LIGHT_PLAYER),
+            UserPreferences.getLightPlayerName(),
             ThemeColor.LightPiece
         );
 
         Player darkPlayer = new Player(
-            UserPreferences.getValue(Constants.PLAYER_TWO_KEY, Constants.DARK_PLAYER),
+            UserPreferences.getDarkPlayerName(),
             ThemeColor.DarkPiece
         );
 
         // Make the board from the FEN.
         gameBoard = Factory.makeBoard(lightPlayer, darkPlayer, FEN);
-        
+
         // Dispose of old boardFrame.
         if (gameViewer != null) {
             gameViewer.destroyWindow();

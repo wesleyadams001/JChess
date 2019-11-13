@@ -37,8 +37,8 @@ public class Pawn extends Piece {
         rowOffset = new EnumMap<>(Move.class);
         columnOffset = new EnumMap<>(Move.class);
 
-        // All moves are negated if the Piece's owner is player 2.
-        // This is done to handle player 2's moves,
+        // All moves are negated if the Piece's owner is the dark Player.
+        // This is done to handle the dark Player's moves,
         // which go towards the bottom of the board.
         int x = (owner.getColor() == ThemeColor.LightPiece) ? 1 : -1;
 

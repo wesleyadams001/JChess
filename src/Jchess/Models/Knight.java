@@ -23,6 +23,11 @@ public class Knight extends Piece{
         super(owner, PieceType.Knight);
     }
     
+    /**
+     * Gets special moves for knight.
+     * @param board Current board state.
+     * @return  Empty vector.
+     */
      @Override
     public Vector<Pair> getSpecialMoves(Board board) {
         Vector<Pair> moves = new Vector<>();
@@ -30,6 +35,11 @@ public class Knight extends Piece{
         return moves;
     }
 
+    /**
+     * Gets possible moves for knight.
+     * @param board Current board state.
+     * @return  Vector of possible moves for the knight.
+     */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         Vector<Pair> moves = new Vector<>();                //Store all possible moves to return

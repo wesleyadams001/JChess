@@ -9,7 +9,7 @@ import Jchess.Enums.ThemeColor;
 import java.awt.Color;
 
 /**
- *
+ * Class for tile objects or squares on the board.
  * @author nehalpatel
  */
 public class Tile {

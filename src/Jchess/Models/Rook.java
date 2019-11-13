@@ -22,11 +22,21 @@ public class Rook extends Piece {
         super(owner, PieceType.Rook);
     }
 
+    /**
+     * Gets special moves for Rook.
+     * @param board Current board state.
+     * @return  An empty vector.
+     */
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
         return new Vector<>();
     }
 
+    /**
+     * Gets possible moves for Rook.
+     * @param board Current board state.
+     * @return  Vector of possible moves for rook.
+     */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         return this.getLaneMoves(board);

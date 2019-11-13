@@ -19,18 +19,18 @@ public class UserPreferences {
     
     /**
      * Set a value in the java user preferences
-     * @param key
-     * @param value
+     * @param key   Key name for preference.
+     * @param value Value to be stored in key.
      */
     public static void setValue(String key, String value){
         Preferences.userNodeForPackage(UserPreferences.class).put(key, value);
     }
     
     /**
-     * get a value from the java user preferences
-     * @param key
-     * @param defVal
-     * @return
+     * Get a value from the java user preferences
+     * @param key   Key name for preference.
+     * @param defVal    Default value to be grabbed.
+     * @return  Preference at key location as a string.
      */
     public static String getValue(String key, String defVal){
         return Preferences.userNodeForPackage(UserPreferences.class).get(key,defVal);

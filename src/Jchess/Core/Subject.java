@@ -15,13 +15,13 @@ public interface Subject {
 
     /**
      * Adds observer to "to-notify" list.
-     * @param o
+     * @param o Observer object to be added to the list.
      */
     public void registerObserver(Observer o); 
 
     /**
      * Removes observer from "to-notify" list.
-     * @param o
+     * @param o Observer object to be removed from the list.
      */
     public void unregisterObserver(Observer o);
 

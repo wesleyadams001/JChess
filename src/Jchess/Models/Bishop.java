@@ -22,11 +22,21 @@ public class Bishop extends Piece{
         super(owner, PieceType.Bishop);
     }
     
+     /**
+     * Get special moves for piece.
+     * @param board The board for the current game.
+     * @return  An empty vector.
+     */
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
         return new Vector<>();
     }
 
+    /**
+     * Get possible moves for piece.
+     * @param board The board for the current game.
+     * @return  Vector of possible moves for the bishop.
+     */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         return getDiagonalMoves(board);

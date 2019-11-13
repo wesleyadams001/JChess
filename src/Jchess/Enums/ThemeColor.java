@@ -54,6 +54,13 @@ public enum ThemeColor {
     private final String abbr;
     private final Color col;
 
+     /**
+     * Returns a String representation of this theme.
+     * @param abbr Represents the player side.
+     * @param number Associated number for the enum.
+     * @param col Color value.
+     * @return Name of theme.
+     */
     private ThemeColor(String abbr, int number, Color col) 
     {
         this.abbr = abbr;
@@ -71,7 +78,7 @@ public enum ThemeColor {
 
     /**
      * Gets the number associated with the color
-     * @return int associated with color
+     * @return Integer associated with color
      */
     public int getNum(){
         return this.num;

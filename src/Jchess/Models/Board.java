@@ -70,9 +70,8 @@ public class Board implements Subject {
     private Piece selectedPiece;
 
     /**
-     *
-     * @param one
-     * @param two
+     * @param one   First player for the game.
+     * @param two   Second player for the game.
      */
     public Board(Player one, Player two) {
         this.currentPlayer = one;
@@ -96,7 +95,7 @@ public class Board implements Subject {
 
     /**
      * Returns the active Player. 
-     * @return 
+     * @return  The current player.
      */
     public Player getCurrentPlayer() {
         return currentPlayer;
@@ -104,7 +103,7 @@ public class Board implements Subject {
 
     /**
      * Updates the active Player.
-     * @param currentPlayer 
+     * @param currentPlayer Current active player.
      */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -112,7 +111,7 @@ public class Board implements Subject {
 
     /**
      * Returns the inactive Player.
-     * @return 
+     * @return  The enemy player.
      */
     public Player getEnemyPlayer() {
         return this.enemyPlayer;
@@ -120,7 +119,7 @@ public class Board implements Subject {
     
     /**
      * Updates the inactive Player.
-     * @param enemy 
+     * @param enemy Current enemy/inactive player.
      */
     public void setEnemyPlayer(Player enemy) {
         this.enemyPlayer = enemy;
@@ -128,7 +127,7 @@ public class Board implements Subject {
 
     /**
      * Returns the Player in control of the light Pieces.
-     * @return 
+     * @return  The player for white/light pieces.
      */
     public Player getLightPlayer() {
         return lightPlayer;
@@ -136,7 +135,7 @@ public class Board implements Subject {
     
     /**
      * Generates a FEN from the current gameBoard.
-     * @return
+     * @return  FEN for current game state.
      */
     public String createFEN() {
         String fen = Factory.serializeBoard(this);
@@ -146,7 +145,7 @@ public class Board implements Subject {
 
     /**
      * Returns the Player in control of the dark Pieces.
-     * @return 
+     * @return  The player for dark/black pieces.
      */
     public Player getDarkPlayer() {
         return darkPlayer;
@@ -162,8 +161,8 @@ public class Board implements Subject {
 
     /**
      * Determines if a Pair is within the bounds of the Board.
-     * @param pair
-     * @return 
+     * @param pair  Pair to be tested.
+     * @return  Boolean from pair validity testing.
      */
     public boolean isValidPair(Pair pair) {
         int rowIndex = pair.getRow();
@@ -178,8 +177,8 @@ public class Board implements Subject {
 
     /**
      * Search for and retrieve a Tile.
-     * @param position A pair of coordinates with which to search for a Tile.
-     * @return The desired Tile if found, else null.
+     * @param position  A pair of coordinates with which to search for a Tile.
+     * @return  The desired Tile if found, else null.
      */
     public Tile getTile(Pair position) {
         if (isValidPair(position)) {
@@ -191,8 +190,8 @@ public class Board implements Subject {
 
     /**
      * Search for and retrieve a Piece.
-     * @param position A pair of coordinates with which to search for a Piece.
-     * @return The desired Piece if found, else null.
+     * @param position  A pair of coordinates with which to search for a Piece.
+     * @return  The desired Piece if found, else null.
      */
     public Piece getPiece(Pair position) {
         if (isValidPair(position)) {
@@ -208,7 +207,7 @@ public class Board implements Subject {
 
     /**
      * Get the Player's selected Piece.
-     * @return The first Piece found with isSelected() being true, null otherwise.
+     * @return  The first Piece found with isSelected() being true, null otherwise.
      */
     public Piece getTransientPiece() {
         return this.selectedPiece;
@@ -216,7 +215,7 @@ public class Board implements Subject {
 
     /**
      * Marks a Piece as selected.
-     * @param piece 
+     * @param piece Piece to be selected.
      */
     public void selectPiece(Piece piece) {
         piece.setSelected(true);
@@ -225,7 +224,7 @@ public class Board implements Subject {
 
     /**
      * Deselects a Piece.
-     * @param piece 
+     * @param piece Piece to be deselected.
      */
     public void deselectPiece(Piece piece) {
         piece.setSelected(false);
@@ -234,8 +233,8 @@ public class Board implements Subject {
 
     /**
      * Determines if the Tile was clicked in an attempt to be selected.
-     * @param tile
-     * @return 
+     * @param tile  Tile that was clicked.
+     * @return  Boolean from tile selection validity.
      */
     private Boolean clickIsSelection(Tile tile) {
         return (!tile.isHighlighted() &&
@@ -244,8 +243,8 @@ public class Board implements Subject {
     
     /**
      * Determines if the Tile was clicked in an attempt to commit a move.
-     * @param tile
-     * @return 
+     * @param tile  Tile that was clicked.
+     * @return  Boolean from tile selection validity.
      */
     private Boolean clickIsMove(Tile tile) {
         return ((tile.isHighlighted() || tile.isSpecial()) &&
@@ -254,8 +253,8 @@ public class Board implements Subject {
 
     /**
      * Determines if the Tile was clicked in an attempt to cancel a previous selection.
-     * @param tile
-     * @return 
+     * @param tile  Tile that was clicked.
+     * @return  Boolean from tile selection validity.
      */
     private Boolean clickIsDeselection(Tile tile) {
         return (!tile.isHighlighted() &&
@@ -265,8 +264,8 @@ public class Board implements Subject {
 
     /**
      * Determines the user's intent in clicking the Tile.
-     * @param tile
-     * @return 
+     * @param tile  Tile that was clicked.
+     * @return  ClickType enum value.
      */
     public ClickType determineClickIntent(Tile tile) {
         if (clickIsSelection(tile)) {
@@ -282,7 +281,7 @@ public class Board implements Subject {
 
     /**
      * Returns the 2D array which holds all the Pieces.
-     * @return
+     * @return  Tile array for the board.
      */
     public Tile[][] getMatrix() {
         return this.matrix;
@@ -290,9 +289,8 @@ public class Board implements Subject {
 
     /**
      * Move a Piece to another Tile.
-     * 
-     * @param from
-     * @param to
+     * @param from  Initial pair position of the selected piece.
+     * @param to    Desired pair destination for the selected piece.
      */
     public void movePiece(Pair from, Pair to) {
         Tile toTile = getTile(to);
@@ -331,7 +329,7 @@ public class Board implements Subject {
      * Determines if a Pair can be attacked by a given Player.
      * @param targetPosition A Pair to test.
      * @param opponentPlayer The Player to simulate attacks with.
-     * @return
+     * @return  Boolean from pair under attack testing.
      */
     public boolean isPairUnderAttack(Pair targetPosition, Player opponentPlayer) {
         // Create a collection of all the opponent's possible moves.
@@ -352,16 +350,27 @@ public class Board implements Subject {
         return temp;
     }
 
+    /**
+     * Pass observer object to observer list to be added.
+     * @param o Observer object to be added.
+     */
     @Override
     public void registerObserver(Observer o) {
         observerList.add(o);
     }
 
+    /**
+     * Pass observer object to observer list to be removed.
+     * @param o Observer object to be removed.
+     */
     @Override
     public void unregisterObserver(Observer o) {
         observerList.remove(observerList.indexOf(o));
     }
 
+    /**
+     * Go through observerList and update observer objects with changes.
+     */
     @Override
     public void notifyObservers() {
         observerList.forEach((o) -> {

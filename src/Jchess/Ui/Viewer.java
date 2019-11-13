@@ -111,8 +111,8 @@ public class Viewer extends JPanel implements Observer{
 
     /**
      * Re-paints Tiles according to selection, highlight, etc.
-     * @param tile
-     * @param tileButton 
+     * @param tile  Tile object to be painted.
+     * @param tileButton    Tile button displayed for tile object.
      */
     private void paintTileButton(Tile tile, JButton tileButton) {
         tileButton.setBackground(tile.getColor());
@@ -139,8 +139,8 @@ public class Viewer extends JPanel implements Observer{
 
     /**
      * Enables/Disables Tile clicks based on current Player, highlighted, etc.
-     * @param tile
-     * @param tileButton 
+     * @param tile  Tile object to be updated.
+     * @param tileButton    Tile displayed for tile object.
      */
     private void updateTileButtonEnabled(Tile tile, JButton tileButton) {
         if (tile.isOccupied() && tile.getPiece().isOwnedBy(board.getCurrentPlayer())) {
@@ -189,7 +189,7 @@ public class Viewer extends JPanel implements Observer{
 
     /**
      * Passes click command to Controller and redraws the Board.
-     * @param e 
+     * @param e Click event to be handled.
      */
     private void handleClick(ActionEvent e) {
         JButton target = (JButton) e.getSource();
@@ -208,7 +208,7 @@ public class Viewer extends JPanel implements Observer{
 
     /**
      * Sets adds in and modifies the contents of the control panel that is placed on the board
-     * @param controlPanel 
+     * @param controlPanel  Control panel to be set up for the game.
      */
     private void setUpControlPanel(JPanel controlPanel) {
 
@@ -237,7 +237,10 @@ public class Viewer extends JPanel implements Observer{
         //set the control panel to visible
         controlPanel.setVisible(true);
     }
-
+    /**
+     * Updates current FEN.
+     * @param currentFen FEN string to be updated.
+     */
     @Override
     public void update(String currentFen) {
         String value = this.textArea.getText();

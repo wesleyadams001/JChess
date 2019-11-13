@@ -15,9 +15,9 @@ public class Pair {
     private final int columnIndex;
     
     /**
-     *
-     * @param rowIndex
-     * @param columnIndex
+     * Constructor for pair coordinates.
+     * @param rowIndex  Row index of pair.
+     * @param columnIndex   Column index of pair.
      */
     public Pair(int rowIndex, int columnIndex) {
         this.rowIndex = rowIndex;
@@ -42,8 +42,8 @@ public class Pair {
 
     /**
      * Returns a copy of Pair with the row offsetted. aka new Pair(getRow() + rowOffset, getColumn())
-     * @param rowOffset
-     * @return 
+     * @param rowOffset Integer value specifying distance to be offset by.
+     * @return  Pair object located at offset position.
      */
     public Pair offsettingRow(int rowOffset) {
         return new Pair(this.getRow() + rowOffset, this.getColumn());
@@ -52,8 +52,8 @@ public class Pair {
     /**
      * Returns a copy of Pair with the column offsetted. (getColumn() + columnOffset)
  aka.new Pair(getRow(), getColumn() + columnOffset)
-     * @param columnOffset
-     * @return 
+     * @param columnOffset  Integer value specifying distance to be offset by.
+     * @return  Pair object located at offset position.
      */
     public Pair offsettingColumn(int columnOffset) {
         return new Pair(this.getRow(), this.getColumn() + columnOffset);

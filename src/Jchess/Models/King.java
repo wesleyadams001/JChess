@@ -37,8 +37,8 @@ public class King extends Piece{
     
     /**
      * Determines if the Queen-side Rook can be castled with.
-     * @param board
-     * @return
+     * @param board Current board state.
+     * @return  Boolean from testing queenside castling availability.
      */
     public Boolean canCastleQueenSide(Board board) {
         // Get home row for Player and find left Rook.
@@ -72,8 +72,8 @@ public class King extends Piece{
     
     /**
      * Determines if the King-side Rook can be castled with.
-     * @param board
-     * @return
+     * @param board Current board state
+     * @return  Boolean from testing kingside castling availability.
      */
     public Boolean canCastleKingSide(Board board) {
         // Get home row for Player and find right Rook.
@@ -103,7 +103,7 @@ public class King extends Piece{
     /**
      * Determines if the Rook exists and hasn't moved yet.
      * @param rook The Rook.
-     * @return
+     * @return  Boolean from testing rook is available for castling.
      */
     public Boolean isRookEligibleForCastling(Piece rook) {
         if (rook == null) {
@@ -117,6 +117,11 @@ public class King extends Piece{
         return !rook.hasTakenFirstMove();
     }
 
+    /**
+     * Gets special moves for king.
+     * @param board Current board state.
+     * @return  Vector of special moves for the king.
+     */
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
         Vector<Pair> specialMoves = new Vector<>();
@@ -136,7 +141,12 @@ public class King extends Piece{
 
         return specialMoves;
     }
-
+    
+    /**
+     * Gets special moves for king.
+     * @param board Current board state.
+     * @return  Vector of possible moves for the king.
+     */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         //The king moves exactly one square horizontally, vertically, or diagonally. 

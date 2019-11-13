@@ -185,8 +185,8 @@ public abstract class Piece {
     }
 
     /**
-     * gets the piece type of the piece
-     * @return you guessed it 
+     * Gets the piece type of the piece
+     * @return The piece type. 
      */
     public PieceType getPieceType() {
         return this.shortHand;

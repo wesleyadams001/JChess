@@ -36,7 +36,7 @@ public final class Player {
 
     /**
      * Returns the Player's name.
-     * @return 
+     * @return  The player's name as a string.
      */
     public String getName() {
         return this.name;
@@ -44,7 +44,7 @@ public final class Player {
     
     /**
      * Returns the Player's color.
-     * @return 
+     * @return  The player's color.
      */
     public ThemeColor getColor() {
         return this.color;
@@ -52,7 +52,7 @@ public final class Player {
     
     /**
      * Returns the location of Player's King.
-     * @return 
+     * @return  The pair coordinates where the king is located.
      */
     public Pair getLocationOfKing() {
         return this.kingPair;
@@ -60,7 +60,7 @@ public final class Player {
     
     /**
      * Updates the location of Player's King.
-     * @param king 
+     * @param king The pair location of the king.
      */
     public void setLocationOfKing(Pair king){
         this.kingPair = king;
@@ -77,7 +77,7 @@ public final class Player {
     
     /**
      * Get the home row rank
-     * @return 
+     * @return  The home row location.
      */
     public int getHomeRow() {
         return this.homeRow;
@@ -93,8 +93,8 @@ public final class Player {
 
     /**
      * Get all the Player's Pieces.
-     * @param board
-     * @return 
+     * @param board The current Board State.
+     * @return Pieces on the board in an array.
      */
     public Stream<Piece> getPieces(Board board) {
         return Arrays
@@ -109,8 +109,8 @@ public final class Player {
 
     /**
      * Get a list of all possible moves the Player's Pieces can make.
-     * @param board
-     * @return 
+     * @param board The current board state.
+     * @return  Array of all possible moves.
      */
     public Stream<Pair> getPossibleMoves(Board board) {
         return getPieces(board)
@@ -122,8 +122,8 @@ public final class Player {
 
     /**
      * Determines if the Player's King can be saved by an ally's move.
-     * @param board
-     * @return 
+     * @param board The current board state.
+     * @return  Boolean showing whether king can be saved.
      */
     public boolean canKingBeSaved(Board board) {
         // Create a collection of all the Player's Pieces.
@@ -134,9 +134,9 @@ public final class Player {
 
     /**
      * Determines if a given allied Piece can make a move that would take the Player's King out of Check.
-     * @param board
-     * @param alliedPiece
-     * @return 
+     * @param board The current board state.
+     * @param alliedPiece   Piece to test moves for.
+     * @return Boolean showing whether allied piece can save the king.
      */
     private boolean canPieceSaveKing(Board board, Piece alliedPiece) {
         // Create a collection of possible moves the Piece can make.
@@ -147,10 +147,10 @@ public final class Player {
 
     /**
      * Determines if a given move by an allied Piece can take the Player's King out of Check.
-     * @param board
-     * @param alliedPiece
-     * @param newDestination
-     * @return 
+     * @param board The current board state.
+     * @param alliedPiece   Piece to test move for.
+     * @param newDestination    Pair for destination to move to.
+     * @return  Boolean showing whether specified move can save the king.
      */
     private boolean canMoveSaveKing(Board board, Piece alliedPiece, Pair newDestination) {
         // Move allied Piece to destination Pair.
@@ -161,8 +161,8 @@ public final class Player {
 
     /**
      * Determines if the Player's King is in the line of attack of any enemy Piece.
-     * @param board
-     * @return
+     * @param board The current board state.
+     * @return  Boolean showing whether king is under attack (i.e. in check).
      */
     public boolean isKingUnderAttack(Board board) {
         Player enemy;
@@ -180,7 +180,7 @@ public final class Player {
      * Determines if the Player's Pieces' list of possible moves contain the given Tile.
      * @param tile The Tile to search for.
      * @param gameBoard The game board.
-     * @return
+     * @return  Boolean showing whether the tile can be attacked.
      */
     public boolean canAttack(Tile tile, Board gameBoard) {
         return gameBoard.isPairUnderAttack(tile.getPosition(), this);

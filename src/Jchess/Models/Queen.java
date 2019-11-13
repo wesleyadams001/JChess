@@ -9,7 +9,7 @@ import Jchess.Enums.PieceType;
 import java.util.Vector;
 
 /**
- * The class that contains the logic that 
+ * The class that contains the logic for the queen piece
  * @author jonathanjoiner
  */
 public class Queen  extends Piece{
@@ -22,11 +22,21 @@ public class Queen  extends Piece{
         super(owner, PieceType.Queen);
     }
 
+    /**
+     * Gets special moves for queen.
+     * @param board Current board state.
+     * @return  An empty vector.
+     */
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
         return new Vector<>();
     }
 
+    /**
+     * Gets possible moves for queen.
+     * @param board Current board state.
+     * @return  Vector of possible moves for the queen.
+     */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         Vector<Pair> moves = new Vector<>();

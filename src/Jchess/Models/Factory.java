@@ -28,10 +28,10 @@ public class Factory {
     
     /**
      * Makes a new Board instance.
-     * @param lightPlayer
-     * @param darkPlayer
-     * @param FEN
-     * @return 
+     * @param lightPlayer   Player in control of white pieces.
+     * @param darkPlayer    Player in control of dark pieces.
+     * @param FEN   FEN/board state to be loaded.
+     * @return  Board state for the game.
      */
     public static Board makeBoard(final Player lightPlayer, final Player darkPlayer, final String FEN) {
         Board board = new Board(lightPlayer, darkPlayer);
@@ -114,8 +114,8 @@ public class Factory {
     
     /**
      * Creates a FEN representation of the Board.
-     * @param gameBoard
-     * @return 
+     * @param gameBoard Board state to be serialized.
+     * @return  FEN string for boards current state.
      */
     public static String serializeBoard(final Board gameBoard) {
         StringJoiner joiner = new StringJoiner(" ");
@@ -130,8 +130,8 @@ public class Factory {
 
     /**
      * Creates a deep copy of the Board.
-     * @param gameBoard
-     * @return 
+     * @param gameBoard Board to be cloned.
+     * @return  Clone of passed in board.
      */
     public static Board cloneBoard(final Board gameBoard) {
         String FEN = serializeBoard(gameBoard);
@@ -144,8 +144,8 @@ public class Factory {
 
     /**
      * Creates the piece placement part of the FEN.
-     * @param matrix
-     * @return 
+     * @param matrix    Tile matrix for the board.
+     * @return  String containing piece placement information.
      */
     private static String generatePiecePlacement(final Tile[][] matrix) {
         String piecePlacement = "";
@@ -188,8 +188,8 @@ public class Factory {
     
     /**
      * Creates the active color part of the FEN.
-     * @param gameBoard
-     * @return 
+     * @param gameBoard Board for the game state.
+     * @return  String containing active color information.
      */
     private static String determineActiveColor(final Board gameBoard) {
         return gameBoard.getCurrentPlayer().getColor().getAbbr();
@@ -197,8 +197,8 @@ public class Factory {
     
     /**
      * Creates the castling availability part of the FEN.
-     * @param gameBoard
-     * @return 
+     * @param gameBoard Board with the current game state.
+     * @return  String housing castling availability information to be added to FEN.
      */
     private static String generateCastlingAvailability(final Board gameBoard) {
         String castlingAvailability = "";
@@ -225,8 +225,8 @@ public class Factory {
     
     /**
      * Reads FEN notation from a file.
-     * @param fileName
-     * @return 
+     * @param fileName  File name to be loaded.
+     * @return  FEN string if found, else it will load the default game state.
      */
     public static String readFENFromFile(String fileName) {
         File input = new File(fileName);//.ren
@@ -242,8 +242,8 @@ public class Factory {
     
     /**
      * Saves a fen to a particular file location
-     * @param fen
-     * @param fileName
+     * @param fen   FEN string to be saved.
+     * @param fileName  File Name/Directory to be saved to.
      */
     public static void saveFENToFile(String fen, String fileName){
         File output = new File(fileName);

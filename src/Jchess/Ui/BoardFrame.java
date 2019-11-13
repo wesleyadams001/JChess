@@ -28,9 +28,9 @@ public class BoardFrame extends JFrame{
     
     /**
      * The default constructor for the BoardFrame that takes a name for the Title of the frame and two content panels to display
-     * @param name String name of the Frame
-     * @param boardPanel JPanel a panel with some content
-     * @param contentPanel JPanel a panel with some content
+     * @param name String name of the Frame.
+     * @param boardPanel JPanel a panel with some content.
+     * @param contentPanel JPanel a panel with some content.
      */
     public BoardFrame(String name, JPanel boardPanel, JPanel contentPanel){
 

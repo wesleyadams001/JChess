@@ -28,7 +28,7 @@ public class Pawn extends Piece {
     private final Map<Move, Integer> columnOffset;
 
     /**
-     * A Pawn Piece.
+     * Constructor for a Pawn Piece.
      * @param owner The Pawn's owner.
      */
     public Pawn(Player owner) {
@@ -59,6 +59,11 @@ public class Pawn extends Piece {
         columnOffset.put(Move.RightDiagonal, x * 1);
     }
 
+    /**
+     * Gets special moves for a pawn.
+     * @param board Current board state.
+     * @return  An empty vector.
+     */
     @Override
     public Vector<Pair> getSpecialMoves(Board board) {
         Stream<Pair> pawnPromotionMoves = getPossibleMoves(board).stream().filter(
@@ -78,6 +83,11 @@ public class Pawn extends Piece {
         return getCurrentPosition().getRow() == getPlayer().getPawnRow();
     }
     
+     /**
+     * Evaluate pair for a pawn movement.
+     * @param move Move to be performed.
+     * @return  Pair for object to be moved to.
+     */
     private Pair evaluatePair(Move move) {
         Pair position = this.getCurrentPosition();
         final int row = position.getRow();
@@ -85,7 +95,12 @@ public class Pawn extends Piece {
         
         return new Pair(row + rowOffset.get(move), column + columnOffset.get(move));
     }
-
+    
+    /**
+     * Gets possible moves for pawn.
+     * @param board Current board state.
+     * @return  Vector of possible moves for the pawn.
+     */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
         Vector<Pair> moves = new Vector<>();

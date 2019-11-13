@@ -24,7 +24,7 @@ import Jchess.Enums.ThemeType;
 import Jchess.Ui.StartMenu;
 import javax.swing.JOptionPane;
 /**
- *
+ * Class that holds the controller.
  * @author Wesley
  */
 public class Controller extends Application {
@@ -179,8 +179,9 @@ public class Controller extends Application {
 
     /**
      * Handles a Tile move intent.
-     * @param origin The friendly Piece that the Player first clicked to initiate this move. Better known as the the "from"...
+     * @param transientPiece The friendly Piece that the Player first clicked to initiate this move. Better known as the the "from"...
      * @param destination The destination Tile.
+     * @return The move result.
      */
     private MoveResult handleTurn(Piece transientPiece, Tile destination) {
         // Create a temp state of the gameBoard to validate the move, 
@@ -296,7 +297,7 @@ public class Controller extends Application {
 
     /**
      * A post-move hook to update values after a move is made.
-     * @param moveResult The result of the move.
+     * @param moveResult The move result.
      */
     private void didCommitMove(MoveResult moveResult) {
         switch (moveResult) {

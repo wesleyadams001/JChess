@@ -6,8 +6,7 @@
 package Jchess.Enums;
 
 /**
- * Represents the images that will be loaded
- * 
+ * Represents the images that will be loaded.
  * @author Jonathan Joiner
  */
 public enum ThemeType {
@@ -24,6 +23,10 @@ public enum ThemeType {
 
     private final String name;
 
+    /**
+     * Constructor for the theme.
+     * @param name The theme name.
+     */
     private ThemeType(String name) {
         this.name = name;
     }

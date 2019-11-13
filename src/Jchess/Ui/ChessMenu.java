@@ -20,7 +20,8 @@ import javax.swing.JTextField;
  */
 public class ChessMenu extends JMenuBar {
     
-    private final Controller controller;
+  private static final long serialVersionUID = 7929908706478324051L;
+  private final Controller controller;
     private final JMenu menu;
     private final JMenuItem openItem;
     private final JMenuItem saveItem;

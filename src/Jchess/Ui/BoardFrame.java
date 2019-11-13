@@ -20,7 +20,8 @@ import javax.swing.JSplitPane;
  */
 public class BoardFrame extends JFrame{
     
-    //Define the needed components 
+    private static final long serialVersionUID = -2825596511566475871L;
+    // Define the needed components
     private final JSplitPane splitPane;  
     private final JPanel leftPanel;       
     private final JPanel rightPanel;    

@@ -16,6 +16,7 @@ import Jchess.Ui.EventMapping.StartDelegate;
  */
 public class StartMenu extends javax.swing.JFrame {
 
+    private static final long serialVersionUID = -7990882971431216340L;
     private final StartDelegate startClickHandler;
     
     /**

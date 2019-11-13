@@ -8,7 +8,6 @@ package Jchess.Models;
 import Jchess.Enums.ThemeColor;
 import Jchess.Core.Constants;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
 /**
@@ -97,10 +96,8 @@ public final class Player {
      * @return Pieces on the board in an array.
      */
     public Stream<Piece> getPieces(Board board) {
-        return Arrays
-            .stream(board.getMatrix())
-            // Get all the Tiles into one "array".
-            .flatMap(Arrays::stream)
+        return board
+            .getTiles()
             // Only keep Tiles that 1) have a Piece 2) that's owned by the Player.
             .filter(tile -> tile.isOccupied() && tile.getPiece().isOwnedBy(this))
             // For every Tile, replace with inner Piece.

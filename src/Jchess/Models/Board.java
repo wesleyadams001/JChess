@@ -11,6 +11,7 @@ import Jchess.Core.Constants;
 import Jchess.Core.Observer;
 import Jchess.Core.Subject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 /**
@@ -285,6 +286,31 @@ public class Board implements Subject {
      */
     public Tile[][] getMatrix() {
         return this.matrix;
+    }
+
+    /**
+     * Get all the Tiles.
+     * @return Stream of all Tiles.
+     */
+    public Stream<Tile> getTiles() {
+        return Arrays
+            .stream(this.getMatrix())
+            // Get all the Tiles into one "array".
+            .flatMap(Arrays::stream);
+    }
+
+    /**
+     * Deselects and de-highlights every Tile.
+     */
+    public void resetTiles() {
+        getTiles()
+            .forEach(tile -> {
+                tile.setHighlighted(false);
+                tile.setSpecial(false);
+                if (tile.isOccupied()) {
+                    this.deselectPiece(tile.getPiece());
+                }
+            });
     }
 
     /**

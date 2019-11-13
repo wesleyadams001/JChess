@@ -157,7 +157,7 @@ public class Controller extends Application {
      */
     private void handleSelection(Piece piece) {
         // Get Pieces in default state for move calculation.
-        gameViewer.resetForRender();
+        handleDeselection();
 
         // Only the clicked Tile is selected.
         gameBoard.selectPiece(piece);
@@ -194,13 +194,13 @@ public class Controller extends Application {
             gameBoard.movePiece(transientPiece.getCurrentPosition(), destination.getPosition());
 
             // Special moves require more functionality.
-            this.handleSpecialMove(transientPiece, destination);
+            handleSpecialMove(transientPiece, destination);
 
             // This signals the end of the turn.
             gameBoard.switchPlayers(); 
 
             // Reset selection, highlights, etc.
-            gameViewer.resetForRender();
+            handleDeselection();
 
             return determineMoveResult();
         }
@@ -253,11 +253,11 @@ public class Controller extends Application {
                 
                 // Promote based on selected Piece.
                 switch(playerChoice) {
-                case Rook: promotedPiece = new Rook(gameBoard.getCurrentPlayer()); break;
-                case Knight: promotedPiece = new Knight(gameBoard.getCurrentPlayer()); break;
-                case Bishop: promotedPiece = new Bishop(gameBoard.getCurrentPlayer()); break;
-                case Queen: promotedPiece = new Queen(gameBoard.getCurrentPlayer()); break;
-                default: break;
+                    case Rook: promotedPiece = new Rook(gameBoard.getCurrentPlayer()); break;
+                    case Knight: promotedPiece = new Knight(gameBoard.getCurrentPlayer()); break;
+                    case Bishop: promotedPiece = new Bishop(gameBoard.getCurrentPlayer()); break;
+                    case Queen: promotedPiece = new Queen(gameBoard.getCurrentPlayer()); break;
+                    default: break;
                 }
                 
                 // Set the promoted Piece.
@@ -268,11 +268,14 @@ public class Controller extends Application {
     }
 
     /**
-     * Handles a Tile deselection intent.
+     * Handles a Tile deselection intent. Can also be used to clear selection, highlights, etc before/after moves.
      */
     private void handleDeselection() {
-        // The player cancelled their selection, so we should reset selection, highlights, etc.
-        gameViewer.resetForRender();
+        // Deselect and de-highlight every Tile.
+        gameBoard.resetTiles();
+
+        // Sets Tile display back to default state.
+        gameViewer.syncButtons(gameBoard);
     }
 
     /**

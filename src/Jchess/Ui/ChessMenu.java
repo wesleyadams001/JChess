@@ -9,8 +9,6 @@ import Jchess.Core.Constants;
 import Jchess.Core.Controller;
 import java.awt.Desktop;
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;

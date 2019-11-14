@@ -16,7 +16,8 @@ import Jchess.Enums.ThemeColor;
 import Jchess.Images.Images;
 import Jchess.Models.Player;
 import Jchess.Ui.Viewer;
-import java.util.Vector;
+import Jchess.Ui.EventMapping.StartMenuDelegate;
+import Jchess.Ui.EventMapping.ViewerDelegate;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -26,7 +27,7 @@ import javax.swing.JOptionPane;
  * Class that holds the controller.
  * @author Wesley
  */
-public class Controller extends Application {
+public class Controller extends Application implements StartMenuDelegate, ViewerDelegate {
 
     Viewer gameViewer;
 
@@ -50,7 +51,7 @@ public class Controller extends Application {
      * Launches pregame window which prompts for player name and theme preference.
      */
     public void launchStartMenu() {
-        StartMenu sm = new StartMenu(this::didStartGame);
+        StartMenu sm = new StartMenu(this);
         sm.setVisible(true);
     }
     
@@ -58,8 +59,9 @@ public class Controller extends Application {
      * Handle the Start button event from the StartMenu.
      * @param FEN The FEN to load.
      */
-    public void didStartGame(String FEN) {
-        StartMenu Open = new StartMenu(this::didStartGame);
+    @Override
+    public void didClickStartButton(String FEN) {
+        StartMenu Open = new StartMenu(this);
         Open.setVisible(true);
 
         // Load images into memory. Used by Viewer to represent Pieces.
@@ -96,7 +98,7 @@ public class Controller extends Application {
         }
 
         // Finally, launch the new game viewer.
-        gameViewer = new Viewer(this, this::didClickTile);
+        gameViewer = new Viewer(this);
         gameBoard.registerObserver(this.gameViewer);
     }
 
@@ -104,7 +106,8 @@ public class Controller extends Application {
      * Handles Tile click events.
      * @param tile The Tile that was clicked.
      */
-    public void didClickTile(Tile tile)  {
+    @Override
+    public void didClickTileButton(Tile tile)  {
         switch (gameBoard.determineClickIntent(tile)) {
             case Selection:
                 // The player selected a new "transient" Piece.
@@ -149,7 +152,6 @@ public class Controller extends Application {
     public void saveToFile(String FEN, String filePath) {
         Factory.saveFENToFile(FEN, filePath);
     }
-    
 
     /**
      * Handles a Tile selection intent.
@@ -163,16 +165,18 @@ public class Controller extends Application {
         gameBoard.selectPiece(piece);
 
         // Highlight all possible moves for the clicked Tile.
-        Vector<Pair> possibleMoves = piece.getPossibleMoves(gameBoard);
-        possibleMoves.forEach((Pair pair) -> {
-            gameBoard.getTile(pair).setHighlighted(true);
-        });
+        piece
+            .getPossibleMoves(gameBoard)
+            .stream()
+            .map(destination -> gameBoard.getTile(destination))
+            .forEach(tile -> tile.setHighlighted(true));
 
         // Highlight all special moves for the clicked Tile.
-        Vector<Pair> specialMoves = piece.getSpecialMoves(gameBoard);
-        specialMoves.forEach((Pair pair) -> {
-            gameBoard.getTile(pair).setSpecial(true);
-        });
+        piece
+            .getSpecialMoves(gameBoard)
+            .stream()
+            .map(destination -> gameBoard.getTile(destination))
+            .forEach(tile -> tile.setSpecial(true));
     }
 
     /**
@@ -275,7 +279,7 @@ public class Controller extends Application {
         gameBoard.resetTiles();
 
         // Sets Tile display back to default state.
-        gameViewer.syncButtons(gameBoard);
+        gameViewer.redrawBoard(gameBoard);
     }
 
     /**
@@ -322,5 +326,5 @@ public class Controller extends Application {
      */
     @Override
     public void start(Stage primaryStage) { }
-    
+
 }

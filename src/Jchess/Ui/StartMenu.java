@@ -8,7 +8,7 @@ package Jchess.Ui;
 import Jchess.Models.UserPreferences;
 import Jchess.Core.Constants;
 import Jchess.Models.Factory;
-import Jchess.Ui.EventMapping.StartDelegate;
+import Jchess.Ui.EventMapping.StartMenuDelegate;
 
 /**
  * The Doki Chess start menu
@@ -17,13 +17,13 @@ import Jchess.Ui.EventMapping.StartDelegate;
 public class StartMenu extends javax.swing.JFrame {
 
     private static final long serialVersionUID = -7990882971431216340L;
-    private final StartDelegate startClickHandler;
+    private final StartMenuDelegate delegate;
     
     /**
      * Creates new form StartMenu.
      * @param startHandler The handler for the Start button click event.
      */
-    public StartMenu(StartDelegate startHandler) {
+    public StartMenu(StartMenuDelegate delegate) {
         initComponents();
         
         txtLightPlayerName.setText(UserPreferences.getLightPlayerName());
@@ -39,7 +39,7 @@ public class StartMenu extends javax.swing.JFrame {
             case Doki: rbDoki.setSelected(true); break;
         }
 
-        this.startClickHandler = startHandler;
+        this.delegate = delegate;
     }
 
     /**
@@ -162,7 +162,10 @@ public class StartMenu extends javax.swing.JFrame {
         UserPreferences.setDarkPlayerName(txtDarkPlayerName.getText());
         UserPreferences.setTheme(themeRadioButtonGroup.getSelection().getActionCommand());
 
-        startClickHandler.didStart(Factory.readFENFromFile("starter.fen"));
+        // Pass off to controller.
+        delegate.didClickStartButton(Factory.readFENFromFile("starter.fen"));
+
+        // Dispose of this window.
         this.destroyWindow();
     }//GEN-LAST:event_btnStartActionPerformed
 

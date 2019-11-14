@@ -15,10 +15,10 @@ import java.util.stream.Stream;
 import javax.swing.*;
 import Jchess.Core.Controller;
 import javax.swing.border.LineBorder;
-import Jchess.Ui.EventMapping.TileDelegate;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import Jchess.Core.Constants;
 import Jchess.Core.Observer;
+import Jchess.Ui.EventMapping.ViewerDelegate;
 
 /**
  * Provides the viewing capabilities for the application
@@ -30,7 +30,7 @@ public class Viewer extends JPanel implements Observer {
     private final Controller controller;
     private final Board board;
     private final TileButton[][] buttonMatrix;
-    private final TileDelegate tileClickHandler;
+    private final ViewerDelegate delegate;
     private BoardFrame boardFrame;
     private JTextArea textArea;
     
@@ -39,12 +39,12 @@ public class Viewer extends JPanel implements Observer {
      * @param c The controller.
      * @param tileClickHandler The handler for Tile click events.
      */
-    public Viewer(Controller c, TileDelegate tileClickHandler)
+    public Viewer(Controller c)
     {
         this.controller = c;
         this.board = this.controller.gameBoard;
         this.buttonMatrix = new TileButton[board.rowCount][board.columnCount];
-        this.tileClickHandler = tileClickHandler;
+        this.delegate = c;
         
         // Display the board to the screen.
         makeWindow();  
@@ -110,7 +110,7 @@ public class Viewer extends JPanel implements Observer {
      * Repaints all TileButtons based on board state.
      * @param board The Board.
      */
-    public void syncButtons(Board board) {
+    public void redrawBoard(Board board) {
         getTileButtons().forEach(tileButton -> tileButton.syncWith(board));
     }
 
@@ -122,10 +122,10 @@ public class Viewer extends JPanel implements Observer {
         Tile clickedTile = ((TileButton) e.getSource()).getInnerTile();
 
         // Pass off to controller.
-        tileClickHandler.didClick(clickedTile);
+        delegate.didClickTileButton(clickedTile);
 
         // Refresh Tile display according to new Board state.
-        syncButtons(board);
+        redrawBoard(board);
 
         // Force repaint to work around slow UI refreshes.
         boardFrame.repaint();

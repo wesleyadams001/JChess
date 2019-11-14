@@ -16,26 +16,26 @@ public class EventMapping {
     /**
      * Overrides Tile click handlers.
      */
-    public interface TileDelegate 
+    public interface ViewerDelegate 
     {
 
         /**
          * Handles Tile click event.
          * @param tile The Tile that was clicked.
          */
-        public void didClick(Tile tile);
+        public void didClickTileButton(Tile tile);
     }
     
     /**
      * Overrides Start click handler.
      */
-    public interface StartDelegate
+    public interface StartMenuDelegate
     {
 
         /**
          * Handles Start button click event.
          * @param FEN The FEN that was loaded.
          */
-        public void didStart(String FEN);
+        public void didClickStartButton(String FEN);
     }
 }

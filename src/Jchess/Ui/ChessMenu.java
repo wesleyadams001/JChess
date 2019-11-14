@@ -5,8 +5,13 @@
  */
 package Jchess.Ui;
 
+import Jchess.Core.Constants;
 import Jchess.Core.Controller;
+import java.awt.Desktop;
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,6 +31,10 @@ public class ChessMenu extends JMenuBar {
     private final JMenuItem openItem;
     private final JMenuItem saveItem;
     private final JMenuItem saveHistItem;
+    private final JMenu helpMenu;
+    private final JMenuItem dokiItem;
+    private final JMenuItem chessItem;
+    private final JMenuItem fenItem;
     private final JFileChooser fc;
     private JTextField filename = new JTextField(), dir = new JTextField();
     private JTextArea ta;
@@ -55,7 +64,7 @@ public class ChessMenu extends JMenuBar {
         this.controller = c;
         this.fc = new JFileChooser();
         this.menu = new JMenu("File");
-        
+       
         this.openItem = new JMenuItem("Open");
         this.openItem.addActionListener(e->{
 
@@ -120,7 +129,7 @@ public class ChessMenu extends JMenuBar {
               String history = this.ta.getText();
               
               //setup the file path
-              String path = this.dir.getText() +"\\"+ this.filename.getText();
+              String path = this.dir.getText() + File.separator + this.filename.getText();
 
               //call control save function
               this.controller.saveToFile(history, path);
@@ -132,6 +141,42 @@ public class ChessMenu extends JMenuBar {
         });
         this.menu.add(saveHistItem);
         this.add(menu);
+        
+        this.helpMenu = new JMenu("Help");
+        
+        this.chessItem = new JMenuItem("Chess Help");
+        this.chessItem.addActionListener(a -> {
+            openWebpage(Constants.CHESS_URL);
+        });
+        this.helpMenu.setToolTipText(Constants.CHESS_BLURB);
+        this.helpMenu.add(chessItem);
+        
+        this.dokiItem = new JMenuItem("Doki Doki Literature Club");
+        this.dokiItem.addActionListener(a -> {
+            openWebpage(Constants.DOKI_URL);
+        });
+        this.dokiItem.setToolTipText(Constants.DOKI_BLURB);
+        this.helpMenu.add(dokiItem);
+        
+        this.fenItem = new JMenuItem("FEN Notation");
+        this.fenItem.addActionListener(a -> {
+           openWebpage(Constants.FEN_URL); 
+        });
+        this.fenItem.setToolTipText(Constants.FEN_BLURB);
+        this.helpMenu.add(fenItem);
+        this.add(helpMenu);
+        
     }
-
+    
+    /**
+     * a helper function to open webpages
+     * @param url a String url 
+     */
+    private static void openWebpage(String url) {
+        try {
+            Desktop.getDesktop().browse(new URL(url).toURI());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

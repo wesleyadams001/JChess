@@ -75,7 +75,13 @@ public final class Constants {
      * The index for the King-side Rook's column.
      */
     public static final int ROOK_COLUMN_KINGSIDE = 7;
+    
+    /**
+     *  The index for the default position for the King.
+     */
 
+    public static final int KING_COLUMN = 4;
+    
     /**
      * The default name used for the dark Player.
      */

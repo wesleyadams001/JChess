@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.StringJoiner;
+import Jchess.Core.*;
 
 /**
  * Factory to create new board instances
@@ -37,7 +38,12 @@ public class Factory {
 
         Tile[][] matrix = board.getMatrix();
         
-        //         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w default ren
+        //         rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 default ren
+        
+        /*
+        Part 1: read in board state string and generate the pieces based off of their location
+        */
+        
         int i = 0, j = 0, k = 0;
         boolean boardComplete = false;
         for( ; !boardComplete ; k++){
@@ -50,11 +56,11 @@ public class Factory {
                     j=0;
                     break;
                 case 'r': // ROOKS
-                    matrix[i][j].setPiece(new Rook(darkPlayer));
+                    matrix[i][j].setPiece(new Rook(darkPlayer, true));
                     j++;
                     break;
                 case 'R':
-                    matrix[i][j].setPiece(new Rook(lightPlayer));
+                    matrix[i][j].setPiece(new Rook(lightPlayer, true));
                     j++;
                     break;
                 case 'n': // KNIGHTS
@@ -82,12 +88,12 @@ public class Factory {
                     j++;
                     break;
                 case 'k': // KINGS
-                    matrix[i][j].setPiece(new King(darkPlayer));
+                    matrix[i][j].setPiece(new King(darkPlayer, true));
                     darkPlayer.setLocationOfKing(matrix[i][j].getPosition());
                     j++;
                     break;
                 case 'K':
-                    matrix[i][j].setPiece(new King(lightPlayer));
+                    matrix[i][j].setPiece(new King(lightPlayer, true));
                     lightPlayer.setLocationOfKing(matrix[i][j].getPosition());
                     j++;
                     break;
@@ -99,15 +105,59 @@ public class Factory {
                     matrix[i][j].setPiece(new Pawn(lightPlayer));
                     j++;
                     break;
-                default:
+                default: // SPACES BETWEEN PIECES
                     j+=Character.getNumericValue(FEN.charAt(k));
                 
             }
         }
 
+        /*
+        Part 2: load in character w or b to determine who's turn it is
+        */
+        
         board.setCurrentPlayer(FEN.charAt(k) == 'w' ? board.getLightPlayer() : board.getDarkPlayer());
         board.setEnemyPlayer(FEN.charAt(k) == 'w' ? board.getDarkPlayer() : board.getLightPlayer());
-
+        
+        k += 2; // skips over the turn char and the space after it putting FEN.charAt(k) at the next stage
+        
+        /*
+        Part 3: read in castle availability string and set the boolean flag hasTakenFirstMove for each respective piece
+        For rook and king hasTakenFirstMove is default to true.  It is only set to false if the correct char's below are present.
+        */
+        System.out.println(FEN.charAt(k)+"     "+k);
+        boolean notFinishedCastle = true;
+        for ( ; notFinishedCastle; k++) {  
+            System.out.println(FEN.charAt(k)+"     "+k);
+            switch (FEN.charAt(k)) {
+                case '-':
+                    notFinishedCastle = false;
+                    break;
+                case ' ':
+                    notFinishedCastle = false;
+                    break;
+                case 'K':
+                    board.getMatrix()[board.getLightPlayer().getHomeRow()][Constants.ROOK_COLUMN_KINGSIDE].getPiece().setHasTakenFirstMove(false);
+                    board.getMatrix()[board.getLightPlayer().getHomeRow()][Constants.KING_COLUMN].getPiece().setHasTakenFirstMove(false);
+                    break;
+                case 'Q':
+                    board.getMatrix()[board.getLightPlayer().getHomeRow()][Constants.ROOK_COLUMN_QUEENSIDE].getPiece().setHasTakenFirstMove(false);
+                    board.getMatrix()[board.getLightPlayer().getHomeRow()][Constants.KING_COLUMN].getPiece().setHasTakenFirstMove(false);
+                    break;
+                case 'k':
+                    board.getMatrix()[board.getDarkPlayer().getHomeRow()][Constants.ROOK_COLUMN_KINGSIDE].getPiece().setHasTakenFirstMove(false);
+                    board.getMatrix()[board.getDarkPlayer().getHomeRow()][Constants.KING_COLUMN].getPiece().setHasTakenFirstMove(false);
+                    break;
+                case 'q':
+                    board.getMatrix()[board.getDarkPlayer().getHomeRow()][Constants.ROOK_COLUMN_QUEENSIDE].getPiece().setHasTakenFirstMove(false);
+                    board.getMatrix()[board.getDarkPlayer().getHomeRow()][Constants.KING_COLUMN].getPiece().setHasTakenFirstMove(false);
+                    break;
+            }
+            
+            if (k == FEN.length() - 1) {
+                notFinishedCastle = false;
+            }
+        }
+        
         return board;
     }
     
@@ -209,21 +259,36 @@ public class Factory {
     private static String generateCastlingAvailability(final Board gameBoard) {
         String castlingAvailability = "";
         
-        Pair lightKingLocation = gameBoard.getLightPlayer().getLocationOfKing();
-        Pair darkKingLocation = gameBoard.getDarkPlayer().getLocationOfKing();
+        Player lightPlayer = gameBoard.getLightPlayer();
+        Player darkPlayer = gameBoard.getDarkPlayer();
+        
+        Pair lightKingLocation = lightPlayer.getLocationOfKing();
+        Pair darkKingLocation = darkPlayer.getLocationOfKing();
         
         if (lightKingLocation != null) {
+            
             Tile lightKingTile = gameBoard.getTile(lightKingLocation);
             King lightKing = (King) lightKingTile.getPiece();
-            castlingAvailability += lightKing.canCastleKingSide(gameBoard) ? "K" : "";
-            castlingAvailability += lightKing.canCastleQueenSide(gameBoard) ? "Q" : "";
+            // if the light king has not taken first move, fetch rooks and check to see if they have taken theirt first moves
+            if (!lightKing.hasTakenFirstMove()) {
+                Rook lightQueenSide = (Rook) gameBoard.getMatrix()[lightPlayer.getHomeRow()][Constants.ROOK_COLUMN_QUEENSIDE].getPiece();
+                Rook lightKingSide = (Rook) gameBoard.getMatrix()[lightPlayer.getHomeRow()][Constants.ROOK_COLUMN_KINGSIDE].getPiece();
+                castlingAvailability += lightKing.isRookEligibleForCastling(lightKingSide) ? "K" : "";
+                castlingAvailability += lightKing.isRookEligibleForCastling(lightQueenSide) ? "Q" : "";
+            }
         }
         
         if (darkKingLocation != null) {
+            
             Tile darkKingTile = gameBoard.getTile(darkKingLocation);
             King darkKing = (King) darkKingTile.getPiece();
-            castlingAvailability += darkKing.canCastleKingSide(gameBoard) ? "k" : "";
-            castlingAvailability += darkKing.canCastleQueenSide(gameBoard) ? "q" : "";
+            // if the dark king has not taken first move, fetch rooks and check to see if they have taken theirt first moves
+            if (!darkKing.hasTakenFirstMove()) {
+                Rook darkQueenSide = (Rook) gameBoard.getMatrix()[darkPlayer.getHomeRow()][Constants.ROOK_COLUMN_QUEENSIDE].getPiece();
+                Rook darkKingSide = (Rook) gameBoard.getMatrix()[darkPlayer.getHomeRow()][Constants.ROOK_COLUMN_KINGSIDE].getPiece();
+                castlingAvailability += darkKing.isRookEligibleForCastling(darkKingSide) ? "k" : "";
+                castlingAvailability += darkKing.isRookEligibleForCastling(darkQueenSide) ? "q" : "";
+            }
         }
         
         return "".equals(castlingAvailability) ? "-" : castlingAvailability;

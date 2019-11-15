@@ -20,8 +20,8 @@ public class King extends Piece{
      * A King Piece.
      * @param owner The King's owner.
      */
-    public King(Player owner) {
-        super(owner, PieceType.King);
+    public King(Player owner, boolean move) {
+        super(owner, PieceType.King, move);
     }
     
     private Boolean isEligibleToCastleWith(Piece rook, Board board) {

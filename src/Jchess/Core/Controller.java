@@ -257,7 +257,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
                 
                 // Promote based on selected Piece.
                 switch(playerChoice) {
-                    case Rook: promotedPiece = new Rook(gameBoard.getCurrentPlayer()); break;
+                    case Rook: promotedPiece = new Rook(gameBoard.getCurrentPlayer(), true); break;
                     case Knight: promotedPiece = new Knight(gameBoard.getCurrentPlayer()); break;
                     case Bishop: promotedPiece = new Bishop(gameBoard.getCurrentPlayer()); break;
                     case Queen: promotedPiece = new Queen(gameBoard.getCurrentPlayer()); break;

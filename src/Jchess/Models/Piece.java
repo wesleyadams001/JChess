@@ -52,6 +52,19 @@ public abstract class Piece {
             letter = shortHand.getDarkLetter();
         }
     }
+    
+    public Piece(Player owner, PieceType type, boolean move) {
+        player = owner;
+        shortHand = type;
+        hasTakenFirstMove = move;
+        image = Icons.get(shortHand).get(owner.getColor());
+        
+        if (owner.getColor() == ThemeColor.LightPiece) {
+            letter = shortHand.getLightLetter();
+        } else {
+            letter = shortHand.getDarkLetter();
+        }
+    }
 
     /**
      * Returns the vector of pairs to which a piece can move to with its special move.

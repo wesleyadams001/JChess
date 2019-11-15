@@ -20,8 +20,8 @@ import Jchess.Ui.EventMapping.StartMenuDelegate;
 import Jchess.Ui.EventMapping.ViewerDelegate;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import static javax.swing.JOptionPane.showMessageDialog;
 import Jchess.Ui.StartMenu;
+import Jchess.Ui.Toaster;
 import javax.swing.JOptionPane;
 /**
  * Class that holds the controller.
@@ -307,13 +307,13 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
     private void didCommitMove(MoveResult moveResult) {
         switch (moveResult) {
             case InvalidEscape:
-                System.out.println("=================== INVALID MOVE, you are putting yourself in check! =========================");
+                Toaster.pop("INVALID MOVE, you are putting yourself in check!");
                 break;
             case Check:
-                showMessageDialog(null, gameBoard.getCurrentPlayer().getName() + " is in check.");
+                Toaster.pop(gameBoard.getCurrentPlayer().getName() + " is in check.");
                 break;
             case Checkmate:
-                showMessageDialog(null, "Checkmate. " + gameBoard.getEnemyPlayer().getName() + " wins!");
+                Toaster.pop("Checkmate. " + gameBoard.getEnemyPlayer().getName() + " wins!");
                 break;
             case BetaMove:
                 break;

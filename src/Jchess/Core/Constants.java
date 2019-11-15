@@ -121,5 +121,40 @@ public final class Constants {
      * The initial height and width of each Tile. 
      */
     public static final int TILE_DIMENSION = 90;
-    
+
+    /**
+     * The amount of milliseconds toast messages should be displayed.
+     */
+    public static final int TOAST_LIFESPAN = 2000;
+
+    /**
+     * The DOKI Chess club URL
+     */
+    public static final String DOKI_URL = "https://doki-doki-literature-club.fandom.com/wiki/Doki_Doki_Literature_Club!";
+
+    /**
+     * A small textual description to appear over the DOKI help button
+     */
+    public static final String DOKI_BLURB = "Navigate to the Doki Doki Literature site to understand our doki theme";
+
+    /**
+     * The How to Play Chess URL
+     */
+    public static final String CHESS_URL = "https://www.instructables.com/id/Playing-Chess/";
+
+    /**
+     * A small textual description to appear over the CHESS help button
+     */
+    public static final String CHESS_BLURB = "Navigate to a helpful Chess informational page";
+
+    /*
+     * URL to reference material explaining how to interpret FENs
+     */
+    public static final String FEN_URL = "https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation";
+
+    /**
+     * A small textual description to appear over the FEN help button
+     */
+    public static final String FEN_BLURB = "Navigate to a documentation page to read about FEN notation";
+
 }

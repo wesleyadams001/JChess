@@ -21,7 +21,7 @@ public class StartMenu extends javax.swing.JFrame {
     
     /**
      * Creates new form StartMenu.
-     * @param startHandler The handler for the Start button click event.
+     * @param delegate The handler for the Start button click event.
      */
     public StartMenu(StartMenuDelegate delegate) {
         initComponents();

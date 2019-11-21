@@ -19,6 +19,7 @@ public class King extends Piece{
     /**
      * A King Piece.
      * @param owner The King's owner.
+     * @param move Whether the set the hasTakenFirstMove property as true.
      */
     public King(Player owner, boolean move) {
         super(owner, PieceType.King, move);

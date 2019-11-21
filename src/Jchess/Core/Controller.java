@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import Jchess.Ui.StartMenu;
 import Jchess.Ui.Toaster;
 import javax.swing.JOptionPane;
+
 /**
  * Class that holds the controller.
  * @author Wesley

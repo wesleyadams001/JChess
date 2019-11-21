@@ -17,6 +17,7 @@ public class Rook extends Piece {
     /**
      * A Rook Piece.
      * @param owner The Rook's owner.
+     * @param move Whether the set the hasTakenFirstMove property as true.
      */
     public Rook(Player owner, Boolean move) {
         super(owner, PieceType.Rook, move);

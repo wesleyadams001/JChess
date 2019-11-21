@@ -12,13 +12,13 @@ import java.util.Vector;
  * The class that contains the logic for the queen piece
  * @author jonathanjoiner
  */
-public class Queen  extends Piece{
+public class Queen extends Piece {
     
     /**
      * A Queen Piece.
      * @param owner The Queen's owner.
      */
-    public Queen(Player owner){
+    public Queen(Player owner) {
         super(owner, PieceType.Queen);
     }
 

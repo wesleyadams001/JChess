@@ -7,7 +7,7 @@ package Jchess.Core;
 
 /**
  * Subject interface for observer pattern
- * Implemented by the subject to communicate 
+ * Implemented by the subject to communicate
  * with any registered observers
  * @author Wesley
  */

@@ -34,7 +34,7 @@ public enum ThemeType {
     }
 
     /**
-     * Returns a String representation of this theme. 
+     * Returns a String representation of this theme.
      * @return The theme as a String.
      */
     public String getName() {

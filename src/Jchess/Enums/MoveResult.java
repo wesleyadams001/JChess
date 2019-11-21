@@ -6,7 +6,7 @@
 package Jchess.Enums;
 
 /**
- * An enumeration that represents 
+ * An enumeration that represents
  * @author nehalpatel
  */
 public enum MoveResult {

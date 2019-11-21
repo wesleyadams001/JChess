@@ -87,7 +87,7 @@ public class TileButton extends JButton {
         decorate();
 
         if (tile.isOccupied() && tile.getPiece().isOwnedBy(board.getCurrentPlayer())) {
-            // This Tile is in the current player's possession. 
+            // This Tile is in the current player's possession.
             this.setEnabled(true);
         } else if (tile.isHighlighted()) {
             // This Tile is a possible move.

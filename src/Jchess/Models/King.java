@@ -150,7 +150,7 @@ public class King extends Piece{
      */
     @Override
     public Vector<Pair> getPossibleMoves(Board board) {
-        //The king moves exactly one square horizontally, vertically, or diagonally. 
+        //The king moves exactly one square horizontally, vertically, or diagonally.
         Vector<Pair> moves = new Vector<>();
         
         Pair position = this.getCurrentPosition();  //Initialize Pair object with current position
@@ -168,7 +168,7 @@ public class King extends Piece{
         Tile downLeft = board.getTile(new Pair(row + 1, column - 1));
         
         //Test which squares the king can move to
-        if(canMoveTo(oneAbove, MoveType.EmptyOrEnemyPiece)) { 
+        if(canMoveTo(oneAbove, MoveType.EmptyOrEnemyPiece)) {
             moves.add(oneAbove.getPosition());      //Add oneAbove to possible move set
         }
         if(canMoveTo(oneRight, MoveType.EmptyOrEnemyPiece)){

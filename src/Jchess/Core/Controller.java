@@ -153,7 +153,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
 
     /**
      * Handles a Tile selection intent.
-     * @param piece 
+     * @param piece
      */
     private void handleSelection(Piece piece) {
         // Get Pieces in default state for move calculation.
@@ -184,7 +184,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
      * @return The move result.
      */
     private MoveResult handleTurn(Piece transientPiece, Tile destination) {
-        // Create a temp state of the gameBoard to validate the move, 
+        // Create a temp state of the gameBoard to validate the move,
         // The move is made on the temp board, then we test if the player's king is still or becomes in check.
         Board simulatedBoard = gameBoard.simulatedWithMove(transientPiece, destination);
 
@@ -216,7 +216,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
     private void handleSpecialMove(Piece transientPiece, Tile destination) {
         if (destination.isSpecial()) {
             // See if it's a special move of the King.
-            if (transientPiece.getPieceType() == PieceType.King) { 
+            if (transientPiece.getPieceType() == PieceType.King) {
                 King king = (King) transientPiece;
                 Pair kingLocation = king.getCurrentPosition();
 

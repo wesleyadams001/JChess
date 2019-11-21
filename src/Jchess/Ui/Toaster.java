@@ -104,5 +104,5 @@ public class Toaster extends JFrame {
         });
 
         timer.start();
-    } 
+    }
 }

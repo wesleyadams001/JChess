@@ -10,10 +10,10 @@ import Jchess.Models.Player;
 /**
  *
  * @author chris odom
- * 
+ *
  *         this enum is used for returning char values when handling conversion
  *         from FEN format to board states.
- * 
+ *
  */
 public enum PieceType {
 
@@ -53,7 +53,7 @@ public enum PieceType {
     /**
      * The default constructor for Piece type enum
      * @param light
-     * @param dark 
+     * @param dark
      */
     private PieceType(char light, char dark){
         this.light = light;

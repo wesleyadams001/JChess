@@ -16,7 +16,7 @@ public class EventMapping {
     /**
      * Overrides Tile click handlers.
      */
-    public interface ViewerDelegate 
+    public interface ViewerDelegate
     {
 
         /**

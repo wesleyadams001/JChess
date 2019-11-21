@@ -60,7 +60,7 @@ public class Knight extends Piece{
         Tile rightDown = board.getTile(new Pair(row + 1, column + 2));
         
         //Test which squares the knight can move to
-        if(canMoveTo(upLeft, MoveType.EmptyOrEnemyPiece)) { 
+        if(canMoveTo(upLeft, MoveType.EmptyOrEnemyPiece)) {
             moves.add(upLeft.getPosition());      //Add upLeft to possible move set
         }
         if(canMoveTo(upRight, MoveType.EmptyOrEnemyPiece)){

@@ -194,7 +194,7 @@ public abstract class Piece {
 
     /**
      * Gets the piece type of the piece
-     * @return The piece type. 
+     * @return The piece type.
      */
     public PieceType getPieceType() {
         return this.shortHand;
@@ -254,7 +254,7 @@ public abstract class Piece {
             //Otherwise, add empty tiles to moves
             else{
                 moves.add(laneUpward.get(i).getPosition());
-            } 
+            }
         }
         canMove = true;
         
@@ -379,7 +379,7 @@ public abstract class Piece {
             //Otherwise, add empty tiles to moves
             else{
                 moves.add(upLeftDiagonal.get(i).getPosition());
-            } 
+            }
         }
         canMove = true;
         
@@ -401,7 +401,7 @@ public abstract class Piece {
             //Otherwise, add empty tiles to moves
             else{
                 moves.add(upRightDiagonal.get(i).getPosition());
-            } 
+            }
         }
         canMove = true;
         
@@ -423,7 +423,7 @@ public abstract class Piece {
             //Otherwise, add empty tiles to moves
             else{
                 moves.add(downLeftDiagonal.get(i).getPosition());
-            } 
+            }
         }
         canMove = true;
         
@@ -445,7 +445,7 @@ public abstract class Piece {
             //Otherwise, add empty tiles to moves
             else{
                 moves.add(downRightDiagonal.get(i).getPosition());
-            } 
+            }
         }
 
         //Return moves

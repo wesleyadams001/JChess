@@ -83,7 +83,7 @@ public class Factory {
                     matrix[i][j].setPiece(new Queen(darkPlayer));
                     j++;
                     break;
-                case 'Q': 
+                case 'Q':
                     matrix[i][j].setPiece(new Queen(lightPlayer));
                     j++;
                     break;
@@ -124,10 +124,8 @@ public class Factory {
         Part 3: read in castle availability string and set the boolean flag hasTakenFirstMove for each respective piece
         For rook and king hasTakenFirstMove is default to true.  It is only set to false if the correct char's below are present.
         */
-        System.out.println(FEN.charAt(k)+"     "+k);
         boolean notFinishedCastle = true;
-        for ( ; notFinishedCastle; k++) {  
-            System.out.println(FEN.charAt(k)+"     "+k);
+        for ( ; notFinishedCastle; k++) {
             switch (FEN.charAt(k)) {
                 case '-':
                     notFinishedCastle = false;
@@ -212,7 +210,7 @@ public class Factory {
             for (int columnIndex = 0; columnIndex < matrix[rowIndex].length; columnIndex++) {
                 Tile tile = matrix[rowIndex][columnIndex];
                 
-                // We've reached a Piece! 
+                // We've reached a Piece!
                 if (tile.isOccupied()) {
                     // Append a tally of the empty squares up to this Piece.
                     if (emptySquares > 0) {

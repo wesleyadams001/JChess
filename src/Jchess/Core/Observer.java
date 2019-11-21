@@ -6,7 +6,7 @@
 package Jchess.Core;
 
 /**
- * This interface is implemented by all those 
+ * This interface is implemented by all those
  * classes that are to be updated whenever there
  * is an update from a subject
  * @author Wesley
@@ -14,7 +14,7 @@ package Jchess.Core;
 public interface Observer {
     
     /**
-     * Updates classes 
+     * Updates classes.
      * @param currentFEN The current FEN representation of the Board.
      */
     public void update(String currentFEN);

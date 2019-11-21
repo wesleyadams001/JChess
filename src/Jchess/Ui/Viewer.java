@@ -141,7 +141,7 @@ public class Viewer extends JPanel implements Observer {
         controlPanel.setLayout(new BorderLayout());
         
         // input/output components
-        // scrollable text area 
+        // scrollable text area
         JScrollPane sPane = new JScrollPane();
         
         // text area that is inside the scrollPane

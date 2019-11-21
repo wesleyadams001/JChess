@@ -118,7 +118,7 @@ public final class Constants {
     public static final int DIVIDER_LOCATION = 900;
 
     /**
-     * The initial height and width of each Tile. 
+     * The initial height and width of each Tile.
      */
     public static final int TILE_DIMENSION = 90;
 

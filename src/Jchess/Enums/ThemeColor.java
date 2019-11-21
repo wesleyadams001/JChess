@@ -8,7 +8,7 @@ package Jchess.Enums;
 import java.awt.*;
 
 /**
- * A Color enum that represents a players side ie "White" or "Black" 
+ * A Color enum that represents a players side ie "White" or "Black"
  * that is also extended with a string designation "w" or "b"
  * as well as an associated number such as 1 or 2
  * @author Wesley
@@ -61,7 +61,7 @@ public enum ThemeColor {
      * @param col Color value.
      * @return Name of theme.
      */
-    private ThemeColor(String abbr, int number, Color col) 
+    private ThemeColor(String abbr, int number, Color col)
     {
         this.abbr = abbr;
         this.num = number;

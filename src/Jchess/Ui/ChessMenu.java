@@ -168,7 +168,7 @@ public class ChessMenu extends JMenuBar {
     
     /**
      * a helper function to open webpages
-     * @param url a String url 
+     * @param url a String url
      */
     private static void openWebpage(String url) {
         try {

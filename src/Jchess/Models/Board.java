@@ -95,7 +95,7 @@ public class Board implements Subject {
     }
 
     /**
-     * Returns the active Player. 
+     * Returns the active Player.
      * @return  The current player.
      */
     public Player getCurrentPlayer() {

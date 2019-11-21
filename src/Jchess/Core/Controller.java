@@ -61,9 +61,6 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
      */
     @Override
     public void didClickStartButton(String FEN) {
-        StartMenu Open = new StartMenu(this);
-        Open.setVisible(true);
-
         // Load images into memory. Used by Viewer to represent Pieces.
         Images.loadImages(UserPreferences.getTheme());
 
@@ -107,7 +104,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
      * @param tile The Tile that was clicked.
      */
     @Override
-    public void didClickTileButton(Tile tile)  {
+    public void didClickTile(Tile tile)  {
         switch (gameBoard.determineClickIntent(tile)) {
             case Selection:
                 // The player selected a new "transient" Piece.
@@ -242,7 +239,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
                 };
                 
                 int n = JOptionPane.showOptionDialog(
-                    null,
+                    gameViewer,
                     null,
                     "Select piece to promote pawn to:",
                     JOptionPane.YES_NO_CANCEL_OPTION,

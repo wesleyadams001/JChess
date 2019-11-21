@@ -83,7 +83,7 @@ public class TileButton extends JButton {
      * Repaints the Tile and enables/disables clicks based on current Player, highlighted, etc.
      * @param board The Board to sync with.
      */
-    public void syncWith(Board board) {
+    public void redraw(Board board) {
         decorate();
 
         if (tile.isOccupied() && tile.getPiece().isOwnedBy(board.getCurrentPlayer())) {

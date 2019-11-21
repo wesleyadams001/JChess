@@ -23,7 +23,7 @@ public class EventMapping {
          * Handles Tile click event.
          * @param tile The Tile that was clicked.
          */
-        public void didClickTileButton(Tile tile);
+        public void didClickTile(Tile tile);
     }
     
     /**

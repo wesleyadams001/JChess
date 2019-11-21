@@ -44,7 +44,7 @@ public class Viewer extends JPanel implements Observer {
         this.board = this.controller.gameBoard;
         this.buttonMatrix = new TileButton[board.rowCount][board.columnCount];
         this.delegate = c;
-        
+
         // Display the board to the screen.
         makeWindow();  
     }
@@ -82,8 +82,8 @@ public class Viewer extends JPanel implements Observer {
         int rowIndex = tile.getPosition().getRow();
         int columnIndex = tile.getPosition().getColumn();
 
-        int x = (Constants.TILE_DIMENSION * columnIndex);
-        int y = (Constants.TILE_DIMENSION * (rowIndex + 1));
+        int x = Constants.TILE_DIMENSION * columnIndex;
+        int y = Constants.TILE_DIMENSION * (rowIndex + 1);
 
         TileButton tileButton = new TileButton(tile);
         tileButton.setBorderPainted(false);
@@ -91,7 +91,7 @@ public class Viewer extends JPanel implements Observer {
         tileButton.setOpaque(true);
         tileButton.setBounds(x, y, Constants.TILE_DIMENSION, Constants.TILE_DIMENSION);
         tileButton.addActionListener(this::handleClick);
-        tileButton.syncWith(board);
+        tileButton.redraw(board);
 
         return tileButton;
     }
@@ -110,7 +110,7 @@ public class Viewer extends JPanel implements Observer {
      * @param board The Board.
      */
     public void redrawBoard(Board board) {
-        getTileButtons().forEach(tileButton -> tileButton.syncWith(board));
+        getTileButtons().forEach(tileButton -> tileButton.redraw(board));
     }
 
     /**
@@ -121,7 +121,7 @@ public class Viewer extends JPanel implements Observer {
         Tile clickedTile = ((TileButton) e.getSource()).getInnerTile();
 
         // Pass off to controller.
-        delegate.didClickTileButton(clickedTile);
+        delegate.didClickTile(clickedTile);
 
         // Refresh Tile display according to new Board state.
         redrawBoard(board);

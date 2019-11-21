@@ -51,10 +51,10 @@ public class Toaster extends JFrame {
                 // Set the color of text.
                 g.setColor(new Color(255, 255, 255, 240));
                 g.drawString(tart, 25, 27);
-                int t = 250;
 
                 // Draw the shadow of the toast.
-                for (int i = 0;i < 4;i++) {
+                int t = 250;
+                for (int i = 0; i < 4; i++) {
                     t -= 60;
                     g.setColor(new Color(0, 0, 0, t));
                     g.drawRect(10 - i, 10 - i, width + 30 + i * 2, height + 10 + i * 2);
@@ -75,8 +75,6 @@ public class Toaster extends JFrame {
 
         return toast;
     }
-    
-    // function to pop up the toast
 
     /**
      * Displays a toast message near the mouse pointer.
@@ -95,7 +93,7 @@ public class Toaster extends JFrame {
             long currentTime = e.getWhen();
 
             if (currentTime >= endTime) {
-                ((Timer)e.getSource()).stop();
+                ((Timer) e.getSource()).stop();
                 toast.setVisible(false);
                 toast.dispose();
             } else {

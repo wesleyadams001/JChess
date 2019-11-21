@@ -18,14 +18,14 @@ import javax.swing.JSplitPane;
  * Extends the BoardFrame to allow for a split view of the chess board
  * @author Wesley
  */
-public class BoardFrame extends JFrame{
+public class BoardFrame extends JFrame {
     
     private static final long serialVersionUID = -2825596511566475871L;
     // Define the needed components
-    private final JSplitPane splitPane;  
-    private final JPanel leftPanel;       
-    private final JPanel rightPanel;    
-        
+    private final JSplitPane splitPane;
+    private final JPanel leftPanel;
+    private final JPanel rightPanel;
+
     
     /**
      * The default constructor for the BoardFrame that takes a name for the Title of the frame and two content panels to display
@@ -33,7 +33,7 @@ public class BoardFrame extends JFrame{
      * @param boardPanel JPanel a panel with some content.
      * @param contentPanel JPanel a panel with some content.
      */
-    public BoardFrame(String name, JPanel boardPanel, JPanel contentPanel){
+    public BoardFrame(String name, JPanel boardPanel, JPanel contentPanel) {
 
         //Set the name/Title of the frame
         this.setName(name);
@@ -47,26 +47,26 @@ public class BoardFrame extends JFrame{
         leftPanel = boardPanel;
         
         // our settings/control panel
-        rightPanel = contentPanel;      
+        rightPanel = contentPanel;
 
         // Default size of our window and its layout:
-        setPreferredSize(new Dimension(SMALL_DIMENSION, LARGE_DIMENSION));  
+        setPreferredSize(new Dimension(SMALL_DIMENSION, LARGE_DIMENSION));
         
         //The contentPane is the container that holds all our components
         //GridLayout is like a grid with 1 column and 1 row
-        getContentPane().setLayout(new GridLayout());  
+        getContentPane().setLayout(new GridLayout());
         
         //Only add split pane, GridLayout fills whole window
         getContentPane().add(splitPane);
 
         //Configures the split pane
         //Split the window horizontal
-        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT); 
-        splitPane.setDividerLocation(DIVIDER_LOCATION);  
-        splitPane.setTopComponent(leftPanel); 
-        splitPane.setBottomComponent(rightPanel);             
+        splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setDividerLocation(DIVIDER_LOCATION);
+        splitPane.setTopComponent(leftPanel);
+        splitPane.setBottomComponent(rightPanel);
 
         // Apply layouts and sizes before making visible
-        pack();   
+        pack();
     }
 }

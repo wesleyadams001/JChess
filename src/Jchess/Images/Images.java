@@ -38,7 +38,7 @@ public class Images {
     public static void loadImages(ThemeType Theme) {
         // Declare strings for the file paths to each Piece Icon.
         // Set as default icon file path.
-        String whitePawnPath = "src/Jchess/Images/White_pawn.png"; 
+        String whitePawnPath = "src/Jchess/Images/White_pawn.png";
         String whiteRookPath = "src/Jchess/Images/White_castle.png";
         String whiteKnightPath = "src/Jchess/Images/White_horse.png";
         String whiteBishopPath = "src/Jchess/Images/White_bishop.png";

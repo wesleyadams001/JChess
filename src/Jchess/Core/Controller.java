@@ -199,7 +199,7 @@ public class Controller extends Application implements StartMenuDelegate, Viewer
             handleSpecialMove(transientPiece, destination);
 
             // This signals the end of the turn.
-            gameBoard.switchPlayers(); 
+            gameBoard.switchPlayers();
 
             // Reset selection, highlights, etc.
             handleDeselection();

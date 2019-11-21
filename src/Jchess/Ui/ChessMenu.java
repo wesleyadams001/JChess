@@ -158,7 +158,7 @@ public class ChessMenu extends JMenuBar {
         
         this.fenItem = new JMenuItem("FEN Notation");
         this.fenItem.addActionListener(a -> {
-           openWebpage(Constants.FEN_URL); 
+            openWebpage(Constants.FEN_URL);
         });
         this.fenItem.setToolTipText(Constants.FEN_BLURB);
         this.helpMenu.add(fenItem);

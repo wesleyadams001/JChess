@@ -46,7 +46,7 @@ public class Viewer extends JPanel implements Observer {
         this.delegate = c;
 
         // Display the board to the screen.
-        makeWindow();  
+        makeWindow();
     }
 
     /**
@@ -61,7 +61,7 @@ public class Viewer extends JPanel implements Observer {
 
         this.boardFrame = new BoardFrame("Doki Doki Chess Club", boardPanel, controlPanel);
         this.boardFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.boardFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        this.boardFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.boardFrame.setSize(1000, 1000);
         this.boardFrame.setVisible(true);
     }
@@ -142,10 +142,10 @@ public class Viewer extends JPanel implements Observer {
         
         // input/output components
         // scrollable text area 
-        JScrollPane sPane = new JScrollPane(); 
+        JScrollPane sPane = new JScrollPane();
         
         // text area that is inside the scrollPane
-        this.textArea = new JTextArea();  
+        this.textArea = new JTextArea();
         
         //Add text area
         controlPanel.add(sPane.add(textArea), BorderLayout.CENTER);

@@ -17,7 +17,7 @@ public interface Subject {
      * Adds observer to "to-notify" list.
      * @param o Observer object to be added to the list.
      */
-    public void registerObserver(Observer o); 
+    public void registerObserver(Observer o);
 
     /**
      * Removes observer from "to-notify" list.
@@ -28,6 +28,6 @@ public interface Subject {
     /**
      * Notifies observers in "to-notify" list.
      */
-    public void notifyObservers(); 
+    public void notifyObservers();
 
 }

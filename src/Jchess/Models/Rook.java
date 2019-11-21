@@ -17,10 +17,10 @@ public class Rook extends Piece {
     /**
      * A Rook Piece.
      * @param owner The Rook's owner.
-     * @param move Whether the set the hasTakenFirstMove property as true.
+     * @param moved Whether to set the hasTakenFirstMove property as true.
      */
-    public Rook(Player owner, Boolean move) {
-        super(owner, PieceType.Rook, move);
+    public Rook(Player owner, Boolean moved) {
+        super(owner, PieceType.Rook, moved);
     }
 
     /**

@@ -7,7 +7,6 @@ package Jchess.Models;
 
 import Jchess.Enums.MoveType;
 import Jchess.Enums.PieceType;
-import Jchess.Enums.ThemeColor;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import static Jchess.Images.Images.Icons;
@@ -45,25 +44,21 @@ public abstract class Piece {
         player = owner;
         shortHand = type;
         image = Icons.get(shortHand).get(owner.getColor());
-        
-        if (owner.getColor() == ThemeColor.LightPiece) {
-            letter = shortHand.getLightLetter();
-        } else {
-            letter = shortHand.getDarkLetter();
-        }
+        letter = type.determineLetter(owner);
     }
     
-    public Piece(Player owner, PieceType type, boolean move) {
+    /**
+     * A Piece.
+     * @param owner The Piece's owner.
+     * @param type The type of Piece.
+     * @param moved Whether to set the hasTakenFirstMove property as true.
+     */
+    public Piece(Player owner, PieceType type, boolean moved) {
         player = owner;
         shortHand = type;
-        hasTakenFirstMove = move;
+        hasTakenFirstMove = moved;
         image = Icons.get(shortHand).get(owner.getColor());
-        
-        if (owner.getColor() == ThemeColor.LightPiece) {
-            letter = shortHand.getLightLetter();
-        } else {
-            letter = shortHand.getDarkLetter();
-        }
+        letter = type.determineLetter(owner);
     }
 
     /**

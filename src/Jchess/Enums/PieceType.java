@@ -5,11 +5,14 @@
  */
 package Jchess.Enums;
 
+import Jchess.Models.Player;
+
 /**
  *
- * @author chris odom 
+ * @author chris odom
  * 
- * this enum is used for returning char values when handling conversion from FEN format to board states.
+ *         this enum is used for returning char values when handling conversion
+ *         from FEN format to board states.
  * 
  */
 public enum PieceType {
@@ -55,6 +58,15 @@ public enum PieceType {
     private PieceType(char light, char dark){
         this.light = light;
         this.dark = dark;
+    }
+
+    /**
+     * Gets the correct letter representation based on an owner Player.
+     * @param owner The Piece's owner.
+     * @return Either the light or the dark letter.
+     */
+    public char determineLetter(Player owner) {
+        return owner.getColor() == ThemeColor.LightPiece ? getLightLetter() : getDarkLetter();
     }
     
     /**

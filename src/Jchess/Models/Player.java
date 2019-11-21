@@ -34,6 +34,15 @@ public final class Player {
     }
 
     /**
+     * Returns the Player's opponent, aka the other colored Player.
+     * @param board The game board.
+     * @return The Player's opponent.
+     */
+    private Player getOpponent(Board board) {
+        return getColor() == ThemeColor.LightPiece ? board.getDarkPlayer() : board.getLightPlayer();
+    }
+
+    /**
      * Returns the Player's name.
      * @return  The player's name as a string.
      */
@@ -124,9 +133,9 @@ public final class Player {
      */
     public boolean canKingBeSaved(Board board) {
         // Create a collection of all the Player's Pieces.
-        Stream<Piece> allPieces = getPieces(board);
+        Stream<Piece> alliedPieces = getPieces(board);
         // Resolves to true if any of the Player's Pieces can save the King.
-        return allPieces.anyMatch(piece -> canPieceSaveKing(board, piece));
+        return alliedPieces.anyMatch(piece -> canPieceSaveKing(board, piece));
     }
 
     /**
@@ -137,9 +146,9 @@ public final class Player {
      */
     private boolean canPieceSaveKing(Board board, Piece alliedPiece) {
         // Create a collection of possible moves the Piece can make.
-        Stream<Pair> allMoves = alliedPiece.getPossibleMoves(board).stream();
+        Stream<Pair> possibleMoves = alliedPiece.getPossibleMoves(board).stream();
         // Resolves to true if any of the Piece's possible moves can save the King.
-        return allMoves.anyMatch(desination -> canMoveSaveKing(board, alliedPiece, desination));
+        return possibleMoves.anyMatch(desination -> canMoveSaveKing(board, alliedPiece, desination));
     }
 
     /**
@@ -162,14 +171,7 @@ public final class Player {
      * @return  Boolean showing whether king is under attack (i.e. in check).
      */
     public boolean isKingUnderAttack(Board board) {
-        Player enemy;
-
-        if (this.getColor() == ThemeColor.LightPiece) {
-            enemy = board.getDarkPlayer();
-        } else {
-            enemy = board.getLightPlayer();
-        }
-
+        Player enemy = this.getOpponent(board);
         return board.isPairUnderAttack(this.getLocationOfKing(), enemy);
     }
 

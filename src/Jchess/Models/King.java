@@ -19,10 +19,10 @@ public class King extends Piece{
     /**
      * A King Piece.
      * @param owner The King's owner.
-     * @param move Whether the set the hasTakenFirstMove property as true.
+     * @param moved Whether to set the hasTakenFirstMove property as true.
      */
-    public King(Player owner, boolean move) {
-        super(owner, PieceType.King, move);
+    public King(Player owner, boolean moved) {
+        super(owner, PieceType.King, moved);
     }
     
     private Boolean isEligibleToCastleWith(Piece rook, Board board) {
